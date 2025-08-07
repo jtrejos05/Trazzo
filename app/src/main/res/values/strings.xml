@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="anuncio">Al registrarte, aceptas nuestros Terminos de Servicio y Politica de Privacidad</string>
+    <string name="crear">Crear mi cuenta</string>
+    <string name="seleccionar">Selecciona los tipos de arte que mas te interesan</string>
+    <string name="intereses">Tus intereses artisticos</string>
+    <string name="biografia">Biografia</string>
+    <string name="profe">Profesion / Ocupacion</string>
+    <string name="perfil">Perfil Artistico</string>
+    <string name="edad">Edad</string>
+    <string name="usuario">Usuario</string>
+    <string name="contra">Contraseña</string>
+    <string name="correo">Correo electronico</string>
+    <string name="informacion">Informacion basica</string>
+    <string name="bienvenida">Bienvenido a Trazzo</string>
+    <string name="creatividad">Donde la cratividad cobra vida</string>
+    <string name="logo_trazzo">Logo Trazzo</string>
+    <string name="icono_correo">Icono Correo</string>
+    <string name="icono_contrase_a">Icono Contraseña</string>
+    <string name="icono_usuario">Icono Usuario</string>
+    <string name="icono_edad">Icono Edad</string>
+    <string name="icono_biografia">Icono Biografia</string>
+    <string name="tu_email_com">tu@email.com</string>
+    <string name="minimo_6_caracteres">Minimo 6 Caracteres</string>
+    <string name="nombre_artista">nombre_artista</string>
+    <string name="_18">18</string>
+    <string name="selecciona_tu_profesion">Selecciona tu profesion</string>
+    <string name="cuentanos_sobre_ti_tu_estilo_artistico_experiencia_y_lo_que_te_apasina_del_arte">Cuentanos sobre ti, tu estilo artistico, experiencia y lo que te apasina del arte</string>
+    <string name="accede_a_tu_mundo_creativo">Accede a tu mundo creativo</string>
+    <string name="iniciar_sesion">Iniciar Sesion</string>
+    <string name="icono_nueva_cuenta">Icono Nueva Cuenta</string>
+    <string name="crear_cuenta_nueva">Crear cuenta nueva</string>
+    <string name="al_iniciar_sesion_aceptas_nuestros_terminos_de_servicio_y_politica_de_privacidad">Al iniciar sesion, aceptas nuestros Terminos de Servicio y Politica de Privacidad</string>
+
+</resources>
