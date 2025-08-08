@@ -40,8 +40,10 @@ import com.example.myapplication.R
 import com.example.myapplication.ui.utils.Bienvenida
 import com.example.myapplication.ui.utils.BotonIcono
 import com.example.myapplication.ui.utils.BotonInteres
+import com.example.myapplication.ui.utils.Form
 import com.example.myapplication.ui.utils.Iconos
 import com.example.myapplication.ui.utils.LogoApp
+import com.example.myapplication.ui.utils.LogoTrazzo
 
 
 @Composable
@@ -57,54 +59,9 @@ fun BienvenidaIniPreview(){
 @Composable
 fun InfoInicio(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
-        Row {
-            Iconos(R.drawable.correo, stringResource(R.string.icono_correo))
-            Text(
-                stringResource(R.string.correo),
-                modifier = Modifier.padding(3.dp),
-                color = colorResource(R.color.GrisOscuro)
-            )
-        }
-        TextField(
-            value = "",
-            onValueChange = {},
-            label = { Text(stringResource(R.string.tu_email_com)) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 6.dp),
-            shape = RoundedCornerShape(60.dp),
-            colors = TextFieldDefaults.colors(
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
-                errorContainerColor = colorResource(R.color.RojoCoral),
-                unfocusedLabelColor = colorResource(R.color.GrisMedio)
-            )
-        )
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Iconos(R.drawable.contrasenia, stringResource(R.string.icono_contrase_a))
-            Text(
-                stringResource(R.string.contra),
-                modifier = Modifier.padding(3.dp),
-                color = colorResource(R.color.GrisOscuro)
-            )
-        }
-        TextField(
-            value = "",
-            onValueChange = {},
-            label = { Text(stringResource(R.string.minimo_6_caracteres)) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 6.dp),
-            shape = RoundedCornerShape(60.dp),
-            colors = TextFieldDefaults.colors(
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
-                errorContainerColor = colorResource(R.color.RojoCoral),
-                unfocusedLabelColor = colorResource(R.color.GrisMedio)
-            )
-        )
+        Form(R.drawable.correo, stringResource(R.string.icono_correo),stringResource(R.string.correo),stringResource(R.string.tu_email_com))
+        Form(R.drawable.contrasenia, stringResource(R.string.icono_contrase_a),stringResource(R.string.contra),stringResource(R.string.minimo_6_caracteres))
+
     }
 }
 @Composable
@@ -184,53 +141,18 @@ fun Botones(modifier: Modifier = Modifier){
                 .height(60.dp))
     }
 }
-@Composable
-fun CuentaEjemplo(modifier: Modifier = Modifier){
-    Column (
-        modifier = modifier.padding(horizontal = 24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ){
-        Text("Cuentas de demostracion")
-        Spacer(modifier.height(8.dp))
-        Column (
-            horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxWidth()
-                .clip(RoundedCornerShape(20.dp))
-                .background(colorResource(R.color.GrisClaro))
-                .height(70.dp)
-                .padding(horizontal = 7.dp, vertical = 3.dp)
-        ){
-            Text("Sofia Art")
-            Text("Artista digital profesional")
-        }
-        Spacer(modifier.height(8.dp))
-        Column (
-            horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxWidth()
-                .clip(RoundedCornerShape(20.dp))
-                .background(colorResource(R.color.GrisClaro))
-                .height(70.dp)
-                .padding(horizontal = 7.dp, vertical = 3.dp)
-        ) {
-            Text("Carlos Origami")
-            Text("Maestro del papel")
-        }
-        Spacer(modifier.height(8.dp))
-        Text(stringResource(R.string.al_iniciar_sesion_aceptas_nuestros_terminos_de_servicio_y_politica_de_privacidad))
-    }
-}
+
 
 @Composable
 fun InicioSesion(modifier: Modifier = Modifier){
     var recordarme by remember { mutableStateOf(false) }
-    Column {
+    Column(modifier = modifier) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = modifier.fillMaxWidth()
         ) {
             Spacer(modifier = Modifier.height(30.dp))
-            LogoApp()
+            LogoTrazzo(modifier=Modifier.height(70.dp))
             Bienvenida(R.string.iniciar_sesion, R.string.accede_a_tu_mundo_creativo)
             Spacer(modifier = Modifier.height(15.dp))
         }
@@ -245,7 +167,7 @@ fun InicioSesion(modifier: Modifier = Modifier){
         ) {
             Botones()
             Spacer(modifier.height(20.dp))
-            CuentaEjemplo()
+            Text(stringResource(R.string.al_iniciar_sesion_aceptas_nuestros_terminos_de_servicio_y_politica_de_privacidad))
         }
     }
 }
