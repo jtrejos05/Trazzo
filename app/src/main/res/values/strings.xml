@@ -15,6 +15,8 @@
     <string name="bienvenida">Bienvenido a Trazzo</string>
     <string name="creatividad">Donde la cratividad cobra vida</string>
     <string name="logo_trazzo">Logo Trazzo</string>
+    <string name="bienvenido_a">Bienvenido a</string>
+    <string name="trazzo">Trazzo</string>
     <string name="icono_correo">Icono Correo</string>
     <string name="icono_contrase_a">Icono Contraseña</string>
     <string name="icono_usuario">Icono Usuario</string>
@@ -31,5 +33,7 @@
     <string name="icono_nueva_cuenta">Icono Nueva Cuenta</string>
     <string name="crear_cuenta_nueva">Crear cuenta nueva</string>
     <string name="al_iniciar_sesion_aceptas_nuestros_terminos_de_servicio_y_politica_de_privacidad">Al iniciar sesion, aceptas nuestros Terminos de Servicio y Politica de Privacidad</string>
+    <string name="todos_los_derechos_reservados">Todos los derechos reservados</string>
+    <string name="registrarse">registrarse</string>
 
 </resources>
