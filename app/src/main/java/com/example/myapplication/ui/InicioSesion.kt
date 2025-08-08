@@ -157,12 +157,13 @@ fun PieDeInicioPreview() {
 @Composable
 fun Botones(modifier: Modifier = Modifier){
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
     ) {
         BotonInteres(stringResource(R.string.iniciar_sesion),R.color.MentaBri,R.color.GrisClaro ,modifier
             .width(370.dp)
             .height(60.dp))
-        Spacer(modifier.height(10.dp))
+        Spacer(Modifier.height(10.dp))
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
             Divider(color = Color.LightGray)
             Box(
@@ -247,4 +248,9 @@ fun InicioSesion(modifier: Modifier = Modifier){
             CuentaEjemplo()
         }
     }
+}
+@Composable
+@Preview(showBackground = true)
+fun InicioSesionPreview(){
+    InicioSesion()
 }

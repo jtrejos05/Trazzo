@@ -16,4 +16,12 @@
     <color name="AmarilloDorado">#FFD700</color>
     <color name="VerdeClaroF">#E8F5E9</color>
     <color name="VerdaClaroL">#4CAF50</color>
+    <color name="verde_principal">#00C389</color>
+    <color name="verde_secundario">#D5F5EC</color>
+    <color name="rojo_enfasis">#F1948A</color>
+    <color name="gris_texto_principal">#212121</color>
+    <color name="gris_texto_secundario">#4F4F4F</color>
+    <color name="blanco_fondo">#FFFFFF</color>
+    <color name="gris_fondo">#F8F9F9</color>
+    <color name="amarillo_dorado">#FFD700</color>
 </resources>
