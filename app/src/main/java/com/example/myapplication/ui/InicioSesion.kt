@@ -41,15 +41,13 @@ import com.example.myapplication.ui.utils.Bienvenida
 import com.example.myapplication.ui.utils.BotonIcono
 import com.example.myapplication.ui.utils.BotonInteres
 import com.example.myapplication.ui.utils.Form
-import com.example.myapplication.ui.utils.Iconos
-import com.example.myapplication.ui.utils.LogoApp
 import com.example.myapplication.ui.utils.LogoTrazzo
 
 
 @Composable
 @Preview(showBackground = true)
 fun LogoAppPreview(){
-    LogoApp()
+    LogoTrazzo(modifier=Modifier.height(70.dp))
 }
 @Composable
 @Preview(showBackground = true)

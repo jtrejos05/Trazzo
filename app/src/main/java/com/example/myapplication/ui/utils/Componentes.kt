@@ -29,22 +29,7 @@ import com.example.myapplication.R
 import java.text.Normalizer
 
 
-@Composable
-fun LogoApp(modifier: Modifier = Modifier){
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.padding(top = 24.dp)
-    ) {
-        Image(
-            painter = painterResource(R.drawable.logo),
-            contentDescription = stringResource(R.string.logo_trazzo),
-            modifier = Modifier
-                .height(70.dp)
-                .fillMaxSize()
-                .padding(10.dp)
-        )
-    }
-}
+
 
 @Composable
 fun Bienvenida(
@@ -167,4 +152,19 @@ fun Form(Icon : Int,
         )
     )
 
+}
+@Composable
+fun AddButton(
+    texto: String,
+    modifier: Modifier = Modifier
+){
+    Button(
+        onClick = { /*TODO*/ },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = colorResource(id = R.color.verde_principal),
+        ),
+        modifier = modifier
+    ) {
+        Text(text = texto)
+    }
 }
