@@ -3,7 +3,9 @@ package com.example.myapplication.ui.utils
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -11,9 +13,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -21,24 +26,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.R
+import java.text.Normalizer
 
 
-@Composable
-fun LogoApp(modifier: Modifier = Modifier){
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.padding(top = 24.dp)
-    ) {
-        Image(
-            painter = painterResource(R.drawable.logo),
-            contentDescription = stringResource(R.string.logo_trazzo),
-            modifier = Modifier
-                .height(70.dp)
-                .fillMaxSize()
-                .padding(10.dp)
-        )
-    }
-}
+
 
 @Composable
 fun Bienvenida(
@@ -126,5 +117,54 @@ fun BotonIcono(
             fontSize = 14.sp
 
         )
+    }
+}
+@Composable
+fun Form(Icon : Int,
+         Description: String,
+         Texto : String,
+         Name: String,
+         modifier: Modifier = Modifier
+){
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Iconos(Icon, Description)
+        Text(Texto,
+            modifier = Modifier.padding(3.dp),
+            color = colorResource(R.color.GrisOscuro)
+        )
+    }
+    TextField(
+        value = "",
+        onValueChange = {},
+        label = {Text(Name)},
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp, vertical = 6.dp),
+        shape = RoundedCornerShape(60.dp),
+        colors = TextFieldDefaults.colors(
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
+            errorContainerColor = colorResource(R.color.RojoCoral),
+            unfocusedLabelColor = colorResource(R.color.GrisMedio)
+        )
+    )
+
+}
+@Composable
+fun AddButton(
+    texto: String,
+    modifier: Modifier = Modifier
+){
+    Button(
+        onClick = { /*TODO*/ },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = colorResource(id = R.color.verde_principal),
+        ),
+        modifier = modifier
+    ) {
+        Text(text = texto)
     }
 }

@@ -38,14 +38,14 @@ import androidx.compose.ui.unit.sp
 import com.example.myapplication.R
 import com.example.myapplication.ui.utils.Bienvenida
 import com.example.myapplication.ui.utils.BotonInteres
-import com.example.myapplication.ui.utils.Iconos
-import com.example.myapplication.ui.utils.LogoApp
+import com.example.myapplication.ui.utils.Form
+import com.example.myapplication.ui.utils.LogoTrazzo
 
 
 @Composable
 @Preview(showBackground = true)
 fun LogoAppRPreview(){
-    LogoApp()
+    LogoTrazzo(modifier = Modifier.height(7.dp))
 }
 @Composable
 @Preview(showBackground = true)
@@ -64,106 +64,16 @@ fun InfoBasica(modifier: Modifier = Modifier){
             color = colorResource(R.color.GrisOscuro)
         )
         Spacer(modifier = Modifier.height(5.dp))
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Iconos(R.drawable.correo, stringResource(R.string.icono_correo))
-            Text(
-                stringResource(R.string.correo),
-                modifier = Modifier.padding(3.dp),
-                color = colorResource(R.color.GrisOscuro)
-                )
-        }
-        TextField(
-            value = "",
-            onValueChange = {},
-            label = {Text(stringResource(R.string.tu_email_com))},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 6.dp),
-            shape = RoundedCornerShape(60.dp),
-            colors = TextFieldDefaults.colors(
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
-                errorContainerColor = colorResource(R.color.RojoCoral),
-                unfocusedLabelColor = colorResource(R.color.GrisMedio)
-            )
-        )
+        Form(R.drawable.correo,stringResource(R.string.icono_correo), stringResource(R.string.correo), stringResource(R.string.tu_email_com))
+        Form(R.drawable.contrasenia,stringResource(R.string.icono_contrase_a),stringResource(R.string.contra),stringResource(R.string.minimo_6_caracteres))
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Iconos(R.drawable.contrasenia, stringResource(R.string.icono_contrase_a))
-            Text(
-                stringResource(R.string.contra),
-                modifier = Modifier.padding(3.dp),
-                color = colorResource(R.color.GrisOscuro)
-            )
-        }
-        TextField(
-            value = "",                   
-            onValueChange = {},           
-            label = {Text(stringResource(R.string.minimo_6_caracteres))},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 6.dp),
-            shape = RoundedCornerShape(60.dp),
-            colors = TextFieldDefaults.colors(
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
-                errorContainerColor = colorResource(R.color.RojoCoral),
-                unfocusedLabelColor = colorResource(R.color.GrisMedio)
-            )
-        )
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Column {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Iconos(R.drawable.usuario, stringResource(R.string.icono_usuario))
-                    Text(
-                        stringResource(R.string.usuario),
-                        modifier = Modifier.padding(3.dp),
-                        color = colorResource(R.color.GrisOscuro)
-                    )
-                }
-                TextField(
-                    value = "",
-                    onValueChange = {},
-                    label = {Text(stringResource(R.string.nombre_artista))},
-                    modifier = Modifier
-                        .padding(horizontal = 12.dp, vertical = 6.dp),
-                    shape = RoundedCornerShape(60.dp),
-                    colors = TextFieldDefaults.colors(
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        disabledIndicatorColor = Color.Transparent,
-                        errorContainerColor = colorResource(R.color.RojoCoral),
-                        unfocusedLabelColor = colorResource(R.color.GrisMedio)
-                    )
-                )
+            Column(
+                modifier.width(230.dp)
+            ) {
+                Form(R.drawable.usuario,stringResource(R.string.icono_usuario),stringResource(R.string.usuario),stringResource(R.string.nombre_artista))
             }
             Column {
-               Row(verticalAlignment = Alignment.CenterVertically) {
-                   Iconos(R.drawable.edad, stringResource(R.string.icono_edad))
-                   Text(
-                       stringResource(R.string.edad),
-                       modifier = Modifier.padding(end = 15.dp),
-                       color = colorResource(R.color.GrisOscuro)
-                   )
-               }
-                TextField(
-                    value = "",
-                    onValueChange = {},
-                    label = {Text(stringResource(R.string._18))},
-                    modifier = Modifier
-                        .padding(horizontal = 12.dp, vertical = 6.dp),
-                    shape = RoundedCornerShape(60.dp),
-                    colors = TextFieldDefaults.colors(
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        disabledIndicatorColor = Color.Transparent,
-                        errorContainerColor = colorResource(R.color.RojoCoral),
-                        unfocusedLabelColor = colorResource(R.color.GrisMedio)
-                    )
-                )
+                Form(R.drawable.edad,stringResource(R.string.icono_edad),stringResource(R.string.edad),stringResource(R.string._18))
             }
 
         }
@@ -186,7 +96,9 @@ fun Intereses(modifier: Modifier = Modifier){
     )
     FlowRow(modifier = modifier.padding(start = 5.dp)) {
         intereses.forEach { interes -> BotonInteres(interes, R.color.VerdeClaroF,R.color.VerdaClaroL,
-            Modifier.height(36.dp).padding(horizontal = 6.dp)) }
+            Modifier
+                .height(36.dp)
+                .padding(horizontal = 6.dp)) }
     }
 }
 @Composable
@@ -201,51 +113,20 @@ fun PerfilArtistico(modifier: Modifier = Modifier){
             color = colorResource(R.color.GrisOscuro)
         )
         Spacer(modifier = Modifier.height(5.dp))
-        Text(
-            stringResource(R.string.profe),
-            modifier = Modifier.padding(horizontal = 15.dp, vertical = 3.dp),
-            color = colorResource(R.color.GrisOscuro)
-        )
-        TextField(
-            value = "",
-            onValueChange = {},
-            label = {Text(stringResource(R.string.selecciona_tu_profesion))},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 6.dp),
-            shape = RoundedCornerShape(60.dp),
-            colors = TextFieldDefaults.colors(
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
-                errorContainerColor = colorResource(R.color.RojoCoral),
-                unfocusedLabelColor = colorResource(R.color.GrisMedio)
-            )
-        )
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Iconos(R.drawable.biografia, stringResource(R.string.icono_biografia))
-            Text(
-                stringResource(R.string.biografia),
-                modifier = Modifier.padding(3.dp),
-                color = colorResource(R.color.GrisOscuro)
-            )
-        }
-        TextField(
-            value = "",
-            onValueChange = {},
-            label = {Text(stringResource(R.string.cuentanos_sobre_ti_tu_estilo_artistico_experiencia_y_lo_que_te_apasina_del_arte))},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 6.dp),
-            shape = RoundedCornerShape(24.dp),
-            colors = TextFieldDefaults.colors(
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
-                errorContainerColor = colorResource(R.color.RojoCoral),
-                unfocusedLabelColor = colorResource(R.color.GrisMedio)
-            )
-        )
+        Form(R.drawable.briefcase_transparent, stringResource(R.string.icono_profesion),stringResource(R.string.profe),stringResource(R.string.selecciona_tu_profesion),modifier.height(50.dp))
+
+        Form(R.drawable.biografia, stringResource(R.string.icono_biografia),stringResource(R.string.biografia),stringResource(R.string.cuentanos_sobre_ti_tu_estilo_artistico_experiencia_y_lo_que_te_apasina_del_arte))
+    }
+
+}
+@Composable
+@Preview(showBackground = true)
+fun PerfilArtisticoPreview(){
+    PerfilArtistico()
+}
+@Composable
+fun InteresAritistico(){
+    Column {
         Text(
             stringResource(R.string.intereses),
             modifier = Modifier.padding(start = 15.dp, top = 3.dp, bottom = 3.dp),
@@ -259,16 +140,17 @@ fun PerfilArtistico(modifier: Modifier = Modifier){
             color = colorResource(R.color.GrisMedio)
         )
     }
-
 }
 @Composable
 @Preview(showBackground = true)
-fun PerfilArtisticoPreview(){
-    PerfilArtistico()
+fun InteresAritisticoPreview(){
+    InteresAritistico()
 }
 @Composable
 fun BotonCrear(modifier: Modifier = Modifier){
-    BotonInteres(stringResource(R.string.crear),R.color.MentaBri,R.color.GrisClaro ,modifier.width(370.dp).height(60.dp))
+    BotonInteres(stringResource(R.string.crear),R.color.MentaBri,R.color.GrisClaro ,modifier
+        .width(370.dp)
+        .height(60.dp))
 }
 @Composable
 @Preview
@@ -281,10 +163,11 @@ fun BodyCrearCuenta(modifier: Modifier = Modifier){
         modifier = modifier
     ) {
         Column (
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxWidth()
         ){
             Spacer(modifier = Modifier.height(30.dp))
-            LogoApp()
+            LogoTrazzo(modifier= Modifier.height(70.dp))
             Bienvenida(R.string.bienvenida,R.string.creatividad)
             Spacer(modifier = Modifier.height(15.dp))
         }
@@ -292,6 +175,7 @@ fun BodyCrearCuenta(modifier: Modifier = Modifier){
             InfoBasica()
             Spacer(modifier = Modifier.height(8.dp))
             PerfilArtistico()
+            InteresAritistico()
         }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
@@ -319,7 +203,8 @@ fun BodyCrearCuentaPreview(){
 @Composable
 fun Register(modifier: Modifier = Modifier){
     Column(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ){
         BodyCrearCuenta()
