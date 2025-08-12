@@ -86,12 +86,12 @@ fun PieDeInicio(
                 onCheckedChange = onRecordarmeChanged
             )
             Text(
-                text = "Recordarme"
+                text = stringResource(R.string.recordarme)
             )
         }
 
         Text(
-            text = "¿Olvidaste tu contraseña?",
+            text = stringResource(R.string.olvidaste_tu_contrase_a),
         )
     }
 }

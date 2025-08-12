@@ -89,10 +89,15 @@ fun InfoBasicaPreview(){
 @Composable
 fun Intereses(modifier: Modifier = Modifier){
     val intereses = listOf(
-        "Pintura", "Dibujo", "Fotografía", "Diseño Digital",
-        "Origami", "Escultura", "Street Art", "Moda",
-        "Ilustración", "Concept Art", "Arte Tradicional",
-        "Collage", "Acuarela", "Óleo", "Acrílico"
+        stringResource(R.string.pintura),
+        stringResource(R.string.dibujo), stringResource(R.string.fotograf_a),
+        stringResource(R.string.dise_o_digital),
+        stringResource(R.string.origami), stringResource(R.string.escultura),
+        stringResource(R.string.street_art), stringResource(R.string.moda),
+        stringResource(R.string.ilustraci_n),
+        stringResource(R.string.concept_art), stringResource(R.string.arte_tradicional),
+        stringResource(R.string.collage), stringResource(R.string.acuarela),
+        stringResource(R.string.leo), stringResource(R.string.acr_lico)
     )
     FlowRow(modifier = modifier.padding(start = 5.dp)) {
         intereses.forEach { interes -> BotonInteres(interes, R.color.VerdeClaroF,R.color.VerdaClaroL,

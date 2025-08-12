@@ -36,5 +36,22 @@
     <string name="todos_los_derechos_reservados">Todos los derechos reservados</string>
     <string name="registrarse">registrarse</string>
     <string name="icono_profesion">Icono Profesion</string>
+    <string name="recordarme">Recordarme</string>
+    <string name="olvidaste_tu_contrase_a">¿Olvidaste tu contraseña?</string>
+    <string name="pintura">Pintura</string>
+    <string name="dibujo">Dibujo</string>
+    <string name="fotograf_a">Fotografía</string>
+    <string name="dise_o_digital">Diseño Digital</string>
+    <string name="origami">Origami</string>
+    <string name="escultura">Escultura</string>
+    <string name="street_art">Street Art</string>
+    <string name="moda">Moda</string>
+    <string name="ilustraci_n">Ilustración</string>
+    <string name="concept_art">Concept Art</string>
+    <string name="arte_tradicional">Arte Tradicional</string>
+    <string name="collage">Collage</string>
+    <string name="acuarela">Acuarela</string>
+    <string name="leo">Óleo</string>
+    <string name="acr_lico">Acrílico</string>
 
 </resources>
