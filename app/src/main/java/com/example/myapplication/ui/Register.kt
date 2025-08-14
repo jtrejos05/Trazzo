@@ -118,7 +118,7 @@ fun PerfilArtistico(modifier: Modifier = Modifier){
             color = colorResource(R.color.GrisOscuro)
         )
         Spacer(modifier = Modifier.height(5.dp))
-        Form(R.drawable.briefcase_transparent, stringResource(R.string.icono_profesion),stringResource(R.string.profe),stringResource(R.string.selecciona_tu_profesion),modifier.height(50.dp))
+        Form(R.drawable.briefcase_transparent, stringResource(R.string.icono_profesion),stringResource(R.string.profe),stringResource(R.string.selecciona_tu_profesion),modifier.height(30.dp))
 
         Form(R.drawable.biografia, stringResource(R.string.icono_biografia),stringResource(R.string.biografia),stringResource(R.string.cuentanos_sobre_ti_tu_estilo_artistico_experiencia_y_lo_que_te_apasina_del_arte))
     }
