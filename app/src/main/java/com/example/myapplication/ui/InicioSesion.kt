@@ -142,29 +142,29 @@ fun Botones(modifier: Modifier = Modifier){
 
 
 @Composable
-fun InicioSesion(modifier: Modifier = Modifier){
+fun InicioSesionScreen(modifier: Modifier = Modifier){
     var recordarme by remember { mutableStateOf(false) }
     Column(modifier = modifier) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = modifier.fillMaxWidth()
         ) {
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(150.dp))
             LogoTrazzo(modifier=Modifier.height(70.dp))
             Bienvenida(R.string.iniciar_sesion, R.string.accede_a_tu_mundo_creativo)
-            Spacer(modifier = Modifier.height(15.dp))
+            Spacer(modifier = Modifier.height(40.dp))
         }
         Column {
             InfoInicio()
             PieDeInicio(recordarme = recordarme,
                 onRecordarmeChanged = { recordarme = it })
         }
-        Spacer(modifier.height(8.dp))
+        Spacer(modifier.height(15.dp))
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Botones()
-            Spacer(modifier.height(20.dp))
+            Spacer(modifier.height(140.dp))
             Text(stringResource(R.string.al_iniciar_sesion_aceptas_nuestros_terminos_de_servicio_y_politica_de_privacidad))
         }
     }
@@ -172,5 +172,5 @@ fun InicioSesion(modifier: Modifier = Modifier){
 @Composable
 @Preview(showBackground = true)
 fun InicioSesionPreview(){
-    InicioSesion()
+    InicioSesionScreen()
 }

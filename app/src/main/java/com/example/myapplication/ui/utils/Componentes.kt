@@ -64,7 +64,7 @@ fun Iconos(
     Image(
         painter = painterResource(IdImage),
         contentDescription = Description,
-        modifier = modifier.height(25.dp)
+        modifier = modifier.height(15.dp)
             .padding(start = 15.dp)
     )
 }
@@ -120,37 +120,67 @@ fun BotonIcono(
     }
 }
 @Composable
-fun Form(Icon : Int,
-         Description: String,
+fun Form(Icon : Int = 0,
+         Description: String = "",
          Texto : String,
          Name: String,
-         modifier: Modifier = Modifier
+         modifier: Modifier = Modifier,
+         OP: Int = 0
 ){
-    Row(
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Iconos(Icon, Description)
-        Text(Texto,
-            modifier = Modifier.padding(3.dp),
-            color = colorResource(R.color.GrisOscuro)
+    Column {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier
+        ) {
+            if (Icon != 0) {
+                if (OP == 1) {
+                    Iconos(Icon, Description,modifier.padding(end = 2.dp))
+                } else {
+                    Iconos(Icon, Description)
+
+                }
+            }
+            if (Icon == 0 || OP == 1){
+                if (OP == 1){
+                    Text(Texto,
+                        modifier = Modifier.padding(vertical = 6.dp, horizontal = 4.dp),
+                        color = colorResource(R.color.GrisOscuro),
+                        fontSize = 20.sp
+                    )
+                }
+                else{
+                    Text(Texto,
+                        modifier = Modifier.padding(vertical = 6.dp, horizontal = 18.dp),
+                        color = colorResource(R.color.GrisOscuro),
+                        fontSize = 20.sp
+                    )
+                }
+            }else {
+                Text(
+                    Texto,
+                    modifier = Modifier.padding(3.dp),
+                    color = colorResource(R.color.GrisOscuro)
+                )
+            }
+        }
+        TextField(
+            value = "",
+            onValueChange = {},
+            label = {Text(Name)},
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 6.dp),
+            shape = RoundedCornerShape(60.dp),
+            colors = TextFieldDefaults.colors(
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent,
+                errorContainerColor = colorResource(R.color.RojoCoral),
+                unfocusedLabelColor = colorResource(R.color.GrisMedio)
+            )
         )
     }
-    TextField(
-        value = "",
-        onValueChange = {},
-        label = {Text(Name)},
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 6.dp),
-        shape = RoundedCornerShape(60.dp),
-        colors = TextFieldDefaults.colors(
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent,
-            errorContainerColor = colorResource(R.color.RojoCoral),
-            unfocusedLabelColor = colorResource(R.color.GrisMedio)
-        )
-    )
+
 
 }
 @Composable
