@@ -16,6 +16,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,6 +27,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.R
@@ -64,7 +69,7 @@ fun Iconos(
     Image(
         painter = painterResource(IdImage),
         contentDescription = Description,
-        modifier = modifier.height(25.dp)
+        modifier = modifier.height(15.dp)
             .padding(start = 15.dp)
     )
 }
@@ -120,37 +125,90 @@ fun BotonIcono(
     }
 }
 @Composable
-fun Form(Icon : Int,
-         Description: String,
-         Texto : String,
-         Name: String,
-         modifier: Modifier = Modifier
+fun Form(icon : Int = 0,
+         description: String = "",
+         texto : String,
+         name: String,
+         dato: String,
+         onChange: (String) -> Unit = {},
+         modifier: Modifier = Modifier,
+         op: Int = 0
 ){
-    Row(
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Iconos(Icon, Description)
-        Text(Texto,
-            modifier = Modifier.padding(3.dp),
-            color = colorResource(R.color.GrisOscuro)
-        )
+    Column {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier
+        ) {
+            if (icon != 0) {
+                if (op == 1) {
+                    Iconos(icon, description,modifier.padding(end = 2.dp))
+                } else {
+                    Iconos(icon, description)
+
+                }
+            }
+            if (icon == 0 || op == 1){
+                if (op == 1){
+                    Text(texto,
+                        modifier = Modifier.padding(vertical = 6.dp, horizontal = 4.dp),
+                        color = colorResource(R.color.GrisOscuro),
+                        fontSize = 20.sp
+                    )
+                }
+                else{
+                    Text(texto,
+                        modifier = Modifier.padding(vertical = 6.dp, horizontal = 18.dp),
+                        color = colorResource(R.color.GrisOscuro),
+                        fontSize = 20.sp
+                    )
+                }
+            }else {
+                Text(
+                    texto,
+                    modifier = Modifier.padding(3.dp),
+                    color = colorResource(R.color.GrisOscuro)
+                )
+            }
+        }
+        if (op == 2){
+            TextField(
+                value = dato,
+                onValueChange = onChange,
+                label = {Text(name)},
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 12.dp, vertical = 6.dp),
+                shape = RoundedCornerShape(60.dp),
+                colors = TextFieldDefaults.colors(
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
+                    errorContainerColor = colorResource(R.color.RojoCoral),
+                    unfocusedLabelColor = colorResource(R.color.GrisMedio)
+                ),
+                visualTransformation = PasswordVisualTransformation()
+            )
+        }else{
+            TextField(
+                value = dato,
+                onValueChange = onChange,
+                label = {Text(name)},
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 12.dp, vertical = 6.dp),
+                shape = RoundedCornerShape(60.dp),
+                colors = TextFieldDefaults.colors(
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
+                    errorContainerColor = colorResource(R.color.RojoCoral),
+                    unfocusedLabelColor = colorResource(R.color.GrisMedio)
+                )
+            )
+        }
+
     }
-    TextField(
-        value = "",
-        onValueChange = {},
-        label = {Text(Name)},
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 6.dp),
-        shape = RoundedCornerShape(60.dp),
-        colors = TextFieldDefaults.colors(
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent,
-            errorContainerColor = colorResource(R.color.RojoCoral),
-            unfocusedLabelColor = colorResource(R.color.GrisMedio)
-        )
-    )
+
 
 }
 @Composable
