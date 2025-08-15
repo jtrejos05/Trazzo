@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.myapplication.ui.InicioSesionScreen
 import com.example.myapplication.ui.InicioSesionScreen
-import com.example.myapplication.ui.Register
+import com.example.myapplication.ui.RegisterScreen
 import com.example.myapplication.ui.SubirObraScreen
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            SubirObraScreen()
+            RegisterScreen()
         }
     }
 }

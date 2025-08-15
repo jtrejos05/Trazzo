@@ -24,6 +24,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -53,7 +57,13 @@ fun BienvenidaPreview(){
     Bienvenida(R.string.bienvenida,R.string.creatividad)
 }
 @Composable
-fun InfoBasica(modifier: Modifier = Modifier){
+fun InfoBasica(correo: String, contraseña: String, usuario: String, edad: String,
+               onCorreoChange: (String) -> Unit,
+               onContraseñaChange: (String) -> Unit,
+               onUsuarioChange: (String) -> Unit,
+                onEdadChange: (String) -> Unit,
+               modifier: Modifier = Modifier){
+
     Column(
         modifier = modifier
     ){
@@ -64,16 +74,31 @@ fun InfoBasica(modifier: Modifier = Modifier){
             color = colorResource(R.color.GrisOscuro)
         )
         Spacer(modifier = Modifier.height(5.dp))
-        Form(R.drawable.correo,stringResource(R.string.icono_correo), stringResource(R.string.correo), stringResource(R.string.tu_email_com))
-        Form(R.drawable.contrasenia,stringResource(R.string.icono_contrase_a),stringResource(R.string.contra),stringResource(R.string.minimo_6_caracteres))
+        Form(R.drawable.correo,
+            stringResource(R.string.icono_correo),
+            stringResource(R.string.correo),
+            stringResource(R.string.tu_email_com),correo,onCorreoChange)
+        Form(R.drawable.contrasenia,
+            stringResource(R.string.icono_contrase_a),
+            stringResource(R.string.contra),
+            stringResource(R.string.minimo_6_caracteres),
+            contraseña,onContraseñaChange,op=2)
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(
                 modifier.width(230.dp)
             ) {
-                Form(R.drawable.usuario,stringResource(R.string.icono_usuario),stringResource(R.string.usuario),stringResource(R.string.nombre_artista))
+                Form(R.drawable.usuario,
+                    stringResource(R.string.icono_usuario),
+                    stringResource(R.string.usuario),
+                    stringResource(R.string.nombre_artista),
+                    usuario,onUsuarioChange)
             }
             Column {
-                Form(R.drawable.edad,stringResource(R.string.icono_edad),stringResource(R.string.edad),stringResource(R.string._18))
+                Form(R.drawable.edad,
+                    stringResource(R.string.icono_edad),
+                    stringResource(R.string.edad),
+                    stringResource(R.string._18),
+                    edad,onEdadChange)
             }
 
         }
@@ -83,7 +108,14 @@ fun InfoBasica(modifier: Modifier = Modifier){
 @Composable
 @Preview(showBackground = true)
 fun InfoBasicaPreview(){
-    InfoBasica()
+    InfoBasica(correo = "",
+        contraseña = "",
+        usuario = "",
+        edad = "",
+        onCorreoChange = {},
+        onContraseñaChange = {},
+        onUsuarioChange = {},
+        onEdadChange = {})
 }
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -107,7 +139,11 @@ fun Intereses(modifier: Modifier = Modifier){
     }
 }
 @Composable
-fun PerfilArtistico(modifier: Modifier = Modifier){
+fun PerfilArtistico(profesion: String,
+                    bio: String,
+                    onProfesionChange: (String) -> Unit,
+                    onBioChange: (String) -> Unit,
+                    modifier: Modifier = Modifier){
     Column(
         modifier = modifier
     ) {
@@ -118,20 +154,35 @@ fun PerfilArtistico(modifier: Modifier = Modifier){
             color = colorResource(R.color.GrisOscuro)
         )
         Spacer(modifier = Modifier.height(5.dp))
-        Form(R.drawable.briefcase_transparent, stringResource(R.string.icono_profesion),stringResource(R.string.profe),stringResource(R.string.selecciona_tu_profesion),modifier.height(30.dp))
+        Form(R.drawable.briefcase_transparent,
+            stringResource(R.string.icono_profesion),
+            stringResource(R.string.profe),
+            stringResource(R.string.selecciona_tu_profesion),
+            profesion,
+            onProfesionChange,
+            modifier.height(30.dp))
 
-        Form(R.drawable.biografia, stringResource(R.string.icono_biografia),stringResource(R.string.biografia),stringResource(R.string.cuentanos_sobre_ti_tu_estilo_artistico_experiencia_y_lo_que_te_apasina_del_arte))
+        Form(R.drawable.biografia,
+            stringResource(R.string.icono_biografia),
+            stringResource(R.string.biografia),
+            stringResource(R.string.cuentanos_sobre_ti_tu_estilo_artistico_experiencia_y_lo_que_te_apasina_del_arte),
+            bio,
+            onBioChange)
     }
 
 }
 @Composable
 @Preview(showBackground = true)
 fun PerfilArtisticoPreview(){
-    PerfilArtistico()
+    PerfilArtistico("", "",
+        onProfesionChange = {},
+        onBioChange = {})
 }
 @Composable
-fun InteresAritistico(){
-    Column {
+fun InteresAritistico(modifier: Modifier = Modifier){
+    Column(
+        modifier = modifier
+    ){
         Text(
             stringResource(R.string.intereses),
             modifier = Modifier.padding(start = 15.dp, top = 3.dp, bottom = 3.dp),
@@ -163,7 +214,19 @@ fun BotonCrearPreview(){
     BotonCrear()
 }
 @Composable
-fun BodyCrearCuenta(modifier: Modifier = Modifier){
+fun BodyCrearCuenta(correo: String,
+    contraseña:String,
+    usuario:String,
+    edad:String,
+    profesion:String,
+    bio:String,
+    onCorreoChange: (String) -> Unit,
+    onContraseñaChange: (String) -> Unit,
+    onUsuarioChange: (String) -> Unit,
+    onEdadChange: (String) -> Unit,
+    onProfesionChange: (String) -> Unit,
+    onBioChange: (String) -> Unit,
+    modifier: Modifier = Modifier){
     Column(
         modifier = modifier
     ) {
@@ -177,9 +240,15 @@ fun BodyCrearCuenta(modifier: Modifier = Modifier){
             Spacer(modifier = Modifier.height(15.dp))
         }
         Column {
-            InfoBasica()
+            InfoBasica(correo,contraseña,usuario,edad,
+                onCorreoChange,
+                onContraseñaChange,
+                onUsuarioChange,
+                onEdadChange)
             Spacer(modifier = Modifier.height(8.dp))
-            PerfilArtistico()
+            PerfilArtistico(profesion,bio,
+                onProfesionChange,
+                onBioChange)
             InteresAritistico()
         }
         Column(
@@ -201,23 +270,31 @@ fun BodyCrearCuenta(modifier: Modifier = Modifier){
 
 
 @Composable
-@Preview(showBackground = true)
-fun BodyCrearCuentaPreview(){
-    BodyCrearCuenta()
-}
-@Composable
-fun Register(modifier: Modifier = Modifier){
+fun RegisterScreen(modifier: Modifier = Modifier){
+    var correo by remember(){mutableStateOf("")}
+    var contraseña by remember(){mutableStateOf("")}
+    var usuario by remember(){mutableStateOf("")}
+    var edad by remember(){mutableStateOf("")}
+    var profesion by remember(){mutableStateOf("")}
+    var bio by remember(){mutableStateOf("")}
     Column(
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ){
-        BodyCrearCuenta()
+        BodyCrearCuenta(correo,contraseña,usuario,edad,profesion,bio,
+            onCorreoChange = {correo = it},
+            onContraseñaChange = {contraseña = it},
+            onUsuarioChange = {usuario = it},
+            onEdadChange = {edad = it},
+            onProfesionChange = {profesion = it},
+            onBioChange = {bio = it},)
+
         Spacer(modifier = Modifier.height(30.dp))
     }
 }
 @Composable
 @Preview(showBackground = true)
 fun RegisterPreview(){
-    Register()
+    RegisterScreen()
 }
