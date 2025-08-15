@@ -10,6 +10,7 @@ data class Obra(
     val descripcion: String,
     val Tags: List<String>,
     @DrawableRes val foto: Int,
-    val likes: Int,
-    val comentarios: Int
+    val likes: String,
+    val comentarios: String,
+    val compartidos: String
 )

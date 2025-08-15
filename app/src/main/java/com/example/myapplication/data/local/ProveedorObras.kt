@@ -13,8 +13,9 @@ object ProveedorObras {
         descripcion = "Tutorial para recrear una pintura famosa.",
         Tags = listOf("Pintura", "Tutorial"),
         foto = R.drawable.obra1,
-        likes = 325,
-        comentarios = 12
+        likes = "325",
+        comentarios = "12",
+        compartidos = "3"
     ),
         Obra(
             fotous = R.drawable.maria_foto,
@@ -24,8 +25,9 @@ object ProveedorObras {
             descripcion = "Tutorial para pintar un cuadro al óleo.",
             Tags = listOf("Oleo", "Tutorial"),
             foto = R.drawable.obra2,
-            likes = 300000,
-            comentarios = 120
+            likes = "300000",
+            comentarios = "120",
+            compartidos = "3"
         ),
         Obra(
             fotous = R.drawable.juanito_foto,
@@ -35,8 +37,9 @@ object ProveedorObras {
             descripcion = "Explorando el arte abstracto con colores vibrantes.",
             Tags = listOf("Abstracto", "Colores"),
             foto = R.drawable.obra3,
-            likes = 1500,
-            comentarios = 45)
+            likes = "1500",
+            comentarios = "45",
+            compartidos = "3")
         )
 
 }

@@ -18,28 +18,33 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.R
-import com.example.myapplication.ui.utils.Publicacion
+import androidx.compose.ui.res.stringResource
+import com.example.myapplication.data.Obra
 
 @Composable
-fun TarjetaPublicacion(publicacion: Publicacion) {
+fun TarjetaPublicacion(
+    publicacion: Obra,
+    modifier: Modifier = Modifier
+) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp, horizontal = 16.dp),
-        shape = RoundedCornerShape(12.dp),
+        modifier = modifier
+            .padding(horizontal = 16.dp),
+        shape = RoundedCornerShape(10.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = colorResource(id = R.color.white)
+        ),
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
 
-            // Fila con perfil y nombre
+            // Perfil y nombre
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Image(
-                    painter = painterResource(id = publicacion.idPerfil),
-                    contentDescription = "Foto de perfil",
+                    painter = painterResource(id = publicacion.fotous),
+                    contentDescription = stringResource(id = R.string.icono_usuario),
                     modifier = Modifier
                         .size(36.dp)
                         .clip(CircleShape),
@@ -48,7 +53,7 @@ fun TarjetaPublicacion(publicacion: Publicacion) {
                 Spacer(Modifier.width(8.dp))
                 Column {
                     Text(
-                        text = publicacion.username,
+                        text = publicacion.usuario,
                         style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold)
                     )
                     Text(
@@ -75,11 +80,11 @@ fun TarjetaPublicacion(publicacion: Publicacion) {
                 style = MaterialTheme.typography.bodyMedium
             )
 
-            // Chips categorías
-            if (publicacion.categorias.isNotEmpty()) {
+            // Categorías
+            if (publicacion.Tags.isNotEmpty()) {
                 Spacer(Modifier.height(8.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    publicacion.categorias.forEach { cat ->
+                    publicacion.Tags.forEach { cat ->
                         Surface(
                             shape = RoundedCornerShape(50),
                             color = Color(0xFFEFF8F1)
@@ -96,11 +101,11 @@ fun TarjetaPublicacion(publicacion: Publicacion) {
             }
 
             // Imagen principal
-            publicacion.idImagen?.let { img ->
+            publicacion.foto?.let { img ->
                 Spacer(Modifier.height(12.dp))
                 Image(
                     painter = painterResource(id = img),
-                    contentDescription = "Imagen publicación",
+                    contentDescription = stringResource(id = R.string.arte_tradicional),
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(8.dp)),
@@ -116,58 +121,32 @@ fun TarjetaPublicacion(publicacion: Publicacion) {
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Image(
-                        painter = painterResource(id = R.drawable.like), // tu icono de like
-                        contentDescription = "Likes",
-                        modifier = Modifier.size(18.dp)
-                    )
-                    Spacer(Modifier.width(4.dp))
-                    Text(publicacion.likes, color = colorResource(id = R.color.gris_texto_secundario))
-                }
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Image(
-                        painter = painterResource(id = R.drawable.comentarioicon), // tu icono de comentarios
-                        contentDescription = "Comentarios",
-                        modifier = Modifier.size(18.dp)
-                    )
-                    Spacer(Modifier.width(4.dp))
-                    Text(publicacion.comentarios, color = colorResource(id = R.color.gris_texto_secundario))
-                }
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Image(
-                        painter = painterResource(id = R.drawable.enviar), // tu icono de compartir
-                        contentDescription = "Compartir",
-                        modifier = Modifier.size(18.dp)
-                    )
-                }
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Image(
-                        painter = painterResource(id = R.drawable.icono_save), // tu icono de guardar
-                        contentDescription = "Guardar",
-                        modifier = Modifier.size(18.dp)
-                    )
-                }
+                IconoConTexto(R.drawable.like, publicacion.likes)
+                IconoConTexto(R.drawable.comentarioicon, publicacion.comentarios)
+                Image(
+                    painter = painterResource(id = R.drawable.enviar),
+                    contentDescription = stringResource(id = R.string.usuario),
+                    modifier = Modifier.size(18.dp)
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.icono_save),
+                    contentDescription = stringResource(id = R.string.icono_usuario),
+                    modifier = Modifier.size(18.dp)
+                )
             }
         }
     }
 }
 
 @Composable
-@Preview(showBackground = true)
-fun TarjetaPublicacionPreview() {
-    TarjetaPublicacion(publicacion = Publicacion(
-        id = 1,
-        hora = "2025-08-15 14:30",
-        username = "alfredo_dev",
-        titulo = "Aprendiendo Kotlin",
-        descripcion = "Hoy comparto un ejemplo básico de cómo crear un objeto en Kotlin usando data class.",
-        categorias = listOf("Programación", "Kotlin", "Ejemplos"),
-        likes = "120",
-        comentarios = "15",
-        compartidos = "8",
-        idPerfil = 101,
-        idImagen = 202
-    )
-    )
+fun IconoConTexto(iconId: Int, texto: String) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Image(
+            painter = painterResource(id = iconId),
+            contentDescription = null,
+            modifier = Modifier.size(25.dp)
+        )
+        Spacer(Modifier.width(6.dp))
+        Text(texto, color = colorResource(id = R.color.gris_texto_secundario))
+    }
 }

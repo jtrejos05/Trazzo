@@ -55,5 +55,10 @@
     <string name="acr_lico">Acrílico</string>
     <string name="sube_tu_obra">Sube tu obra</string>
     <string name="muestrale_al_mundo_tu_creacion">Muestrale al mundo tu creacion</string>
+    <string name="publicaciones_guardadas">Publicaciones Guardadas</string>
+    <string name="categoria_inicio">Inicio</string>
+    <string name="categoria_trending">Trending</string>
+    <string name="categoria_origami">Origami</string>
+    <string name="categoria_guardados">Guardados</string>
 
 </resources>
