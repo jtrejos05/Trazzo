@@ -40,6 +40,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.R
+import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.utils.Bienvenida
 import com.example.myapplication.ui.utils.BotonInteres
 import com.example.myapplication.ui.utils.Form
@@ -174,9 +175,9 @@ fun PerfilArtistico(profesion: String,
 @Composable
 @Preview(showBackground = true)
 fun PerfilArtisticoPreview(){
-    PerfilArtistico("", "",
+    MyApplicationTheme { PerfilArtistico("", "",
         onProfesionChange = {},
-        onBioChange = {})
+        onBioChange = {}) }
 }
 @Composable
 fun InteresAritistico(modifier: Modifier = Modifier){
@@ -211,7 +212,9 @@ fun BotonCrear(modifier: Modifier = Modifier){
 @Composable
 @Preview
 fun BotonCrearPreview(){
+    MyApplicationTheme {  // Asegúrate de envolverlo en tu tema para aplicar estilos
     BotonCrear()
+    }
 }
 @Composable
 fun BodyCrearCuenta(correo: String,
