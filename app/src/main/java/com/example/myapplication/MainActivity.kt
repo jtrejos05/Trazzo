@@ -24,10 +24,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyApplicationTheme {
-                Scaffold {RegisterScreen(modifier = Modifier.padding(it))  }
-
+                Scaffold {
+                    RegisterScreen(modifier = Modifier.padding(it))
+                }
             }
-
         }
     }
 }

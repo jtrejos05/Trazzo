@@ -18,6 +18,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.R
@@ -150,4 +151,23 @@ fun TarjetaPublicacion(publicacion: Publicacion) {
             }
         }
     }
+}
+
+@Composable
+@Preview(showBackground = true)
+fun TarjetaPublicacionPreview() {
+    TarjetaPublicacion(publicacion = Publicacion(
+        id = 1,
+        hora = "2025-08-15 14:30",
+        username = "alfredo_dev",
+        titulo = "Aprendiendo Kotlin",
+        descripcion = "Hoy comparto un ejemplo básico de cómo crear un objeto en Kotlin usando data class.",
+        categorias = listOf("Programación", "Kotlin", "Ejemplos"),
+        likes = "120",
+        comentarios = "15",
+        compartidos = "8",
+        idPerfil = 101,
+        idImagen = 202
+    )
+    )
 }
