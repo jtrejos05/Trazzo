@@ -78,6 +78,7 @@ fun BotonInteres(
     Texto : String,
     Color: Int,
     ColorL: Int,
+
     modifier: Modifier = Modifier
 ){
     Button(

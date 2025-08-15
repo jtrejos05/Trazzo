@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -30,6 +32,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.R
+import com.example.myapplication.data.Obra
+import com.example.myapplication.data.local.ProveedorObras
 
 
 @Composable
@@ -42,13 +46,17 @@ fun VistaObras(
         Column(
             modifier = Modifier,
         ){
-            PostCard()
+            PostCard(
+                obra = ProveedorObras.obras[1]
+            )
         }
     }
 }
 
 @Composable
-fun PostCard() {
+fun PostCard(
+    obra: Obra
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -61,7 +69,7 @@ fun PostCard() {
             modifier = Modifier.fillMaxWidth()
         ) {
             Image(
-                painter = painterResource(id = R.drawable.maria_foto),
+                painter = painterResource(id = obra.fotous),
                 contentDescription = "Foto de perfil",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -72,8 +80,8 @@ fun PostCard() {
             Spacer(Modifier.width(8.dp))
 
             Column {
-                Text("Kenji Yamamoto", fontWeight = FontWeight.Bold, fontSize = 14.sp)
-                Text("2h", fontSize = 12.sp)
+                Text("${obra.usuario}", fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                Text("${obra.hora}", fontSize = 12.sp)
             }
 
             Spacer(Modifier.weight(1f))
@@ -85,38 +93,37 @@ fun PostCard() {
 
         // Título y descripción
         Text(
-            "Grulla de origami paso a paso",
+            "${obra.titulo}",
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp
         )
         Spacer(Modifier.height(4.dp))
         Text(
-            "Tutorial completo para crear la clásica grulla japonesa. Técnica tradicional con papel washi.\n" +
-                    "Perfecto para principiantes que quieren dominar esta hermosa forma de arte.",
+            "${obra.descripcion}",
             fontSize = 14.sp
         )
 
         Spacer(Modifier.height(8.dp))
 
         // Etiquetas
-        Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-            listOf("#origami", "#grulla", "#papel", "#tutorial", "#japonés").forEach { tag ->
-                Text(
-                    tag,
-                    color = Color(0xFF2E7D32),
-                    fontSize = 12.sp,
-                    modifier = Modifier
-                        .background(Color(0xFFE8F5E9), RoundedCornerShape(50))
-                        .padding(horizontal = 8.dp, vertical = 4.dp)
-                )
-            }
+        LazyRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                items(obra.Tags){
+                    Text(
+                        it,
+                        color = Color(0xFF2E7D32),
+                        fontSize = 12.sp,
+                        modifier = Modifier
+                            .background(Color(0xFFE8F5E9), RoundedCornerShape(50))
+                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                    )
+                }
         }
 
         Spacer(Modifier.height(12.dp))
 
         // Imagen principal
         Image(
-            painter = painterResource(id = R.drawable.grulla),
+            painter = painterResource(id = obra.foto),
             contentDescription = "Imagen principal",
             contentScale = ContentScale.FillWidth,
             modifier = Modifier.fillMaxWidth()
@@ -129,20 +136,17 @@ fun PostCard() {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            ReactionItem(iconRes = R.drawable.like, count = 325)
-            ReactionItem(iconRes = R.drawable.comentarioicon, count = 12)
-            ReactionItem(iconRes = R.drawable.top_left_arrow, count = 3)
-            /**Icon(
-                imageVector = Icons.Default.BookmarkBorder,
-                contentDescription = "Guardar",
-                modifier = Modifier.size(20.dp)
-            )**/
+            ReactionItem(iconRes = R.drawable.like, count = obra.likes)
+            ReactionItem(iconRes = R.drawable.comentarioicon, count = obra.comentarios)
+            ReactionItem(iconRes = R.drawable.top_left_arrow, count = obra.compartidos)
             Image(
                 painter = painterResource(id = R.drawable.icono_save),
                 contentDescription = "Guardar",
                 modifier = Modifier.size(20.dp)
             )
         }
+        Spacer(modifier = Modifier.height(10.dp))
+        Comments()
     }
 }
 
@@ -153,7 +157,7 @@ fun PostCardPreview() {
 }
 
 @Composable
-fun ReactionItem(iconRes: Int, count: Int) {
+fun ReactionItem(iconRes: Int, count: String) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Image(
             painter = painterResource(id = iconRes),
@@ -161,6 +165,6 @@ fun ReactionItem(iconRes: Int, count: Int) {
             modifier = Modifier.size(24.dp)
         )
         Spacer(Modifier.width(4.dp))
-        Text(count.toString(), fontSize = 12.sp, color = Color.Gray)
+        Text(count, fontSize = 12.sp, color = Color.Gray)
     }
 }
