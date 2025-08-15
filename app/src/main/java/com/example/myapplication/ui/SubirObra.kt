@@ -49,6 +49,13 @@ import com.example.myapplication.ui.utils.LogoTrazzo
 fun SubirObraScreen(
     modifier: Modifier = Modifier
 ){
+    var titulo by remember { mutableStateOf("") }
+    var descripcion by remember { mutableStateOf("") }
+    var imagen by remember { mutableStateOf("") }
+    var categoria by remember { mutableStateOf("") }
+    var tags by remember { mutableStateOf("") }
+
+
     Column(modifier=modifier) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -57,12 +64,18 @@ fun SubirObraScreen(
             LogoTrazzo(modifier=Modifier.height(70.dp))
             Bienvenida(R.string.sube_tu_obra, R.string.muestrale_al_mundo_tu_creacion)
         }
-        Form(Texto = "Titulo", Name="Dale un titulo a tu video")
-        Form(Texto = "Descripcion", Name="Dale una descripcion")
-        Form(Icon = R.drawable.camara ,Description="Icono Camara",Texto = "Imagen", Name = "https://ejemplo.com/imagen.jpg",OP=1,)
+        Form(texto = "Titulo", name="Dale un titulo a tu video", dato = titulo,
+             onChange = { titulo = it })
+        Form(texto = "Descripcion", name="Dale una descripcion", dato = descripcion,
+             onChange = { descripcion = it })
+        Form(icon = R.drawable.camara ,description="Icono Camara",texto = "Imagen", name = "https://ejemplo.com/imagen.jpg",
+            imagen,
+            onChange = { imagen = it },
+            op=1)
         Text("Tambien puedes subir desde tu galeria tocando el icono de la camara", modifier = Modifier.padding(vertical = 3.dp, horizontal = 18.dp))
-        Form(Texto = "Categoria", Name = "Seleccionar")
-        Form(R.drawable.hashtag,"Icono Hashtag","Tags", "acuarela, tecnica, retrato, arte-digital",OP=1)
+        Form(texto = "Categoria", name = "Seleccionar", dato = categoria,
+             onChange = { categoria = it }, op=2)
+        Form(R.drawable.hashtag,"Icono Hashtag","Tags", "acuarela, tecnica, retrato, arte-digital",tags, onChange = {tags=it},op=1)
         Text("Separa los tags con comas para ayudar a otros a encontrar tu contenido", modifier = Modifier.padding(vertical = 3.dp, horizontal = 18.dp))
         Spacer(modifier = Modifier.height(20.dp))
         BotonesFinal()

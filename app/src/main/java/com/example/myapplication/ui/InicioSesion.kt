@@ -55,17 +55,27 @@ fun BienvenidaIniPreview(){
     Bienvenida(R.string.iniciar_sesion, R.string.accede_a_tu_mundo_creativo)
 }
 @Composable
-fun InfoInicio(modifier: Modifier = Modifier) {
+fun InfoInicio(correo: String, contraseña: String,
+               onCorreoChange: (String) -> Unit,
+               onContraseñaChange: (String) -> Unit,
+               modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
-        Form(R.drawable.correo, stringResource(R.string.icono_correo),stringResource(R.string.correo),stringResource(R.string.tu_email_com))
-        Form(R.drawable.contrasenia, stringResource(R.string.icono_contrase_a),stringResource(R.string.contra),stringResource(R.string.minimo_6_caracteres))
+        Form(R.drawable.correo, stringResource(R.string.icono_correo),stringResource(R.string.correo),stringResource(R.string.tu_email_com),
+            correo,
+            onCorreoChange)
+        Form(R.drawable.contrasenia, stringResource(R.string.icono_contrase_a),stringResource(R.string.contra),stringResource(R.string.minimo_6_caracteres),
+             contraseña,
+             onContraseñaChange,op=2)
 
     }
 }
 @Composable
 @Preview(showBackground = true)
 fun InfoInicioPreview(){
-    InfoInicio()
+    InfoInicio(correo = "",
+               contraseña = "",
+               onCorreoChange = {},
+               onContraseñaChange = {})
 }
 @Composable
 fun PieDeInicio(
@@ -143,6 +153,8 @@ fun Botones(modifier: Modifier = Modifier){
 
 @Composable
 fun InicioSesionScreen(modifier: Modifier = Modifier){
+    var correo by remember { mutableStateOf("") }
+    var contraseña by remember { mutableStateOf("") }
     var recordarme by remember { mutableStateOf(false) }
     Column(modifier = modifier) {
         Column(
@@ -155,7 +167,9 @@ fun InicioSesionScreen(modifier: Modifier = Modifier){
             Spacer(modifier = Modifier.height(40.dp))
         }
         Column {
-            InfoInicio()
+            InfoInicio(correo,contraseña,
+                onCorreoChange = {correo = it},
+                onContraseñaChange = {contraseña = it})
             PieDeInicio(recordarme = recordarme,
                 onRecordarmeChanged = { recordarme = it })
         }
