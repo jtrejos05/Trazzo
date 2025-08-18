@@ -38,6 +38,5 @@ fun Username(
         text = username,
         modifier = modifier,
         fontWeight = FontWeight.Bold,
-        color = colorResource(id = R.color.gris_texto_principal)
     )
 }

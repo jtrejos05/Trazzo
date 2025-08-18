@@ -16,6 +16,7 @@ import com.example.myapplication.ui.InicioSesionScreen
 import com.example.myapplication.ui.InicioSesionScreen
 import com.example.myapplication.ui.RegisterScreen
 import com.example.myapplication.ui.SubirObraScreen
+import com.example.myapplication.ui.VistaObras
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 class MainActivity : ComponentActivity() {
@@ -25,7 +26,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             MyApplicationTheme {
                 Scaffold {
-                    RegisterScreen(modifier = Modifier.padding(it))
+                    VistaObras(modifier = Modifier.padding(it))
+                    // RegisterScreen(modifier = Modifier.padding(it))
                 }
             }
         }

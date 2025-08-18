@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,6 +20,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,22 +36,22 @@ import androidx.compose.ui.unit.sp
 import com.example.myapplication.R
 import com.example.myapplication.data.Obra
 import com.example.myapplication.data.local.ProveedorObras
+import com.example.myapplication.data.local.ProveedorComentarios
+import com.example.myapplication.ui.theme.MyApplicationTheme
+import com.example.myapplication.ui.theme.primaryLight
 
 
 @Composable
 fun VistaObras(
     modifier: Modifier = Modifier
 ){
-    Card(
+    Column(
         modifier = modifier
-    ){
-        Column(
-            modifier = Modifier,
+            .fillMaxSize(),
         ){
-            PostCard(
-                obra = ProveedorObras.obras[1]
-            )
-        }
+        PostCard(
+            obra = ProveedorObras.obras[1]
+        )
     }
 }
 
@@ -80,8 +82,8 @@ fun PostCard(
             Spacer(Modifier.width(8.dp))
 
             Column {
-                Text("${obra.usuario}", fontWeight = FontWeight.Bold, fontSize = 14.sp)
-                Text("${obra.hora}", fontSize = 12.sp)
+                Text(obra.usuario, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                Text(obra.hora, fontSize = 12.sp)
             }
 
             Spacer(Modifier.weight(1f))
@@ -93,13 +95,13 @@ fun PostCard(
 
         // Título y descripción
         Text(
-            "${obra.titulo}",
+            obra.titulo,
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp
         )
         Spacer(Modifier.height(4.dp))
         Text(
-            "${obra.descripcion}",
+            obra.descripcion,
             fontSize = 14.sp
         )
 
@@ -110,10 +112,10 @@ fun PostCard(
                 items(obra.Tags){
                     Text(
                         it,
-                        color = Color(0xFF2E7D32),
+                        color = MaterialTheme.colorScheme.primary,
                         fontSize = 12.sp,
                         modifier = Modifier
-                            .background(Color(0xFFE8F5E9), RoundedCornerShape(50))
+                            .background(MaterialTheme.colorScheme.tertiaryContainer, RoundedCornerShape(50))
                             .padding(horizontal = 8.dp, vertical = 4.dp)
                     )
                 }
@@ -146,7 +148,7 @@ fun PostCard(
             )
         }
         Spacer(modifier = Modifier.height(10.dp))
-        Comments()
+        InterfazExternaComentarios(cantidad = ProveedorComentarios.comentarios.size)
     }
 }
 

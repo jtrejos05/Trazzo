@@ -1,5 +1,6 @@
 package com.example.myapplication.ui
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +17,10 @@ import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -62,7 +67,7 @@ fun Interfaz(
                 shape = RoundedCornerShape(50.dp),
                 modifier = Modifier
                     .padding(end = 5.dp)
-                    .width(200.dp),
+                    .width(250.dp),
             )
             Button(
                 onClick = { /*TODO*/ },
@@ -75,7 +80,7 @@ fun Interfaz(
                     )
                 },
                 colors = ButtonDefaults.buttonColors(
-                        containerColor = colorResource(id = R.color.verde_principal),
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
             ),
             )
         }
@@ -88,15 +93,14 @@ fun InterfazExternaComentarios(
     cantidad: Int
 ) {
 
-    Box(
-        modifier = Modifier
-            .padding(15.dp)
-            .border(1.dp,
-                colorResource(R.color.gris_texto_secundario),
-                RoundedCornerShape(15.dp))
-            .padding(15.dp)
+    Card(
+        modifier = modifier,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
+        colors = CardDefaults.cardColors()
     ) {
-        Interfaz(cantidad = cantidad)
+        Box(modifier = Modifier.padding(10.dp)){
+            Interfaz(cantidad = cantidad)
+        }
     }
 }
 

@@ -25,7 +25,7 @@ object ProveedorObras {
             descripcion = "Tutorial para pintar un cuadro al óleo.",
             Tags = listOf("Oleo", "Tutorial"),
             foto = R.drawable.obra2,
-            likes = "300000",
+            likes = "300k",
             comentarios = "120",
             compartidos = "3"
         ),
