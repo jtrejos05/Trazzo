@@ -1,6 +1,5 @@
 package com.example.myapplication.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -10,25 +9,45 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
+import com.example.myapplication.R
 @Composable
-fun BuscarScreen() {
-    //Contador para recordar búsquedas
-    var textoBusqueda by remember { mutableStateOf("") }
-
-    val categoriasTop = listOf("Todo", "Arte Digital", "Fotografía", "Pintura")
-    val trending = listOf(
-        "Arte Abstracto", "Retratos Digitales",
-        "Paisajes", "Arte Conceptual",
-        "Fotografía Urbana", "Ilustración Infantil",
-        "Arte Minimalista", "Street Art"
+fun BuscarScreen(
+    textoBusqueda: String,
+    onTextoBusquedaChange: (String) -> Unit
+) {
+    val categoriasTop = listOf(
+        stringResource(R.string.categoria_inicio),
+        stringResource(R.string.dise_o_digital),
+        stringResource(R.string.fotograf_a),
+        stringResource(R.string.pintura)
     )
-    val recientes = listOf("Arte Digital", "Retratos", "Paisajes Naturales")
-    val explora = listOf("Arte Digital", "Fotografía", "Pintura", "Dibujo")
+
+    val trending = listOf(
+        stringResource(R.string.concept_art),
+        stringResource(R.string.ilustraci_n),
+        stringResource(R.string.arte_tradicional),
+        stringResource(R.string.street_art),
+        stringResource(R.string.fotograf_a),
+        stringResource(R.string.collage)
+    )
+
+    val recientes = listOf(
+        stringResource(R.string.fotograf_a),
+        stringResource(R.string.pintura),
+        stringResource(R.string.acuarela)
+    )
+
+    val explora = listOf(
+        stringResource(R.string.dibujo),
+        stringResource(R.string.origami),
+        stringResource(R.string.moda),
+        stringResource(R.string.escultura)
+    )
 
     LazyColumn(
         modifier = Modifier
@@ -40,14 +59,14 @@ fun BuscarScreen() {
         item {
             TextField(
                 value = textoBusqueda,
-                onValueChange = { textoBusqueda = it },
-                placeholder = { Text("Buscar inspiración artística...") },
+                onValueChange = onTextoBusquedaChange,
+                placeholder = { Text(stringResource(R.string.buscar_inspiraci_n_art_stica)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
         }
 
-        // Categorías superiores (chips)
+        // Categorías verdes estilo botón
         item {
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -72,7 +91,7 @@ fun BuscarScreen() {
         // Trending en Arte
         item {
             Text(
-                text = "Trending en Arte",
+                text = stringResource(R.string.categoria_trending),
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp
@@ -80,9 +99,7 @@ fun BuscarScreen() {
             )
         }
         item {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 for (i in trending.chunked(2)) {
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -100,10 +117,10 @@ fun BuscarScreen() {
             }
         }
 
-        // Búsquedas recientes
+        //  Búsquedas Recientes
         item {
             Text(
-                text = "Búsquedas Recientes",
+                text = stringResource(R.string.publicaciones_guardadas),
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp
@@ -112,15 +129,15 @@ fun BuscarScreen() {
         }
         items(recientes) { rec ->
             Text(
-                text = "🔎 $rec",
+                text = "🕒 $rec",
                 style = MaterialTheme.typography.bodyLarge
             )
         }
 
-        // Explora por categoría
+        // Explorar por Categoría
         item {
             Text(
-                text = "Explora por Categoría",
+                text = stringResource(R.string.seleccionar),
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp
@@ -150,9 +167,16 @@ fun BuscarScreen() {
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
-fun PreviewBuscarScreen() {
-    BuscarScreen()
+fun BuscarScreenPreview() {
+    var texto by remember { mutableStateOf("") }
+
+    BuscarScreen(
+        textoBusqueda = texto,
+        onTextoBusquedaChange = { texto = it }
+    )
 }
+
+
+
