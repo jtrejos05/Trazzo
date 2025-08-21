@@ -60,5 +60,6 @@
     <string name="categoria_trending">Trending</string>
     <string name="categoria_origami">Origami</string>
     <string name="categoria_guardados">Guardados</string>
+    <string name="buscar_inspiraci_n_art_stica">Buscar inspiración artística...</string>
 
 </resources>
