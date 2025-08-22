@@ -188,11 +188,15 @@ fun TopNavigationBar(busquedaClicked: () -> Unit = {},modifier: Modifier = Modif
                 placeholder = {
                     Text(stringResource(R.string.buscar_inspiraci_n_art_stica))
                 },
+
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
+                    .clickable{
+                        busquedaClicked()
+                    }
             )
-        
+
 
         Spacer(modifier = Modifier.height(8.dp))
     }

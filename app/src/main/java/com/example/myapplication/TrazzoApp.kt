@@ -23,11 +23,11 @@ fun TrazzoApp() {
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
 
-    val ShowBottom = currentRoute == Rutas.Perfil.ruta
+    val ShowBottom = currentRoute == Rutas.Subir.ruta
     val ShowAll = currentRoute == Rutas.Guardadas.ruta || currentRoute == Rutas.Trending.ruta
-        Scaffold(
+    Scaffold(
             bottomBar = {
-                if (ShowBottom) {
+                if (!ShowBottom) {
                     BottomNavigationBar(navController)
                 }
             },
