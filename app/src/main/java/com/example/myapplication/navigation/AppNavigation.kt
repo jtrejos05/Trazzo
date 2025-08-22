@@ -1,5 +1,6 @@
 package com.example.myapplication.navigation
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -66,6 +67,7 @@ sealed class Rutas(
     object Buscar : Rutas("buscar")
     object Guardadas : Rutas("guardadas")
     object Trending : Rutas("trending")
+    object Barra: Rutas("barra")
 }
 @Composable
 fun AppNavigation(navControler: NavHostController,
@@ -114,12 +116,17 @@ fun AppNavigation(navControler: NavHostController,
         composable(Rutas.Buscar.ruta) {var texto by remember { mutableStateOf("") }
             BuscarScreen("",onTextoBusquedaChange = { texto = it })
         }
+        composable(Rutas.Barra.ruta){
+            TopNavigationBar({ navControler.navigate(Rutas.Buscar.ruta) })
+
+        }
         composable(Rutas.Guardadas.ruta) {
             PublicacionesGuardadasScreen(ProveedorObras.obras,{ obraId->navControler.navigate(Rutas.Detalle.createRoute(obraId )) })
         }
         composable(Rutas.Trending.ruta) {
             Text("Pantalla de Tendencias")
         }
+
 
     }
 }
@@ -154,31 +161,30 @@ fun TopNavigationBarPreview() {
     TopNavigationBar()
 }
 @Composable
-fun TopNavigationBar(modifier: Modifier = Modifier) {
-    Column(modifier = modifier) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
+fun TopNavigationBar(busquedaClicked: () -> Unit = {},modifier: Modifier = Modifier) {
+    var busqueda by remember { mutableStateOf("") }
+    Column(modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally) {
+
             // Logo
             LogoTrazzo(
                 modifier = Modifier
                     .size(32.dp)
             )
 
-        }
 
-        Spacer(modifier = Modifier.height(8.dp))
+
 
         // Barra de búsqueda
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = busqueda,
+            onValueChange = {busqueda = it},
             placeholder = { Text(stringResource(R.string.buscar_inspiraci_n_art_stica)) },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 16.dp)
+                .clickable{busquedaClicked}
         )
 
         Spacer(modifier = Modifier.height(8.dp))

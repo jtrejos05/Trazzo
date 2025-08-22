@@ -12,6 +12,7 @@ import com.example.myapplication.navigation.AppNavigation
 import com.example.myapplication.navigation.BottomNavigationBar
 import com.example.myapplication.navigation.NavigationBar
 import com.example.myapplication.navigation.Rutas
+import com.example.myapplication.navigation.TopNavigationBar
 import com.example.myapplication.ui.HomeScreen
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
@@ -24,18 +25,20 @@ fun TrazzoApp() {
 
     val ShowBottom = currentRoute == Rutas.Perfil.ruta
     val ShowAll = currentRoute == Rutas.Guardadas.ruta || currentRoute == Rutas.Trending.ruta
-    MyApplicationTheme {
         Scaffold(
-            topBar = {
+            bottomBar = {
                 if (ShowBottom) {
                     BottomNavigationBar(navController)
-                }else if (ShowAll){
-                    NavigationBar(navController)
+                }
+            },
+            topBar = {
+                 if (ShowAll){
+                    TopNavigationBar()
                 }
             }
         ) {
             AppNavigation(navController, Modifier.padding(it))
 
         }
-    }
+
 }
