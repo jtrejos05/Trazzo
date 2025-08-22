@@ -1,6 +1,7 @@
 package com.example.myapplication.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -27,9 +28,11 @@ import com.example.myapplication.data.Obra
 @Composable
 fun TarjetaPublicacion(
     publicacion: Obra,
+    obraClicked: (Int) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Card(
+        onClick = { obraClicked(publicacion.obraId) },
         modifier = modifier
             .padding(horizontal = 16.dp),
         shape = RoundedCornerShape(10.dp),

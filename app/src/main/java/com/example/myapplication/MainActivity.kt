@@ -12,11 +12,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.myapplication.ui.HomeScreen
 import com.example.myapplication.ui.InicioSesionScreen
 import com.example.myapplication.ui.InicioSesionScreen
 import com.example.myapplication.ui.RegisterScreen
 import com.example.myapplication.ui.SubirObraScreen
-import com.example.myapplication.ui.VistaObras
+import com.example.myapplication.ui.VistaObrasScreen
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 class MainActivity : ComponentActivity() {
@@ -24,12 +25,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MyApplicationTheme {
-                Scaffold {
-                    VistaObras(modifier = Modifier.padding(it))
-                    // RegisterScreen(modifier = Modifier.padding(it))
-                }
-            }
+            TrazzoApp()
         }
     }
 }

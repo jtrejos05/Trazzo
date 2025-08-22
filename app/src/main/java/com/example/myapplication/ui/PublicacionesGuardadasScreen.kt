@@ -28,6 +28,7 @@ import com.example.myapplication.data.local.ProveedorObras
 @Composable
 fun PublicacionesGuardadasScreen(
     obras: List<Obra>,
+    obraClicked: (Int) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -84,7 +85,7 @@ fun PublicacionesGuardadasScreen(
         // Lista de publicaciones
         LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             items(obras) { Obra ->
-                TarjetaPublicacion(Obra)
+                TarjetaPublicacion(Obra, obraClicked)
             }
         }
     }
