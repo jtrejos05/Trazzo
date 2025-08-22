@@ -1,7 +1,9 @@
 package com.example.myapplication.navigation
 
+import android.graphics.drawable.Icon
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +12,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.SavedSearch
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -177,15 +181,18 @@ fun TopNavigationBar(busquedaClicked: () -> Unit = {},modifier: Modifier = Modif
 
 
         // Barra de búsqueda
-        OutlinedTextField(
-            value = busqueda,
-            onValueChange = {busqueda = it},
-            placeholder = { Text(stringResource(R.string.buscar_inspiraci_n_art_stica)) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .clickable{busquedaClicked}
-        )
+
+            OutlinedTextField(
+                value = busqueda,
+                onValueChange = { busqueda = it },
+                placeholder = {
+                    Text(stringResource(R.string.buscar_inspiraci_n_art_stica))
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            )
+        
 
         Spacer(modifier = Modifier.height(8.dp))
     }
