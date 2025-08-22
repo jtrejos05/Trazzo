@@ -21,7 +21,8 @@ import com.example.myapplication.R
 import com.example.myapplication.data.Obra
 import com.example.myapplication.data.local.ProveedorObras
 import com.example.myapplication.ui.TarjetaPublicacion
-
+import androidx.compose.ui.res.colorResource
+import com.example.myapplication.R.color
 
 @Composable
 fun ProfileScreen(
@@ -40,11 +41,11 @@ fun ProfileScreen(
                 .height(150.dp)
                 .background(Color(0xFF00C6A9)) // teal gradient color
         )
-        Spacer(modifier = Modifier.height(-60.dp))
+        Spacer(modifier = Modifier.height(-80.dp))
         Surface(
             shape = CircleShape,
             modifier = Modifier.size(100.dp),
-            shadowElevation = 6.dp
+            shadowElevation = 7.dp
         ) {
             Image(
                 painter = painterResource(R.drawable.maria_foto), // replace with profile picture
@@ -53,6 +54,7 @@ fun ProfileScreen(
 
             )
         }
+
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
@@ -71,13 +73,17 @@ fun ProfileScreen(
                 tint = Color.Gray
             )
 
+
         }
-        Text(
-            "@juantrev05",
-            fontSize = 14.sp,
-            color = Color.Gray,
-            modifier = Modifier.padding(8.dp)
-        )
+
+
+            Text(
+                "@juantrev05",
+                fontSize = 14.sp,
+                color = Color.Gray,
+                modifier = Modifier.padding(8.dp)
+            )
+
         // Profile info
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -190,7 +196,7 @@ fun StatItem(value: String, label: String) {
 fun StatItemPreview() {
     StatItem("nknlknlk","jbskdc")
 }
-
+/*
 @Composable
 fun ArtworkCard(title: String) {
     Surface(
@@ -220,9 +226,10 @@ fun ArtworkCard(title: String) {
         }
     }
 }
+*/
 
 @Composable
 @Preview(showBackground = true)
 fun ArtworkCardPreview(){
-    ArtworkCard("Hola")
+   // ArtworkCard("Hola")
 }
