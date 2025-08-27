@@ -124,7 +124,7 @@ fun Intereses(modifier: Modifier = Modifier){
     )
     FlowRow(modifier = modifier.padding(start = 5.dp)) {
         intereses.forEach { interes -> BotonInteres(interes, R.color.VerdeClaroF,R.color.VerdaClaroL,
-            Modifier
+            {},Modifier
                 .height(36.dp)
                 .padding(horizontal = 6.dp)) }
     }
@@ -194,8 +194,8 @@ fun InteresAritisticoPreview(){
     InteresAritistico()
 }
 @Composable
-fun BotonCrear(modifier: Modifier = Modifier){
-    BotonInteres(stringResource(R.string.crear),R.color.MentaBri,R.color.GrisClaro ,modifier
+fun BotonCrear(registerButtonPressed: () -> Unit = {},modifier: Modifier = Modifier){
+    BotonInteres(stringResource(R.string.crear),R.color.MentaBri,R.color.GrisClaro ,registerButtonPressed,modifier
         .width(370.dp)
         .height(60.dp))
 }
@@ -219,6 +219,7 @@ fun BodyCrearCuenta(correo: String,
     onEdadChange: (String) -> Unit,
     onProfesionChange: (String) -> Unit,
     onBioChange: (String) -> Unit,
+    registerButtonPressed: () -> Unit = {},
     modifier: Modifier = Modifier){
     Column(
         modifier = modifier
@@ -248,7 +249,7 @@ fun BodyCrearCuenta(correo: String,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(8.dp))
-            BotonCrear()
+            BotonCrear(registerButtonPressed)
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 stringResource(R.string.anuncio),
@@ -263,7 +264,8 @@ fun BodyCrearCuenta(correo: String,
 
 
 @Composable
-fun RegisterScreen(modifier: Modifier = Modifier){
+fun RegisterScreen(registerButtonPressed: () -> Unit = {},
+                   modifier: Modifier = Modifier){
     var correo by remember(){mutableStateOf("")}
     var contraseña by remember(){mutableStateOf("")}
     var usuario by remember(){mutableStateOf("")}
@@ -281,7 +283,7 @@ fun RegisterScreen(modifier: Modifier = Modifier){
             onUsuarioChange = {usuario = it},
             onEdadChange = {edad = it},
             onProfesionChange = {profesion = it},
-            onBioChange = {bio = it},)
+            onBioChange = {bio = it},registerButtonPressed)
 
         Spacer(modifier = Modifier.height(30.dp))
     }

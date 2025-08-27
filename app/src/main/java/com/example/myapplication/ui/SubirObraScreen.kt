@@ -26,6 +26,7 @@ import com.example.myapplication.ui.utils.LogoTrazzo
 
 @Composable
 fun SubirObraScreen(
+    ButtonPressed: () -> Unit = {},
     modifier: Modifier = Modifier
 ){
     var titulo by remember { mutableStateOf("") }
@@ -57,7 +58,7 @@ fun SubirObraScreen(
         Form(R.drawable.hashtag,"Icono Hashtag","Tags", "acuarela, tecnica, retrato, arte-digital",tags, onChange = {tags=it},op=1)
         Text("Separa los tags con comas para ayudar a otros a encontrar tu contenido", modifier = Modifier.padding(vertical = 3.dp, horizontal = 18.dp))
         Spacer(modifier = Modifier.height(20.dp))
-        BotonesFinal()
+        BotonesFinal(ButtonPressed)
         Spacer(modifier = Modifier.height(25.dp))
     }
 
@@ -70,15 +71,15 @@ fun SubirObraPreview(){
 }
 
 @Composable
-fun BotonesFinal(modifier: Modifier = Modifier){
+fun BotonesFinal(ButtonPressed: () -> Unit, modifier: Modifier = Modifier){
     Row(modifier = modifier.fillMaxWidth(1F),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically){
-        BotonInteres("Cancelar",R.color.rojo_enfasis,R.color.GrisClaro,modifier
+        BotonInteres("Cancelar",R.color.rojo_enfasis,R.color.GrisClaro, ButtonPressed,modifier
             .width(180.dp)
             .height(50.dp))
         Spacer(modifier= Modifier.width(20.dp))
-        BotonInteres("Publicar",R.color.MentaBri,R.color.GrisClaro,modifier
+        BotonInteres("Publicar",R.color.MentaBri,R.color.GrisClaro, ButtonPressed,modifier
             .width(180.dp)
             .height(50.dp) )
     }
@@ -86,7 +87,7 @@ fun BotonesFinal(modifier: Modifier = Modifier){
 @Composable
 @Preview(showBackground = true)
 fun BotonesFinalPreview(){
-    BotonesFinal()
+    BotonesFinal({})
 }
 
 

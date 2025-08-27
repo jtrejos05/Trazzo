@@ -12,5 +12,7 @@ data class Obra(
     @DrawableRes val foto: Int,
     val likes: String,
     val comentarios: String,
-    val compartidos: String
+    val compartidos: String,
+    val vistas: String = "0",
+    val obraId: Int
 )

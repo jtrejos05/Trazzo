@@ -62,6 +62,8 @@ fun ExternalLogo(
 // Contenedores Row, Column, Box
 @Composable
 fun BodyHomeScreen(
+    loginButtonPressed: () -> Unit = {},
+    registerButtonPressed: () -> Unit = {},
     modifier: Modifier = Modifier
 ){
     Column (
@@ -72,8 +74,8 @@ fun BodyHomeScreen(
         LogoTrazzo()
         MensajeBienvenida(stringResource(R.string.trazzo))
         Spacer(modifier = Modifier.height(23.dp))
-        AddButton(stringResource(R.string.iniciar_sesion))
-        AddButton(stringResource(R.string.registrarse))
+        AddButton(stringResource(R.string.iniciar_sesion),onClick = loginButtonPressed)
+        AddButton(stringResource(R.string.registrarse), onClick = registerButtonPressed)
         Row {
             ExternalLogo(idImagen = R.drawable.google_logo, description = "Google")
             ExternalLogo(idImagen = R.drawable.facebook_logo, description = "Facebook")
@@ -85,6 +87,8 @@ fun BodyHomeScreen(
 
 @Composable
 fun HomeScreen(
+    loginButtonPressed: () -> Unit = {},
+    registerButtonPressed: () -> Unit = {},
     modifier: Modifier = Modifier
 ){
     Column (
@@ -92,7 +96,8 @@ fun HomeScreen(
         modifier = modifier.fillMaxSize()
     ){
         Spacer(modifier = Modifier.weight(1f))
-        BodyHomeScreen()
+        BodyHomeScreen(loginButtonPressed = loginButtonPressed,
+        registerButtonPressed = registerButtonPressed)
         Spacer(modifier = Modifier.weight(1f))
         Text(
             text = stringResource(R.string.todos_los_derechos_reservados),

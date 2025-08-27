@@ -108,12 +108,14 @@ fun PieDeInicioPreview() {
 }
 
 @Composable
-fun Botones(modifier: Modifier = Modifier){
+fun Botones(loginButtonPressed: () -> Unit = {},
+            registerButtonPressed: () -> Unit = {},
+            modifier: Modifier = Modifier){
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-        BotonInteres(stringResource(R.string.iniciar_sesion),R.color.MentaBri,R.color.GrisClaro ,modifier
+        BotonInteres(stringResource(R.string.iniciar_sesion),R.color.MentaBri,R.color.GrisClaro,loginButtonPressed ,modifier
             .width(370.dp)
             .height(60.dp))
         Spacer(Modifier.height(10.dp))
@@ -132,7 +134,7 @@ fun Botones(modifier: Modifier = Modifier){
         }
         Spacer(modifier.height(10.dp))
         BotonIcono(R.drawable.nuevacuenta, stringResource(R.string.icono_nueva_cuenta),
-            stringResource(R.string.crear_cuenta_nueva),R.color.GrisClaro,R.color.GrisOscuro,modifier
+            stringResource(R.string.crear_cuenta_nueva),R.color.GrisClaro,R.color.GrisOscuro,registerButtonPressed,modifier
                 .width(370.dp)
                 .height(60.dp))
     }
@@ -140,7 +142,9 @@ fun Botones(modifier: Modifier = Modifier){
 
 
 @Composable
-fun InicioSesionScreen(modifier: Modifier = Modifier){
+fun InicioSesionScreen(loginButtonPressed: () -> Unit = {},
+                       registerButtonPressed: () -> Unit = {}
+                       ,modifier: Modifier = Modifier){
     var correo by remember { mutableStateOf("") }
     var contraseña by remember { mutableStateOf("") }
     var recordarme by remember { mutableStateOf(false) }
@@ -165,7 +169,8 @@ fun InicioSesionScreen(modifier: Modifier = Modifier){
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Botones()
+            Botones(loginButtonPressed,
+                registerButtonPressed)
             Spacer(modifier.height(140.dp))
             Text(stringResource(R.string.al_iniciar_sesion_aceptas_nuestros_terminos_de_servicio_y_politica_de_privacidad))
         }

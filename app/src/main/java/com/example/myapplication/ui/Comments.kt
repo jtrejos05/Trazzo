@@ -23,7 +23,7 @@ import com.example.myapplication.ui.utils.UserProfileImage
 import com.example.myapplication.ui.utils.Username
 
 @Composable
-fun Comments(
+fun CommentsScreen(
     modifier: Modifier = Modifier,
 ){
     LazyColumn(
@@ -46,5 +46,5 @@ fun Comments(
 @Composable
 @Preview(showBackground = true)
 fun CommentsPreview(){
-    Comments()
+    CommentsScreen()
 }

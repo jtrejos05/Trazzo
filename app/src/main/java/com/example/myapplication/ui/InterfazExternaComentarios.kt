@@ -52,7 +52,7 @@ fun Interfaz(
                 text = "$cantidad comentarios"
             )
         }
-        Comments()
+        CommentsScreen()
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center

@@ -42,7 +42,8 @@ import com.example.myapplication.ui.theme.primaryLight
 
 
 @Composable
-fun VistaObras(
+fun VistaObrasScreen(
+    obra: Obra,
     modifier: Modifier = Modifier
 ){
     Column(
@@ -50,7 +51,7 @@ fun VistaObras(
             .fillMaxSize(),
         ){
         PostCard(
-            obra = ProveedorObras.obras[1]
+            obra = obra
         )
     }
 }
@@ -155,7 +156,7 @@ fun PostCard(
 @Composable
 @Preview(showBackground = true)
 fun PostCardPreview() {
-    VistaObras()
+    VistaObrasScreen(ProveedorObras.obras[1])
 }
 
 @Composable

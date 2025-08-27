@@ -10,5 +10,10 @@ data class Artista(
     val usuario: String,
     val edad: Int,
     val profesion: String,
-    val biografia: String
+    val biografia: String,
+    val seguidores: Int,
+    val siguiendo: Int,
+    val likes: Int,
+    val obras: List<Obra>,
+    val interses: List<String>
 )
