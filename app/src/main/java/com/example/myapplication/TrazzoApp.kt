@@ -23,8 +23,8 @@ fun TrazzoApp() {
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
 
-    val ShowBottom = currentRoute == Rutas.Subir.ruta
-    val ShowAll = currentRoute == Rutas.Guardadas.ruta || currentRoute == Rutas.Trending.ruta
+    val ShowBottom = currentRoute == Rutas.Subir.ruta || currentRoute == Rutas.Login.ruta || currentRoute == Rutas.Register.ruta || currentRoute == Rutas.Home.ruta
+    val ShowAll = currentRoute == Rutas.Perfil.ruta || currentRoute == Rutas.Subir.ruta || currentRoute == Rutas.Login.ruta || currentRoute == Rutas.Register.ruta || currentRoute == Rutas.Home.ruta
     Scaffold(
             bottomBar = {
                 if (!ShowBottom) {
@@ -32,7 +32,7 @@ fun TrazzoApp() {
                 }
             },
             topBar = {
-                 if (ShowAll){
+                 if (!ShowAll) {
                     TopNavigationBar()
                 }
             }

@@ -43,8 +43,7 @@ fun PrincipalScreen(
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            //Barra superior
-            TopBarPrincipal()
+
             Spacer(modifier = Modifier.height(8.dp))
 
             //Barra divisora
