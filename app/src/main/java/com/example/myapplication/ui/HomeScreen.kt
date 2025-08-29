@@ -29,6 +29,7 @@ import com.example.myapplication.R
 import com.example.myapplication.ui.utils.AddButton
 import com.example.myapplication.ui.utils.LogoTrazzo
 
+//Mensaje de bienvenida
 @Composable
 fun MensajeBienvenida(
     nombre: String,
@@ -38,11 +39,10 @@ fun MensajeBienvenida(
         text = stringResource(R.string.bienvenido_a)+" "+nombre,
         fontSize = 20.sp, // sp (para texto) y dp
         fontWeight = FontWeight.Bold,
-        color = colorResource(id = R.color.gris_texto_principal),
         modifier = modifier
         )
 }
-
+//Para pintar el logo
 @Composable
 fun ExternalLogo(
     idImagen: Int,
@@ -59,11 +59,10 @@ fun ExternalLogo(
     )
 }
 
-// Contenedores Row, Column, Box
+// Body del home Screen
 @Composable
 fun BodyHomeScreen(
-    loginButtonPressed: () -> Unit = {},
-    registerButtonPressed: () -> Unit = {},
+    viewmodel: HomeViewModel,
     modifier: Modifier = Modifier
 ){
     Column (
@@ -74,8 +73,8 @@ fun BodyHomeScreen(
         LogoTrazzo()
         MensajeBienvenida(stringResource(R.string.trazzo))
         Spacer(modifier = Modifier.height(23.dp))
-        AddButton(stringResource(R.string.iniciar_sesion),onClick = loginButtonPressed)
-        AddButton(stringResource(R.string.registrarse), onClick = registerButtonPressed)
+        AddButton(stringResource(R.string.iniciar_sesion),onClick = {viewmodel.loginButtonPressed()})
+        AddButton(stringResource(R.string.registrarse), onClick = {viewmodel.registerButtonPressed()})
         Row {
             ExternalLogo(idImagen = R.drawable.google_logo, description = "Google")
             ExternalLogo(idImagen = R.drawable.facebook_logo, description = "Facebook")
@@ -84,11 +83,10 @@ fun BodyHomeScreen(
         }
     }
 }
-
+//Pantalla final Home
 @Composable
 fun HomeScreen(
-    loginButtonPressed: () -> Unit = {},
-    registerButtonPressed: () -> Unit = {},
+    viewmodel: HomeViewModel,
     modifier: Modifier = Modifier
 ){
     Column (
@@ -96,18 +94,11 @@ fun HomeScreen(
         modifier = modifier.fillMaxSize()
     ){
         Spacer(modifier = Modifier.weight(1f))
-        BodyHomeScreen(loginButtonPressed = loginButtonPressed,
-        registerButtonPressed = registerButtonPressed)
+        BodyHomeScreen(viewmodel)
         Spacer(modifier = Modifier.weight(1f))
         Text(
-            text = stringResource(R.string.todos_los_derechos_reservados),
-            color = colorResource(id = R.color.gris_texto_secundario)
+            text = stringResource(R.string.todos_los_derechos_reservados)
         )
     }
 }
 
-@Composable
-@Preview(showBackground = true)
-fun HomeScreenPreview(){
-    HomeScreen()
-}

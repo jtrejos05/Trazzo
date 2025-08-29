@@ -17,9 +17,10 @@ import androidx.compose.ui.unit.sp
 import com.example.myapplication.R
 @Composable
 fun BuscarScreen(
-    textoBusqueda: String,
-    onTextoBusquedaChange: (String) -> Unit
+    viewmodel: BuscarViewModel,
+    modifier: Modifier = Modifier
 ) {
+    val state by viewmodel.uiState.collectAsState()
     val categoriasTop = listOf(
         stringResource(R.string.categoria_inicio),
         stringResource(R.string.dise_o_digital),
@@ -50,7 +51,7 @@ fun BuscarScreen(
     )
 
     LazyColumn(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -58,8 +59,8 @@ fun BuscarScreen(
         // Barra de búsqueda
         item {
             TextField(
-                value = textoBusqueda,
-                onValueChange = onTextoBusquedaChange,
+                value = state.texto,
+                onValueChange = {viewmodel.updateTexto(it)},
                 placeholder = { Text(stringResource(R.string.buscar_inspiraci_n_art_stica)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
@@ -167,16 +168,7 @@ fun BuscarScreen(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun BuscarScreenPreview() {
-    var texto by remember { mutableStateOf("") }
 
-    BuscarScreen(
-        textoBusqueda = texto,
-        onTextoBusquedaChange = { texto = it }
-    )
-}
 
 
 

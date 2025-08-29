@@ -6,6 +6,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.TurnLeft
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,7 +45,7 @@ fun Comment(
                 Username(username = username, modifier = Modifier.padding(end = 5.dp))
                 Text(
                     text = hora,
-                    color = MaterialTheme.colorScheme.outline,
+                    color = MaterialTheme.colorScheme.primary,
                     fontSize = MaterialTheme.typography.bodySmall.fontSize
                 )
             }
@@ -52,17 +56,19 @@ fun Comment(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
             ){
-                Image(
-                    painter = painterResource(id = R.drawable.favorite),
-                    contentDescription = "Likes Image"
+                Icon(
+                    imageVector = Icons.Default.Favorite,
+                    contentDescription = "Like Icon",
+                    tint = MaterialTheme.colorScheme.primary
                 )
                 Text(
                     text = likes,
                     modifier = Modifier.padding(end = 40.dp)
                 )
-                Image(
-                    painter = painterResource(id = R.drawable.top_left_arrow),
-                    contentDescription = "Respond Image"
+                Icon(
+                    imageVector = Icons.Default.TurnLeft,
+                    contentDescription = "Reply Icon",
+                    tint = MaterialTheme.colorScheme.primary
                 )
                 Text(
                     text = "Responder",

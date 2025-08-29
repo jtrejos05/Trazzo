@@ -22,6 +22,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Divider
+import androidx.compose.material3.DividerDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
@@ -33,12 +35,12 @@ import com.example.myapplication.data.local.ProveedorObras
 fun PrincipalScreen(
     obras: List<Obra>,
     nombreUsuario: String,
+    viewmodel: PrincipalViewModel,
     modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.white))
     ) {
         Column(
             modifier = Modifier.fillMaxSize()
@@ -47,10 +49,10 @@ fun PrincipalScreen(
             Spacer(modifier = Modifier.height(8.dp))
 
             //Barra divisora
-            Divider(
-                color = Color.LightGray,
+            HorizontalDivider(
+                modifier = Modifier.padding(bottom = 10.dp),
                 thickness = 1.dp,
-                modifier = Modifier.padding(bottom = 10.dp)
+                color = DividerDefaults.color
             )
 
             //Saludo
@@ -82,36 +84,14 @@ fun PrincipalScreen(
                 modifier = Modifier.padding(horizontal = 16.dp)
             ) {
                 items(obras) { obra ->
-                    TarjetaPublicacion(obra)
+                    TarjetaPublicacion(obra, { viewmodel.ObraPressed(obra.obraId) } )
                 }
             }
-        }
-
-        // Boton abajo a la derecha
-        androidx.compose.material3.FloatingActionButton(
-            onClick = { /* Acción cuando se presiona */ },
-            containerColor = colorResource(id = R.color.verde_principal), // Verde
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(16.dp)
-        ) {
-            androidx.compose.material3.Icon(
-                imageVector = androidx.compose.material.icons.Icons.Default.Add,
-                contentDescription = "Agregar",
-                tint = colorResource(id = R.color.white)
-            )
         }
     }
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun PrincipalScreenPreview() {
-    PrincipalScreen(
-        obras = ProveedorObras.obras,
-        nombreUsuario = "tomi2"
-    )
-}
+
 
 

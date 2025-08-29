@@ -56,6 +56,8 @@ dependencies {
     implementation(libs.androidx.foundation)
     implementation("androidx.compose.material:material-icons-extended:1.6.8")
     implementation(libs.androidx.navigation.runtime.ktx)
+    implementation("androidx.compose.runtime:runtime-livedata:1.8.3")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

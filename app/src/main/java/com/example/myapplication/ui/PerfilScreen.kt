@@ -51,6 +51,7 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -82,6 +83,8 @@ import com.example.myapplication.ui.utils.BotonInteres
 import kotlin.Int
 import kotlin.String
 
+
+//TopBar unico de pantalla de Perfil
 @Composable
 fun TopBarProfile(
     username: String,
@@ -93,7 +96,6 @@ fun TopBarProfile(
         modifier = modifier
             .fillMaxWidth()
             .height(56.dp)
-            .background(Color.White)
             .padding(horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
@@ -103,7 +105,7 @@ fun TopBarProfile(
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                 contentDescription = "Volver",
-                tint = Color.Black
+                tint = MaterialTheme.colorScheme.primary
             )
         }
 
@@ -113,7 +115,6 @@ fun TopBarProfile(
             text = username,
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
-            color = Color.Black,
             modifier = Modifier.weight(1f),
             textAlign = TextAlign.Center
         )
@@ -123,7 +124,7 @@ fun TopBarProfile(
             Icon(
                 imageVector = Icons.Default.Edit,
                 contentDescription = "Editar Perfil",
-                tint = Color.Black
+                tint = MaterialTheme.colorScheme.primary
             )
         }
     }
@@ -137,6 +138,7 @@ fun PreviewTopBarProfile() {
         onEditClick = { /* TODO */ }
     )
 }
+//Para mostrar los numeros del Perfil
 @Composable
 fun PerfilStat(valor: Int, label: String,
                modifier: Modifier = Modifier){
@@ -152,6 +154,7 @@ fun PerfilStat(valor: Int, label: String,
     }
 
 }
+//Para mostrar los tags de profesion, y intereses artisticos
 @Composable
 fun Tags(artista: Artista,guardadoPressed: () -> Unit = {},
          modifier: Modifier = Modifier) {
@@ -160,7 +163,7 @@ fun Tags(artista: Artista,guardadoPressed: () -> Unit = {},
             horizontalArrangement = Arrangement.Start) {
             Text(artista.profesion,
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
                 modifier = Modifier
                     .clip(RoundedCornerShape(8.dp))
                     .padding(start = 10.dp)
@@ -191,6 +194,7 @@ fun Tags(artista: Artista,guardadoPressed: () -> Unit = {},
 
     }
 }
+//Para mostrar Tosa la cabecera del Perfil
 @Composable
 fun ProfileHeader(
     artista: Artista,
@@ -266,6 +270,7 @@ fun PreviewProfileHeader() {
         )
     )
 }
+//Para crear parte de el boton que lleva a donde se guardan los post
 @Composable
 fun guardados(guardadoPressed: () -> Unit = {},modifier: Modifier= Modifier) {
     Row(modifier = modifier.clickable(onClick = guardadoPressed),
@@ -289,7 +294,7 @@ fun guardados(guardadoPressed: () -> Unit = {},modifier: Modifier= Modifier) {
     }
 
 }
-
+//Para la creacion de las tabs dentro de perfil
 @Composable
 fun TabsSection(
     selectedTab: Int,
@@ -333,6 +338,7 @@ fun PreviewTabsSection() {
     )
 }
 
+//Tab que muestra las obras del usuario
 @Composable
 fun ObrasList(obras: List<Obra>,
               ObraPressed: (Int) -> Unit = {},
@@ -343,7 +349,7 @@ fun ObrasList(obras: List<Obra>,
         }
     }
 }
-
+//Para crear los Elementos que se ven en las obras como likes y compartidos
 @Composable
 fun Elementos(painter: ImageVector, descripcion: String, texto: String, modifier: Modifier = Modifier) {
     Row(
@@ -368,7 +374,7 @@ fun Elementos(painter: ImageVector, descripcion: String, texto: String, modifier
 
 
 }
-
+//Para la presentacion de las obras
 @Composable
 fun PostItem(post: Obra, ObraPressed: (Int) -> Unit, modifier: Modifier = Modifier) {
     Card(
@@ -408,6 +414,7 @@ fun PreviewObrasList() {
     ObrasList(ProveedorObras.obras)
 
 }
+//Tab con la actividad reciente del usuario
 @Composable
 fun ActividadTabContent(actividades: List<ActividadItem>) {
     LazyColumn(modifier = Modifier.fillMaxSize()) {
@@ -444,6 +451,7 @@ fun ActividadTabContent(actividades: List<ActividadItem>) {
         }
     }
 }
+//Tab con las notificaciones que le llegan al usuario
 
 @Composable
 fun NotificacionesTabContent(notificaciones: List<NotificacionItem>) {
@@ -487,7 +495,7 @@ fun NotificacionesTabContent(notificaciones: List<NotificacionItem>) {
         }
     }
 }
-
+//Tab que muestra estadisticas del usuario
 @Composable
 fun StatsTabContent(usuario: Artista) {
     LazyColumn(modifier = Modifier.fillMaxSize()) {
@@ -506,8 +514,7 @@ fun StatsTabContent(usuario: Artista) {
         // Crecimiento
         item {
             Card(
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(containerColor = Color(0xFFF1F8E9))
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Column(Modifier.padding(16.dp)) {
                     Text("Crecimiento de Seguidores", style = MaterialTheme.typography.titleMedium)
@@ -522,8 +529,7 @@ fun StatsTabContent(usuario: Artista) {
         // 🔹 Obras más populares en tarjeta
         item {
             Card(
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(containerColor = Color(0xFFE3F2FD))
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Column(Modifier.padding(16.dp)) {
                     Text("Obras más populares", style = MaterialTheme.typography.titleMedium)
@@ -537,6 +543,7 @@ fun StatsTabContent(usuario: Artista) {
         }
     }
 }
+//Para la muestra de las obras mas populares
 @Composable
 fun PopularItem(rango: Int, titulo: String, likes: String, views: String) {
     Row(
@@ -559,7 +566,7 @@ fun PopularItem(rango: Int, titulo: String, likes: String, views: String) {
 
 
 
-
+//para las cards que se muestra en el ultimo Tab
 @Composable
 fun MetricCard(title: String, value: String, subtitle: String, icon: ImageVector, color: Color, modifier: Modifier= Modifier) {
     Card(
@@ -573,15 +580,14 @@ fun MetricCard(title: String, value: String, subtitle: String, icon: ImageVector
         }
     }
 }
+//Pantalla final Perfil
 @Composable
-fun PerfilScreen(usuario: Artista,
+fun PerfilScreen(viewmodel: PerfilViewModel,usuario: Artista,
                   actividades: List<ActividadItem>,
                   notificaciones: List<NotificacionItem>,
-                  guardadoPressed: () -> Unit = {},
-                  ObraPressed: (Int) -> Unit = {},
                   modifier: Modifier = Modifier) {
-    var selectedTab by remember { mutableStateOf(0) }
 
+    val state by viewmodel.uiState.collectAsState()
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -590,22 +596,22 @@ fun PerfilScreen(usuario: Artista,
         TopBarProfile(
             username = usuario.usuario,
             onBackClick = { /* TODO navegación atrás */ },
-            onEditClick = { /* TODO editar perfil */ }
+            onEditClick = {viewmodel.EditarPressed()}
         )
         Spacer(modifier = Modifier.height(8.dp))
 
         // Cabecera
-        ProfileHeader( usuario, guardadoPressed)
+        ProfileHeader( usuario, {viewmodel.guardadoPressed()})
 
         // Tabs con íconos
         TabsSection(
-            selectedTab = selectedTab,
-            onTabSelected = { selectedTab = it }
+            selectedTab = state.selectedTab,
+            onTabSelected = { viewmodel.updateSelectedTab(it) }
         )
 
         // Contenido según el tab seleccionado
-        when (selectedTab) {
-            0 -> ObrasList(usuario.obras, ObraPressed) // Tab "Obras"
+        when (state.selectedTab) {
+            0 -> ObrasList(usuario.obras, {viewmodel.ObraPressed(it)}) // Tab "Obras"
             1 -> ActividadTabContent(actividades) // Tab "Actividad"
             2 -> NotificacionesTabContent(notificaciones) // Tab "Notificaciones"
             3 -> StatsTabContent(usuario) // Tab "Stats"
@@ -613,25 +619,7 @@ fun PerfilScreen(usuario: Artista,
     }
 }
 
-@Composable
-@Preview(showBackground = true)
-fun PreviewProfileScreen() {
-    val artista = Artista(
-        img = R.drawable.maria_foto,
-        correo = "Correo@gmail.com",
-        contrasena = "123456",
-        usuario = "Maria",
-        edad = 20,
-        profesion = "Artista",
-        biografia = "Me encanta el arte y la pintura.",
-        seguidores = 13,
-        siguiendo = 1,
-        likes = 20,
-        obras = ProveedorObras.obras,
-        interses = listOf("Pintura", "Escultura", "Fotografía")
-    )
-    PerfilScreen(usuario = artista, ProveedorActividad.actividades, ProveedorNotificaciones.notificaciones)
-}
+
 
 
 
