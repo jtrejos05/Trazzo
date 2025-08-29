@@ -48,6 +48,7 @@ import com.example.myapplication.ui.CommentsScreen
 import com.example.myapplication.ui.HomeScreen
 import com.example.myapplication.ui.InicioSesionScreen
 import com.example.myapplication.ui.PerfilScreen
+import com.example.myapplication.ui.PrincipalScreen
 import com.example.myapplication.ui.PublicacionesGuardadasScreen
 import com.example.myapplication.ui.RegisterScreen
 import com.example.myapplication.ui.SubirObraScreen
@@ -72,6 +73,7 @@ sealed class Rutas(
     object Guardadas : Rutas("guardadas")
     object Trending : Rutas("trending")
     object Barra: Rutas("barra")
+    object Principal: Rutas("principal")
 }
 @Composable
 fun AppNavigation(navControler: NavHostController,
@@ -81,8 +83,11 @@ fun AppNavigation(navControler: NavHostController,
             HomeScreen({ navControler.navigate(Rutas.Login.ruta) },
                 { navControler.navigate(Rutas.Register.ruta) })
         }
+        composable(Rutas.Principal.ruta) {
+            PrincipalScreen(ProveedorObras.obras, "Usuario", )
+        }
         composable(Rutas.Login.ruta) {
-            InicioSesionScreen({ navControler.navigate(Rutas.Perfil.ruta){
+            InicioSesionScreen({ navControler.navigate(Rutas.Principal.ruta){
                 popUpTo(0){inclusive=true}
             } }, { navControler.navigate(Rutas.Register.ruta) })
         }
