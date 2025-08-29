@@ -2,6 +2,7 @@ package com.example.myapplication.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+// Definicion de colores en modo claro
 val primaryLight = Color(0xFF006C4A)
 val onPrimaryLight = Color(0xFFFFFFFF)
 val primaryContainerLight = Color(0xFF00C389)
@@ -38,7 +39,7 @@ val surfaceContainerLight = Color(0xFFF1EDEC)
 val surfaceContainerHighLight = Color(0xFFEBE7E7)
 val surfaceContainerHighestLight = Color(0xFFE5E2E1)
 
-
+// Definicion de colores en modo oscuro
 val primaryDark = Color(0xFF41DFA3)
 val onPrimaryDark = Color(0xFF003825)
 val primaryContainerDark = Color(0xFF00C389)

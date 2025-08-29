@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.Whatshot
 import androidx.compose.ui.graphics.Color
 import com.example.myapplication.data.ActividadItem
 
+// Este objeto contiene la lista de todas las actividades de prueba del aplicativo
 object ProveedorActividad {
     val actividades = listOf(
         ActividadItem(

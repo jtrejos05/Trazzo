@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.R
 
@@ -30,14 +31,16 @@ fun Comment(
         verticalAlignment = Alignment.Top,
         modifier = modifier.padding(bottom = 20.dp)
     ){
+        // Imagen de perfil
         UserProfileImage(idImage = idPerfil, modifier = Modifier.padding(end = 10.dp))
+
         Column(){
             Row(
                 modifier = Modifier.padding(bottom = 5.dp),
                 verticalAlignment = Alignment.Bottom,
                 horizontalArrangement = Arrangement.Center
-
             ){
+                // Nombre de usuario y hora
                 Username(username = username, modifier = Modifier.padding(end = 5.dp))
                 Text(
                     text = hora,
@@ -45,6 +48,7 @@ fun Comment(
                     fontSize = MaterialTheme.typography.bodySmall.fontSize
                 )
             }
+            // Comentario en si
             Text(
                 comentario,
                 modifier = Modifier.padding(bottom = 10.dp)
@@ -52,6 +56,7 @@ fun Comment(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
             ){
+                // Botones de like y responder
                 Image(
                     painter = painterResource(id = R.drawable.favorite),
                     contentDescription = "Likes Image"
@@ -65,7 +70,7 @@ fun Comment(
                     contentDescription = "Respond Image"
                 )
                 Text(
-                    text = "Responder",
+                    text = stringResource(R.string.responder),
                 )
             }
         }

@@ -4,20 +4,22 @@ import androidx.compose.ui.geometry.Offset
 import com.example.myapplication.R
 import com.example.myapplication.data.Obra
 
+// Este objeto contiene una lista de obras de prueba para las publicaciones
 object ProveedorObras {
-    val obras = listOf(Obra(
-        fotous = R.drawable.juanito_foto,
-        usuario = "JuanitoArt",
-        hora = "2h",
-        titulo = "Pintura clasica",
-        descripcion = "Tutorial para recrear una pintura famosa.",
-        Tags = listOf("Pintura", "Tutorial"),
-        foto = R.drawable.obra1,
-        likes = "325",
-        comentarios = "12",
-        compartidos = "3",
-        vistas = "1000",
-        obraId  = 1
+    val obras = listOf(
+        Obra(
+            fotous = R.drawable.juanito_foto,
+            usuario = "JuanitoArt",
+            hora = "2h",
+            titulo = "Pintura clasica",
+            descripcion = "Tutorial para recrear una pintura famosa.",
+            Tags = listOf("Pintura", "Tutorial"),
+            foto = R.drawable.obra1,
+            likes = "325",
+            comentarios = "12",
+            compartidos = "3",
+            vistas = "1000",
+            obraId  = 1
     ),
         Obra(
             fotous = R.drawable.maria_foto,

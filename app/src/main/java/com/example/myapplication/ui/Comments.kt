@@ -22,6 +22,7 @@ import com.example.myapplication.ui.utils.Comment
 import com.example.myapplication.ui.utils.UserProfileImage
 import com.example.myapplication.ui.utils.Username
 
+// Pantalla dedicada a los comentarios
 @Composable
 fun CommentsScreen(
     modifier: Modifier = Modifier,
@@ -31,6 +32,7 @@ fun CommentsScreen(
         verticalArrangement = Arrangement.Top,
         modifier = modifier
     ) {
+        // Muestra en una columna los comentarios
         items(ProveedorComentarios.comentarios.size) {
             Comment(
                 hora = ProveedorComentarios.comentarios[it].hora,

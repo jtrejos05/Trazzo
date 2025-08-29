@@ -56,6 +56,9 @@ fun VistaObrasScreen(
     }
 }
 
+// Composable de tarjeta de publicación, que se mostrara cada vez
+// que el usuario seleccione una obra
+
 @Composable
 fun PostCard(
     obra: Obra
@@ -66,7 +69,7 @@ fun PostCard(
             .background(Color.White)
             .padding(12.dp)
     ) {
-        // Encabezado
+        // Encabezado de la publicacion
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
@@ -149,7 +152,9 @@ fun PostCard(
             )
         }
         Spacer(modifier = Modifier.height(10.dp))
-        InterfazExternaComentarios(cantidad = ProveedorComentarios.comentarios.size)
+
+        // Comentarios
+        Interfaz(cantidad = ProveedorComentarios.comentarios.size)
     }
 }
 
@@ -159,6 +164,7 @@ fun PostCardPreview() {
     VistaObrasScreen(ProveedorObras.obras[1])
 }
 
+// Composable para mostrar una reaccion (likes, comentarios, reposts) en la tarjeta de publicacion
 @Composable
 fun ReactionItem(iconRes: Int, count: String) {
     Row(verticalAlignment = Alignment.CenterVertically) {

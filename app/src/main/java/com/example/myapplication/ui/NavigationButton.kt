@@ -43,6 +43,7 @@ import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.theme.primaryLight
 
 
+// Composable para el botón de navegación
 @Composable
 fun NavigationButton(
     text: String,
@@ -50,24 +51,27 @@ fun NavigationButton(
     selected: Boolean,
     onClick: () -> Unit = {}
 ) {
+    // Se crear una columna para contener el icono y el texto del botón
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .clickable { onClick() }
             .padding(8.dp)
     ) {
+        // Se crea un icono con el vector de imagen proporcionado
         Icon(
             imageVector = icon,
             contentDescription = text,
-            tint = if (selected) MaterialTheme.colorScheme.primary else Color.Gray,
+            tint = if (selected) MaterialTheme.colorScheme.primary else Color.Gray, // Se cambia el color del icono si está seleccionado
             modifier = Modifier.size(24.dp)
         )
+        // Se crea un texto con el texto proporcionado
         Text(
             text = text,
             style = MaterialTheme.typography.bodySmall.copy(
-                fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal
+                fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal // Se cambia el estilo del texto si está seleccionado
             ),
-            color = if (selected) MaterialTheme.colorScheme.primary else Color.Gray
+            color = if (selected) MaterialTheme.colorScheme.primary else Color.Gray // Se cambia el color del texto si está seleccionado
         )
     }
 }

@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Update
 import com.example.myapplication.data.NotificacionItem
 
+// Este objeto contiene la lista de notificaciones de prueba del aplicativo
 object ProveedorNotificaciones {
     val notificaciones = listOf(
         NotificacionItem(

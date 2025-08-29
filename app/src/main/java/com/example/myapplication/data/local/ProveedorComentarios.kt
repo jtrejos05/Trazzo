@@ -3,6 +3,7 @@ package com.example.myapplication.data.local
 import com.example.myapplication.R
 import com.example.myapplication.data.Comentario
 
+// Este objeto contiene una lista de comentarios de prueba para las publicaciones
 object ProveedorComentarios {
     val comentarios = listOf(
         Comentario(

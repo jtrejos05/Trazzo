@@ -14,6 +14,7 @@ import androidx.compose.material.icons.outlined.Whatshot
 import com.example.myapplication.data.BotonDeNavegacion
 import com.example.myapplication.navigation.Rutas
 
+// Este objeto contiene todos los botones de la barra de navegación con las que contara la aplicacion
 object ProveedorBotonesDeNavegacion {
     val botones = listOf(
         BotonDeNavegacion(

@@ -55,7 +55,6 @@ import com.example.myapplication.ui.SubirObraScreen
 import com.example.myapplication.ui.VistaObrasScreen
 import com.example.myapplication.ui.utils.LogoTrazzo
 
-
 sealed class Rutas(
     val ruta: String
     ) {
