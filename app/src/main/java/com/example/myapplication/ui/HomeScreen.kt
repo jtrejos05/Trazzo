@@ -70,11 +70,22 @@ fun BodyHomeScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
+        // Logo de Trazzo
         LogoTrazzo()
+
         MensajeBienvenida(stringResource(R.string.trazzo))
         Spacer(modifier = Modifier.height(23.dp))
-        AddButton(stringResource(R.string.iniciar_sesion),onClick = {viewmodel.loginButtonPressed()})
-        AddButton(stringResource(R.string.registrarse), onClick = {viewmodel.registerButtonPressed()})
+        AddButton(
+            stringResource(R.string.iniciar_sesion),
+            onClick = {viewmodel.loginButtonPressed()},
+            modifier = Modifier.width(200.dp)
+        )
+        AddButton(
+            stringResource(R.string.registrarse),
+            onClick = {viewmodel.registerButtonPressed()},
+            modifier = Modifier.width(200.dp),
+        )
+
         Row {
             ExternalLogo(idImagen = R.drawable.google_logo, description = "Google")
             ExternalLogo(idImagen = R.drawable.facebook_logo, description = "Facebook")
@@ -101,4 +112,5 @@ fun HomeScreen(
         )
     }
 }
+
 

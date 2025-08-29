@@ -10,7 +10,6 @@ import androidx.navigation.compose.rememberNavController
 import coil.transition.Transition
 import com.example.myapplication.navigation.AppNavigation
 import com.example.myapplication.navigation.BottomNavigationBar
-import com.example.myapplication.navigation.NavigationBar
 import com.example.myapplication.navigation.Rutas
 import com.example.myapplication.navigation.TopNavigationBar
 import com.example.myapplication.ui.HomeScreen

@@ -68,6 +68,8 @@ import com.example.myapplication.ui.RegisterScreen
 import com.example.myapplication.ui.RegisterViewModel
 import com.example.myapplication.ui.SubirObraScreen
 import com.example.myapplication.ui.SubirObraViewModel
+import com.example.myapplication.ui.TrendingScreen
+import com.example.myapplication.ui.TrendingViewModel
 import com.example.myapplication.ui.VistaObrasScreen
 import com.example.myapplication.ui.utils.LogoTrazzo
 
@@ -211,7 +213,14 @@ fun AppNavigation(navControler: NavHostController,
         }
         //Navegacion Pantalla Trending
         composable(Rutas.Trending.ruta) {
-            Text("Pantalla de Tendencias")
+            val viewmodel: TrendingViewModel=viewModel ()
+            val state by viewmodel.uiState.collectAsState()
+
+            if (state.navegar){
+                navControler.navigateSingleTopTo(Rutas.Detalle.createRoute(state.obra))
+                viewmodel.resetFlag()
+            }
+            TrendingScreen(ProveedorObras.obras, viewmodel)
         }
         //Navegacion Pantalla Editar Perfil
         composable(Rutas.EditarPerfil.ruta) {
