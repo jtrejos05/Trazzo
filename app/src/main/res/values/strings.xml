@@ -34,7 +34,7 @@
     <string name="crear_cuenta_nueva">Crear cuenta nueva</string>
     <string name="al_iniciar_sesion_aceptas_nuestros_terminos_de_servicio_y_politica_de_privacidad">Al iniciar sesion, aceptas nuestros Terminos de Servicio y Politica de Privacidad</string>
     <string name="todos_los_derechos_reservados">Todos los derechos reservados</string>
-    <string name="registrarse">registrarse</string>
+    <string name="registrarse">Registrarse</string>
     <string name="icono_profesion">Icono Profesion</string>
     <string name="recordarme">Recordarme</string>
     <string name="olvidaste_tu_contrase_a">¿Olvidaste tu contraseña?</string>
@@ -61,7 +61,7 @@
     <string name="categoria_origami">Origami</string>
     <string name="categoria_guardados">Guardados</string>
     <string name="buscar_inspiraci_n_art_stica">Buscar inspiración artística...</string>
-
+    <string name="busca_inspiracion_artistica">Busca Inspiracion Artistica</string>
 
 
 </resources>
