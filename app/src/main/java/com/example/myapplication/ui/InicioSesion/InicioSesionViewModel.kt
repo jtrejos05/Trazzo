@@ -1,9 +1,5 @@
-package com.example.myapplication.ui
+package com.example.myapplication.ui.InicioSesion
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,7 +15,6 @@ class InicioSesionViewModel: ViewModel() {
     //Funcion para resetear las flags y evitar dobles llamados
     fun resetFlag(){
         _uiState.update { it.copy(navegar = false) }
-        _uiState.update { it.copy(navegarRegister = false) }
 
     }
     //funciones pra cuando se oprimen botones
@@ -34,10 +29,6 @@ class InicioSesionViewModel: ViewModel() {
                 _uiState.update { it.copy(navegar = true) }
             }
         }
-    }
-    fun registerButtonPressed(){
-        _uiState.update { it.copy(navegarRegister = true) }
-
     }
     //Funciones para actualizaciones de campos de texto
     fun updateCorreo(nuevoCorreo: String) {

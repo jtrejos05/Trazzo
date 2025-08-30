@@ -1,8 +1,7 @@
-package com.example.myapplication.ui
+package com.example.myapplication.ui.Register
 
 
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -27,9 +26,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -39,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.R
+import com.example.myapplication.ui.Register.RegisterViewModel
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.utils.Bienvenida
 import com.example.myapplication.ui.utils.BotonInteres
@@ -282,6 +279,7 @@ fun BodyCrearCuenta(correo: String,
 //La pantalla de registro final
 @Composable
 fun RegisterScreen(viewModel: RegisterViewModel,
+                   registerButtonPressed: () -> Unit = {},
                    modifier: Modifier = Modifier){
     val state by viewModel.uiState.collectAsState()
     Column(
@@ -295,7 +293,7 @@ fun RegisterScreen(viewModel: RegisterViewModel,
             onUsuarioChange = {viewModel.updateUsuario(it)},
             onEdadChange = {viewModel.updateEdad(it)},
             onProfesionChange = {viewModel.updateProfesion(it)},
-            onBioChange = {viewModel.updateBio(it)},{viewModel.registerButtonPressed()})
+            onBioChange = {viewModel.updateBio(it)},{registerButtonPressed()})
 
         Spacer(modifier = Modifier.height(30.dp))
     }

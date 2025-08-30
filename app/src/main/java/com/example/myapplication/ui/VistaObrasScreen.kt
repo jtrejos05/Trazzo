@@ -48,6 +48,8 @@ import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.Comment
 import androidx.compose.material.icons.filled.ThumbUpOffAlt
 import androidx.compose.material.icons.filled.TurnRight
+import androidx.compose.runtime.LaunchedEffect
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.ui.utils.ReactionItem
 
 
@@ -56,6 +58,8 @@ fun VistaObrasScreen(
     obra: Obra,
     modifier: Modifier = Modifier
 ){
+
+
     Column(
         modifier = modifier
             .fillMaxSize(),

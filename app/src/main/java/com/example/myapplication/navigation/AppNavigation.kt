@@ -1,27 +1,18 @@
 package com.example.myapplication.navigation
 
-import android.graphics.drawable.Icon
-import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection.Companion.Start
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.SavedSearch
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -31,9 +22,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -47,29 +35,28 @@ import com.example.myapplication.R
 import com.example.myapplication.data.Artista
 import com.example.myapplication.data.local.ProveedorActividad
 import com.example.myapplication.data.local.ProveedorBotonesDeNavegacion
-import com.example.myapplication.data.local.ProveedorBotonesDeNavegacion.botones
 import com.example.myapplication.data.local.ProveedorNotificaciones
 import com.example.myapplication.data.local.ProveedorObras
 import com.example.myapplication.ui.BuscarScreen
 import com.example.myapplication.ui.BuscarViewModel
-import com.example.myapplication.ui.EditarPerfilScreen
-import com.example.myapplication.ui.EditarPerfilViewModel
+import com.example.myapplication.ui.Editar.EditarPerfilScreen
+import com.example.myapplication.ui.Editar.EditarPerfilViewModel
 import com.example.myapplication.ui.HomeScreen
 import com.example.myapplication.ui.HomeViewModel
-import com.example.myapplication.ui.InicioSesionScreen
-import com.example.myapplication.ui.InicioSesionViewModel
-import com.example.myapplication.ui.PerfilScreen
-import com.example.myapplication.ui.PerfilViewModel
+import com.example.myapplication.ui.InicioSesion.InicioSesionScreen
+import com.example.myapplication.ui.InicioSesion.InicioSesionViewModel
+import com.example.myapplication.ui.Perfil.PerfilScreen
+import com.example.myapplication.ui.Perfil.PerfilViewModel
 import com.example.myapplication.ui.PrincipalScreen
 import com.example.myapplication.ui.PrincipalViewModel
 import com.example.myapplication.ui.PublicacionesGuardadasScreen
 import com.example.myapplication.ui.PublicacionesGuardadasViewModel
-import com.example.myapplication.ui.RegisterScreen
-import com.example.myapplication.ui.RegisterViewModel
-import com.example.myapplication.ui.SubirObraScreen
-import com.example.myapplication.ui.SubirObraViewModel
-import com.example.myapplication.ui.TrendingScreen
-import com.example.myapplication.ui.TrendingViewModel
+import com.example.myapplication.ui.Register.RegisterScreen
+import com.example.myapplication.ui.Register.RegisterViewModel
+import com.example.myapplication.ui.SubirObra.SubirObraScreen
+import com.example.myapplication.ui.SubirObra.SubirObraViewModel
+import com.example.myapplication.ui.Trending.TrendingScreen
+import com.example.myapplication.ui.Trending.TrendingViewModel
 import com.example.myapplication.ui.VistaObrasScreen
 import com.example.myapplication.ui.utils.LogoTrazzo
 
@@ -108,7 +95,6 @@ fun AppNavigation(navControler: NavHostController,
                 viewModel.resetFlag()
             }else if (state.navegarRegister){
                 navControler.navigateSingleTopTo(Rutas.Register.ruta)
-                viewModel.resetFlag()
             }
             HomeScreen(viewModel)
         }
@@ -116,9 +102,8 @@ fun AppNavigation(navControler: NavHostController,
         composable(Rutas.Principal.ruta) {
             val viewmodel: PrincipalViewModel = viewModel()
             val state by viewmodel.uiState.collectAsState()
-
             if (state.navegar){
-                navControler.navigateSingleTopTo(Rutas.Detalle.createRoute(state.obra))
+                navControler.navigateSingleTopTo(Rutas.Detalle.ruta)
                 viewmodel.resetFlag()
             }
             PrincipalScreen(ProveedorObras.obras, "Usuario", viewmodel)
@@ -127,35 +112,21 @@ fun AppNavigation(navControler: NavHostController,
         composable(Rutas.Login.ruta) {
             val viewmodel: InicioSesionViewModel= viewModel()
             val state by viewmodel.uiState.collectAsState()
-
-            if (state.navegar){
-                navControler.navigateSingleTopTo(Rutas.Principal.ruta)
-                viewmodel.resetFlag()
-            }else if (state.navegarRegister){
-                navControler.navigateSingleTopTo(Rutas.Register.ruta)
-                viewmodel.resetFlag()
-            }
-            InicioSesionScreen(viewmodel)
+            InicioSesionScreen(viewmodel,{ navControler.navigate(Rutas.Principal.ruta){
+                popUpTo(0){inclusive=true}
+            } }, { navControler.navigate(Rutas.Register.ruta) })
         }
         //Navegacion Registro
         composable(Rutas.Register.ruta) {
             val viewmodel: RegisterViewModel=viewModel()
             val state by viewmodel.uiState.collectAsState()
-            if (state.navegar){
-                navControler.navigateSingleTopTo(Rutas.Login.ruta)
-                viewmodel.resetFlag()
-            }
-            RegisterScreen(viewmodel)
+            RegisterScreen(viewmodel,{ navControler.navigate(Rutas.Login.ruta) })
         }
         //Navegacion pantalla Subir Obra
         composable(Rutas.Subir.ruta) {
             val viewmodel: SubirObraViewModel = viewModel()
             val state by viewmodel.uiState.collectAsState()
-            if (state.navegar){
-                navControler.navigateSingleTopTo(Rutas.Perfil.ruta)
-                viewmodel.resetFlag()
-            }
-            SubirObraScreen(viewmodel)
+            SubirObraScreen(viewmodel,{ navControler.navigate(Rutas.Perfil.ruta) })
         }
         //Navegacion Detalles de las obras
         composable("detalle/{obraId}", arguments = listOf(navArgument("obraId"){type = NavType.IntType})) { backStackEntry ->
@@ -167,33 +138,14 @@ fun AppNavigation(navControler: NavHostController,
         }
         //Navegacion Pantalla Perfil
         composable(Rutas.Perfil.ruta) {
-            val artista = Artista(
-                img = R.drawable.maria_foto,
-                correo = "Correo@gmail.com",
-                contrasena = "123456",
-                usuario = "Maria",
-                edad = 20,
-                profesion = "Artista",
-                biografia = "Me encanta el arte y la pintura.",
-                seguidores = 13,
-                siguiendo = 1,
-                likes = 20,
-                obras = ProveedorObras.obras,
-                interses = listOf("Pintura", "Escultura", "Fotografía")
-            )
             val viewmodel: PerfilViewModel = viewModel()
             val state by viewmodel.uiState.collectAsState()
-            if (state.navegar){
-                navControler.navigateSingleTopTo(Rutas.Detalle.createRoute(state.obra))
-                viewmodel.resetFlag()
-            }else if (state.guardar){
-                navControler.navigateSingleTopTo(Rutas.Guardadas.ruta)
-                viewmodel.resetFlag()
-            }else if (state.editar){
-                navControler.navigateSingleTopTo(Rutas.EditarPerfil.ruta)
-                viewmodel.resetFlag()
-            }
-            PerfilScreen(viewmodel,artista, ProveedorActividad.actividades, ProveedorNotificaciones.notificaciones)
+            PerfilScreen(viewmodel, ProveedorActividad.actividades
+                , ProveedorNotificaciones.notificaciones,
+                {navControler.navigate(
+                    Rutas.Guardadas.ruta)}
+                ,{ obraId->navControler.navigate(Rutas.Detalle.createRoute(obraId )) },
+                {navControler.navigate(Rutas.EditarPerfil.ruta)})
         }
         //Navegacion pantalla buscar
         composable(Rutas.Buscar.ruta) {
@@ -215,12 +167,7 @@ fun AppNavigation(navControler: NavHostController,
         composable(Rutas.Trending.ruta) {
             val viewmodel: TrendingViewModel=viewModel ()
             val state by viewmodel.uiState.collectAsState()
-
-            if (state.navegar){
-                navControler.navigateSingleTopTo(Rutas.Detalle.createRoute(state.obra))
-                viewmodel.resetFlag()
-            }
-            TrendingScreen(ProveedorObras.obras, viewmodel)
+            TrendingScreen( viewmodel,{ obraId->navControler.navigate(Rutas.Detalle.createRoute(obraId )) })
         }
         //Navegacion Pantalla Editar Perfil
         composable(Rutas.EditarPerfil.ruta) {

@@ -1,4 +1,4 @@
-package com.example.myapplication.ui
+package com.example.myapplication.ui.InicioSesion
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,7 +14,6 @@ import androidx.compose.material.icons.filled.MailOutline
 import androidx.compose.material.icons.filled.PersonAddAlt
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.Divider
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -32,6 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.R
+import com.example.myapplication.ui.InicioSesion.InicioSesionViewModel
 import com.example.myapplication.ui.utils.Bienvenida
 import com.example.myapplication.ui.utils.BotonIcono
 import com.example.myapplication.ui.utils.BotonInteres
@@ -151,7 +151,8 @@ fun Botones(loginButtonPressed: () -> Unit = {},
 
 //Pantalla final Inicio de sesion
 @Composable
-fun InicioSesionScreen(viewmodel: InicioSesionViewModel
+fun InicioSesionScreen(viewmodel: InicioSesionViewModel,loginButtonPressed: () -> Unit = {},
+                       registerButtonPressed: () -> Unit = {}
                        , modifier: Modifier = Modifier){
 
     val state by viewmodel.uiState.collectAsState()
@@ -179,8 +180,8 @@ fun InicioSesionScreen(viewmodel: InicioSesionViewModel
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Botones(
-                { viewmodel.loginButtonPressed() },
-                { viewmodel.registerButtonPressed() })
+                { loginButtonPressed() },
+                { registerButtonPressed() })
             Spacer(modifier.height(140.dp))
             Text(stringResource(R.string.al_iniciar_sesion_aceptas_nuestros_terminos_de_servicio_y_politica_de_privacidad))
         }

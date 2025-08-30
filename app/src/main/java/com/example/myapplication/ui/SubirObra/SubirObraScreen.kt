@@ -1,4 +1,4 @@
-package com.example.myapplication.ui
+package com.example.myapplication.ui.SubirObra
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,25 +18,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.R
+import com.example.myapplication.ui.SubirObra.SubirObraViewModel
 import com.example.myapplication.ui.utils.Bienvenida
 import com.example.myapplication.ui.utils.BotonInteres
 import com.example.myapplication.ui.utils.Form
 import com.example.myapplication.ui.utils.LogoTrazzo
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 
 //Pantalla Final Subir Obra
 @Composable
 fun SubirObraScreen(viewmodel: SubirObraViewModel,
-    modifier: Modifier = Modifier
+                    ButtonPressed: () -> Unit = {},
+                    modifier: Modifier = Modifier
 ){
     val state by viewmodel.uiState.collectAsState()
     Column(modifier=modifier.verticalScroll(rememberScrollState())) {
@@ -63,7 +60,7 @@ fun SubirObraScreen(viewmodel: SubirObraViewModel,
         //Termina el Formulario
         Text("Separa los tags con comas para ayudar a otros a encontrar tu contenido", modifier = Modifier.padding(vertical = 3.dp, horizontal = 18.dp))
         Spacer(modifier = Modifier.height(20.dp))
-        BotonesFinal({viewmodel.ButtonPressed()})
+        BotonesFinal({ButtonPressed()})
         Spacer(modifier = Modifier.height(25.dp))
     }
 

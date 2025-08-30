@@ -1,4 +1,4 @@
-package com.example.myapplication.ui
+package com.example.myapplication.ui.Register
 
 data class RegisterState(
     var correo: String="" ,
@@ -6,6 +6,5 @@ data class RegisterState(
     var usuario: String="",
     var edad: String="",
     var profesion: String="",
-    var bio: String="",
-    var navegar: Boolean=false
+    var bio: String=""
 )
