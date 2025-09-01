@@ -1,6 +1,7 @@
-package com.example.myapplication.ui
+package com.example.myapplication.ui.Home
 
 import androidx.lifecycle.ViewModel
+import com.example.myapplication.ui.Home.HomeState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 
