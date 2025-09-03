@@ -41,14 +41,16 @@ import com.example.myapplication.ui.BuscarScreen
 import com.example.myapplication.ui.BuscarViewModel
 import com.example.myapplication.ui.Editar.EditarPerfilScreen
 import com.example.myapplication.ui.Editar.EditarPerfilViewModel
-import com.example.myapplication.ui.HomeScreen
-import com.example.myapplication.ui.HomeViewModel
+import com.example.myapplication.ui.Home.HomeScreen
+import com.example.myapplication.ui.Home.HomeViewModel
+
 import com.example.myapplication.ui.InicioSesion.InicioSesionScreen
 import com.example.myapplication.ui.InicioSesion.InicioSesionViewModel
 import com.example.myapplication.ui.Perfil.PerfilScreen
 import com.example.myapplication.ui.Perfil.PerfilViewModel
-import com.example.myapplication.ui.PrincipalScreen
-import com.example.myapplication.ui.PrincipalViewModel
+import com.example.myapplication.ui.Principal.PrincipalScreen
+import com.example.myapplication.ui.Principal.PrincipalViewModel
+
 import com.example.myapplication.ui.PublicacionesGuardadasScreen
 import com.example.myapplication.ui.PublicacionesGuardadasViewModel
 import com.example.myapplication.ui.Register.RegisterScreen
@@ -88,7 +90,7 @@ fun AppNavigation(navControler: NavHostController,
     NavHost(navControler, Rutas.Home.ruta, modifier) {
         //Navegacion Home
         composable(Rutas.Home.ruta) {
-            val viewModel: HomeViewModel= viewModel()
+            val viewModel: HomeViewModel = viewModel()
             val state by viewModel.uiState.collectAsState()
             if (state.navegar){
                 navControler.navigateSingleTopTo(Rutas.Login.ruta)
