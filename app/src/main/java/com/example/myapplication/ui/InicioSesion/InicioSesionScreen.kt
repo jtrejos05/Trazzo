@@ -179,6 +179,9 @@ fun InicioSesionScreen(viewmodel: InicioSesionViewModel,
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            if (state.mostrarError){
+                Text(state.error)
+            }
             Botones(
                 { viewmodel.loginButtonPressed() },
                 { registerButtonPressed() })

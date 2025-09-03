@@ -54,6 +54,8 @@ import com.example.myapplication.ui.PublicacionesGuardadasScreen
 import com.example.myapplication.ui.PublicacionesGuardadasViewModel
 import com.example.myapplication.ui.Register.RegisterScreen
 import com.example.myapplication.ui.Register.RegisterViewModel
+import com.example.myapplication.ui.Splash.SplashScreen
+import com.example.myapplication.ui.Splash.SplashViewModel
 import com.example.myapplication.ui.SubirObra.SubirObraScreen
 import com.example.myapplication.ui.SubirObra.SubirObraViewModel
 import com.example.myapplication.ui.Trending.TrendingScreen
@@ -66,6 +68,7 @@ sealed class Rutas(
     val ruta: String
     ) {
     object Home : Rutas("home")
+    object Splash : Rutas("splash")
     object Login : Rutas("login")
     object Register : Rutas("register")
     object Subir : Rutas("subir")
@@ -86,7 +89,7 @@ sealed class Rutas(
 @Composable
 fun AppNavigation(navControler: NavHostController,
     modifier: Modifier = Modifier){
-    NavHost(navControler, Rutas.Home.ruta, modifier) {
+    NavHost(navControler, Rutas.Splash.ruta, modifier) {
         //Navegacion Home
         composable(Rutas.Home.ruta) {
             val viewModel: HomeViewModel= hiltViewModel()
@@ -115,6 +118,7 @@ fun AppNavigation(navControler: NavHostController,
             val state by viewmodel.uiState.collectAsState()
             if (state.navegar){
                 navControler.navigateSingleTopTo(Rutas.Principal.ruta)
+                viewmodel.resetFlag()
             }
             InicioSesionScreen(viewmodel, { navControler.navigate(Rutas.Register.ruta) })
         }
@@ -124,6 +128,7 @@ fun AppNavigation(navControler: NavHostController,
             val state by viewmodel.uiState.collectAsState()
             if (state.navegar){
                 navControler.navigateSingleTopTo(Rutas.Login.ruta)
+                viewmodel.resetFlag()
             }
             RegisterScreen(viewmodel)
         }
@@ -150,7 +155,7 @@ fun AppNavigation(navControler: NavHostController,
                 {navControler.navigate(
                     Rutas.Guardadas.ruta)}
                 ,{ obraId->navControler.navigate(Rutas.Detalle.createRoute(obraId )) },
-                {navControler.navigate(Rutas.EditarPerfil.ruta)})
+                {navControler.navigate(Rutas.EditarPerfil.ruta)}, {navControler.navigate(Rutas.Home.ruta)})
         }
         //Navegacion pantalla buscar
         composable(Rutas.Buscar.ruta) {
@@ -178,6 +183,23 @@ fun AppNavigation(navControler: NavHostController,
         composable(Rutas.EditarPerfil.ruta) {
             val viewmodel: EditarPerfilViewModel = hiltViewModel()
             EditarPerfilScreen(viewmodel)
+        }
+        //Navegacion Splash Screen
+        composable(Rutas.Splash.ruta){
+            val viewModel: SplashViewModel = hiltViewModel()
+            SplashScreen(
+                navigateToPrincipal = {
+                    navControler.navigate(Rutas.Principal.ruta){
+                        popUpTo(0){inclusive = true}
+                    }
+                },
+                navigateToInicio = {
+                    navControler.navigate(Rutas.Home.ruta){
+                        popUpTo(0){inclusive=true}
+                    }
+                },
+                viewModel
+            )
         }
 
 

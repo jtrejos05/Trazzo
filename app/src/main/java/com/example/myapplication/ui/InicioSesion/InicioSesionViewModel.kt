@@ -1,16 +1,21 @@
 package com.example.myapplication.ui.InicioSesion
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.myapplication.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltViewModel
-class InicioSesionViewModel @Inject constructor(): ViewModel() {
+class InicioSesionViewModel @Inject constructor(
+    private  val authRepository: AuthRepository
+): ViewModel() {
 
 
 
@@ -31,7 +36,17 @@ class InicioSesionViewModel @Inject constructor(): ViewModel() {
             if (_uiState.value.contraseña.length < 6) {
                 _uiState.update { it.copy(mostrarError = true, error = "La contraseña debe tener al menos 6 caracteres") }
             }else{
-                _uiState.update { it.copy(navegar = true) }
+                viewModelScope.launch {
+                    try {
+                        authRepository.signIn(_uiState.value.correo,_uiState.value.contraseña)
+                        _uiState.update { it.copy(navegar = true) }
+                    }catch (e: Exception){
+                        _uiState.update { it.copy(mostrarError = true) }
+                        _uiState.update { it.copy(error = "Error al iniciar sesion") }
+                    }
+                }
+
+
             }
         }
     }
