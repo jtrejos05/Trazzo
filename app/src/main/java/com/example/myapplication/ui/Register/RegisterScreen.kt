@@ -221,7 +221,9 @@ fun BotonCrearPreview(){
 }
 // el cuerpo de la pantalla de registro
 @Composable
-fun BodyCrearCuenta(correo: String,
+fun BodyCrearCuenta(mensajeError: String,
+    mostrarMensajeError: Boolean,
+    correo: String,
     contraseña:String,
     usuario:String,
     edad:String,
@@ -263,6 +265,9 @@ fun BodyCrearCuenta(correo: String,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(8.dp))
+            if (mostrarMensajeError){
+                Text(mensajeError)
+            }
             BotonCrear(registerButtonPressed)
             Spacer(modifier = Modifier.height(8.dp))
             Text(
@@ -279,7 +284,6 @@ fun BodyCrearCuenta(correo: String,
 //La pantalla de registro final
 @Composable
 fun RegisterScreen(viewModel: RegisterViewModel,
-                   registerButtonPressed: () -> Unit = {},
                    modifier: Modifier = Modifier){
     val state by viewModel.uiState.collectAsState()
     Column(
@@ -287,13 +291,13 @@ fun RegisterScreen(viewModel: RegisterViewModel,
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ){
-        BodyCrearCuenta(state.correo,state.contraseña,state.usuario,state.edad,state.profesion,state.bio,
+        BodyCrearCuenta(state.mensajeError,state.mostrarMensajeError,state.correo,state.contraseña,state.usuario,state.edad,state.profesion,state.bio,
             onCorreoChange = {viewModel.updateCorreo(it)},
             onContraseñaChange = {viewModel.updateContraseña(it)},
             onUsuarioChange = {viewModel.updateUsuario(it)},
             onEdadChange = {viewModel.updateEdad(it)},
             onProfesionChange = {viewModel.updateProfesion(it)},
-            onBioChange = {viewModel.updateBio(it)},{registerButtonPressed()})
+            onBioChange = {viewModel.updateBio(it)},{viewModel.registerButtonPressed()})
 
         Spacer(modifier = Modifier.height(30.dp))
     }

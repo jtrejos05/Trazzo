@@ -151,7 +151,7 @@ fun Botones(loginButtonPressed: () -> Unit = {},
 
 //Pantalla final Inicio de sesion
 @Composable
-fun InicioSesionScreen(viewmodel: InicioSesionViewModel,loginButtonPressed: () -> Unit = {},
+fun InicioSesionScreen(viewmodel: InicioSesionViewModel,
                        registerButtonPressed: () -> Unit = {}
                        , modifier: Modifier = Modifier){
 
@@ -180,7 +180,7 @@ fun InicioSesionScreen(viewmodel: InicioSesionViewModel,loginButtonPressed: () -
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Botones(
-                { loginButtonPressed() },
+                { viewmodel.loginButtonPressed() },
                 { registerButtonPressed() })
             Spacer(modifier.height(140.dp))
             Text(stringResource(R.string.al_iniciar_sesion_aceptas_nuestros_terminos_de_servicio_y_politica_de_privacidad))

@@ -23,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -41,14 +42,14 @@ import com.example.myapplication.ui.BuscarScreen
 import com.example.myapplication.ui.BuscarViewModel
 import com.example.myapplication.ui.Editar.EditarPerfilScreen
 import com.example.myapplication.ui.Editar.EditarPerfilViewModel
-import com.example.myapplication.ui.HomeScreen
-import com.example.myapplication.ui.HomeViewModel
+import com.example.myapplication.ui.Home.HomeScreen
+import com.example.myapplication.ui.Home.HomeViewModel
 import com.example.myapplication.ui.InicioSesion.InicioSesionScreen
 import com.example.myapplication.ui.InicioSesion.InicioSesionViewModel
 import com.example.myapplication.ui.Perfil.PerfilScreen
 import com.example.myapplication.ui.Perfil.PerfilViewModel
-import com.example.myapplication.ui.PrincipalScreen
-import com.example.myapplication.ui.PrincipalViewModel
+import com.example.myapplication.ui.Principal.PrincipalScreen
+import com.example.myapplication.ui.Principal.PrincipalViewModel
 import com.example.myapplication.ui.PublicacionesGuardadasScreen
 import com.example.myapplication.ui.PublicacionesGuardadasViewModel
 import com.example.myapplication.ui.Register.RegisterScreen
@@ -88,7 +89,7 @@ fun AppNavigation(navControler: NavHostController,
     NavHost(navControler, Rutas.Home.ruta, modifier) {
         //Navegacion Home
         composable(Rutas.Home.ruta) {
-            val viewModel: HomeViewModel= viewModel()
+            val viewModel: HomeViewModel= hiltViewModel()
             val state by viewModel.uiState.collectAsState()
             if (state.navegar){
                 navControler.navigateSingleTopTo(Rutas.Login.ruta)
@@ -100,7 +101,7 @@ fun AppNavigation(navControler: NavHostController,
         }
         //Navegacion Pagina principal
         composable(Rutas.Principal.ruta) {
-            val viewmodel: PrincipalViewModel = viewModel()
+            val viewmodel: PrincipalViewModel = hiltViewModel()
             val state by viewmodel.uiState.collectAsState()
             if (state.navegar){
                 navControler.navigateSingleTopTo(Rutas.Detalle.ruta)
@@ -110,21 +111,25 @@ fun AppNavigation(navControler: NavHostController,
         }
         //Navegacion Inicio de Sesion
         composable(Rutas.Login.ruta) {
-            val viewmodel: InicioSesionViewModel= viewModel()
+            val viewmodel: InicioSesionViewModel= hiltViewModel()
             val state by viewmodel.uiState.collectAsState()
-            InicioSesionScreen(viewmodel,{ navControler.navigate(Rutas.Principal.ruta){
-                popUpTo(0){inclusive=true}
-            } }, { navControler.navigate(Rutas.Register.ruta) })
+            if (state.navegar){
+                navControler.navigateSingleTopTo(Rutas.Principal.ruta)
+            }
+            InicioSesionScreen(viewmodel, { navControler.navigate(Rutas.Register.ruta) })
         }
         //Navegacion Registro
         composable(Rutas.Register.ruta) {
-            val viewmodel: RegisterViewModel=viewModel()
+            val viewmodel: RegisterViewModel=hiltViewModel()
             val state by viewmodel.uiState.collectAsState()
-            RegisterScreen(viewmodel,{ navControler.navigate(Rutas.Login.ruta) })
+            if (state.navegar){
+                navControler.navigateSingleTopTo(Rutas.Login.ruta)
+            }
+            RegisterScreen(viewmodel)
         }
         //Navegacion pantalla Subir Obra
         composable(Rutas.Subir.ruta) {
-            val viewmodel: SubirObraViewModel = viewModel()
+            val viewmodel: SubirObraViewModel = hiltViewModel()
             val state by viewmodel.uiState.collectAsState()
             SubirObraScreen(viewmodel,{ navControler.navigate(Rutas.Perfil.ruta) })
         }
@@ -138,7 +143,7 @@ fun AppNavigation(navControler: NavHostController,
         }
         //Navegacion Pantalla Perfil
         composable(Rutas.Perfil.ruta) {
-            val viewmodel: PerfilViewModel = viewModel()
+            val viewmodel: PerfilViewModel = hiltViewModel()
             val state by viewmodel.uiState.collectAsState()
             PerfilScreen(viewmodel, ProveedorActividad.actividades
                 , ProveedorNotificaciones.notificaciones,
@@ -149,12 +154,12 @@ fun AppNavigation(navControler: NavHostController,
         }
         //Navegacion pantalla buscar
         composable(Rutas.Buscar.ruta) {
-            val viewmodel: BuscarViewModel = viewModel()
+            val viewmodel: BuscarViewModel = hiltViewModel()
             BuscarScreen(viewmodel)
         }
         //Navegacion Pantalla Guardados
         composable(Rutas.Guardadas.ruta) {
-            val viewmodel: PublicacionesGuardadasViewModel = viewModel()
+            val viewmodel: PublicacionesGuardadasViewModel = hiltViewModel()
             val state by viewmodel.uiState.collectAsState()
 
             if (state.navegar){
@@ -171,7 +176,7 @@ fun AppNavigation(navControler: NavHostController,
         }
         //Navegacion Pantalla Editar Perfil
         composable(Rutas.EditarPerfil.ruta) {
-            val viewmodel: EditarPerfilViewModel = viewModel()
+            val viewmodel: EditarPerfilViewModel = hiltViewModel()
             EditarPerfilScreen(viewmodel)
         }
 

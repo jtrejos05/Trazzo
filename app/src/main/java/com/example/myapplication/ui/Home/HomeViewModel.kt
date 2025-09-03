@@ -2,10 +2,15 @@ package com.example.myapplication.ui.Home
 
 import androidx.lifecycle.ViewModel
 import com.example.myapplication.ui.Home.HomeState
+import dagger.hilt.android.lifecycle.HiltViewModel
+
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
+import javax.inject.Inject
 
-class HomeViewModel: ViewModel() {
+
+@HiltViewModel
+class HomeViewModel @Inject constructor(): ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeState())
     var uiState: MutableStateFlow<HomeState> = _uiState
