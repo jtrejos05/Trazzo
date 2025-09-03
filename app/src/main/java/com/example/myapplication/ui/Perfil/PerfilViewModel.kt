@@ -1,19 +1,32 @@
 package com.example.myapplication.ui.Perfil
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.myapplication.R
 import com.example.myapplication.data.Artista
 import com.example.myapplication.data.local.ProveedorObras
+import com.example.myapplication.data.repository.AuthRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PerfilViewModel: ViewModel() {
+
+@HiltViewModel
+class PerfilViewModel @Inject constructor(
+    private  val authRepository: AuthRepository
+): ViewModel() {
 
     private val _uiState = MutableStateFlow(PerfilState())
     var uiState: MutableStateFlow<PerfilState> = _uiState
 
 
 
+    fun onOutClick(){
+        authRepository.signOut()
+    }
 
     //FUncion para cambiar de tabs
     fun updateSelectedTab(nuevaSelectedTab: Int = 0) {
@@ -24,7 +37,7 @@ class PerfilViewModel: ViewModel() {
             img = R.drawable.maria_foto,
             correo = "Correo@gmail.com",
             contrasena = "123456",
-            usuario = "Maria",
+            usuario = "LA K",
             edad = 20,
             profesion = "Artista",
             biografia = "Me encanta el arte y la pintura.",

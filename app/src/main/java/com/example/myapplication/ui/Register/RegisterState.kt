@@ -6,5 +6,8 @@ data class RegisterState(
     var usuario: String="",
     var edad: String="",
     var profesion: String="",
-    var bio: String=""
+    var bio: String="",
+    var mostrarMensajeError: Boolean=false,
+    var mensajeError: String = "",
+    var navegar: Boolean = false
 )

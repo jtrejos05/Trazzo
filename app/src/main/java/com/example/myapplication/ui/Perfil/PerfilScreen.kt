@@ -22,6 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Comment
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Favorite
@@ -69,8 +70,9 @@ import kotlin.String
 @Composable
 fun TopBarProfile(
     username: String,
-    onBackClick: () -> Unit,
+    onOutClick: () -> Unit,
     onEditClick: () -> Unit,
+    onLogOutClick: ()-> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -81,11 +83,14 @@ fun TopBarProfile(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        // Botón volver
-        IconButton(onClick = onBackClick) {
+        // Botón salir
+        IconButton(onClick = {
+            onOutClick()
+            onLogOutClick()
+        }) {
             Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Volver",
+                imageVector = Icons.AutoMirrored.Filled.Logout,
+                contentDescription = "Cerrar Secion",
                 tint = MaterialTheme.colorScheme.primary
             )
         }
@@ -115,8 +120,9 @@ fun TopBarProfile(
 fun PreviewTopBarProfile() {
     TopBarProfile(
         username = "Jjjjj",
-        onBackClick = { /* TODO */ },
-        onEditClick = { /* TODO */ }
+        onOutClick = { /* TODO */ },
+        onEditClick = { /* TODO */ },
+        onLogOutClick = {}
     )
 }
 //Para mostrar los numeros del Perfil
@@ -569,6 +575,7 @@ fun PerfilScreen(viewmodel: PerfilViewModel,
                  guardadoPressed: () -> Unit={},
                  ObraPressed: (Int) -> Unit = {},
                  EditarPressed: () -> Unit = {},
+                 LogOutPressed:()-> Unit = {},
                  modifier: Modifier = Modifier) {
 
     val state by viewmodel.uiState.collectAsState()
@@ -579,8 +586,9 @@ fun PerfilScreen(viewmodel: PerfilViewModel,
         // Barra superior
         TopBarProfile(
             username = state.usuario.usuario,
-            onBackClick = { /* TODO navegación atrás */ },
-            onEditClick = {EditarPressed()}
+            onOutClick = {viewmodel.onOutClick()},
+            onEditClick = {EditarPressed()},
+            onLogOutClick = {LogOutPressed()}
         )
         Spacer(modifier = Modifier.height(8.dp))
 
