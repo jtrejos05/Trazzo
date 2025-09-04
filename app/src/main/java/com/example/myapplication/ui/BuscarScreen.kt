@@ -14,41 +14,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.R
 @Composable
 fun BuscarScreen(
-    viewmodel: BuscarViewModel,
+    viewmodel: BuscarViewModel = hiltViewModel(),
+    onCategoriaClick: (String) -> Unit,
+    onTrendingClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val state by viewmodel.uiState.collectAsState()
-    val categoriasTop = listOf(
-        stringResource(R.string.categoria_inicio),
-        stringResource(R.string.dise_o_digital),
-        stringResource(R.string.fotograf_a),
-        stringResource(R.string.pintura)
-    )
-
-    val trending = listOf(
-        stringResource(R.string.concept_art),
-        stringResource(R.string.ilustraci_n),
-        stringResource(R.string.arte_tradicional),
-        stringResource(R.string.street_art),
-        stringResource(R.string.fotograf_a),
-        stringResource(R.string.collage)
-    )
-
-    val recientes = listOf(
-        stringResource(R.string.fotograf_a),
-        stringResource(R.string.pintura),
-        stringResource(R.string.acuarela)
-    )
-
-    val explora = listOf(
-        stringResource(R.string.dibujo),
-        stringResource(R.string.origami),
-        stringResource(R.string.moda),
-        stringResource(R.string.escultura)
-    )
 
     LazyColumn(
         modifier = modifier
@@ -73,7 +49,7 @@ fun BuscarScreen(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
-                items(categoriasTop) { cat ->
+                items(state.categoriasTop) { cat ->
                     Surface(
                         shape = MaterialTheme.shapes.large,
                         color = Color(0xFF19A05E)
@@ -101,7 +77,7 @@ fun BuscarScreen(
         }
         item {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                for (i in trending.chunked(2)) {
+                for (i in state.trending.chunked(2)) {
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         modifier = Modifier.fillMaxWidth()
@@ -128,7 +104,7 @@ fun BuscarScreen(
                 )
             )
         }
-        items(recientes) { rec ->
+        items(state.recientes) { rec ->
             Text(
                 text = "🕒 $rec",
                 style = MaterialTheme.typography.bodyLarge
@@ -150,7 +126,7 @@ fun BuscarScreen(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
-                items(explora) { cat ->
+                items(state.explora) { cat ->
                     Surface(
                         shape = MaterialTheme.shapes.large,
                         color = Color(0xFFF0F0F0)

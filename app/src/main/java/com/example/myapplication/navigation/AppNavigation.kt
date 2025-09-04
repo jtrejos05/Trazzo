@@ -95,7 +95,6 @@ fun AppNavigation(navControler: NavHostController,
 
             val viewModel: HomeViewModel= hiltViewModel()
 
-            val viewModel: HomeViewModel = viewModel()
             
             val state by viewModel.uiState.collectAsState()
             if (state.navegar){
@@ -161,10 +160,16 @@ fun AppNavigation(navControler: NavHostController,
                 ,{ obraId->navControler.navigate(Rutas.Detalle.createRoute(obraId )) },
                 {navControler.navigate(Rutas.EditarPerfil.ruta)}, {navControler.navigate(Rutas.Home.ruta)})
         }
-        //Navegacion pantalla buscar
+
+        // Navegacion pantalla buscar
         composable(Rutas.Buscar.ruta) {
             val viewmodel: BuscarViewModel = hiltViewModel()
-            BuscarScreen(viewmodel)
+
+            BuscarScreen(
+                viewmodel = viewmodel,
+                onCategoriaClick = { categoria -> viewmodel.seleccionarCategoria(categoria) },
+                onTrendingClick = { trending -> viewmodel.seleccionarTrending(trending) }
+            )
         }
         //Navegacion Pantalla Guardados
         composable(Rutas.Guardadas.ruta) {

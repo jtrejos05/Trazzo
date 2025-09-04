@@ -1,27 +1,45 @@
 package com.example.myapplication.ui
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.myapplication.R
 import dagger.hilt.android.lifecycle.HiltViewModel
-
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
-
 @HiltViewModel
-class BuscarViewModel @Inject constructor():ViewModel() {
-    //Variable State para el view model
+class BuscarViewModel @Inject constructor(): ViewModel() {
+
     private val _uiState = MutableStateFlow(BuscarState())
-   var uiState: StateFlow<BuscarState> = _uiState
+    val uiState: StateFlow<BuscarState> = _uiState
+
+    init {
+        // listas inicializadas
+        _uiState.value = BuscarState(
+            categoriasTop = listOf("Inicio", "Diseño digital", "Fotografía", "Pintura"),
+            trending = listOf("Concept Art", "Ilustración", "Arte tradicional", "Street Art", "Fotografía", "Collage"),
+            recientes = listOf("Fotografía", "Pintura", "Acuarela"),
+            explora = listOf("Dibujo", "Origami", "Moda", "Escultura")
+        )
+    }
+
     fun updateTexto(nuevoTexto: String) {
-        _uiState.update{it.copy(texto = nuevoTexto)}
+        _uiState.update { it.copy(texto = nuevoTexto) }
+    }
+
+    fun seleccionarCategoria(categoria: String) {
+        _uiState.update { it.copy(categoriaSeleccionada = categoria, navegarCategoria = true) }
+    }
+
+    fun resetFlagCategoria() {
+        _uiState.update { it.copy(navegarCategoria = false) }
+    }
+
+    fun seleccionarTrending(trending: String) {
+        _uiState.update { it.copy(trendingSeleccionado = trending, navegarTrending = true) }
+    }
+
+    fun resetFlagTrending() {
+        _uiState.update { it.copy(navegarTrending = false) }
     }
 }

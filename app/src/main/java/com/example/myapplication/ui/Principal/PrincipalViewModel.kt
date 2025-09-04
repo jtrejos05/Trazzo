@@ -15,8 +15,7 @@ class PrincipalViewModel @Inject constructor(): ViewModel() {
     //FUncion para cuando se oprime una obra
 
     fun ObraPressed(int: Int = 0){
-        _uiState.update { it.copy(navegar = true) }
-        _uiState.update { it.copy(obra = int) }
+        _uiState.update { it.copy(navegar = true, obra = int) }
 
     }
     //Funcion para resetear las flags y evitar dobles llamados
