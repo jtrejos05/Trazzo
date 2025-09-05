@@ -92,7 +92,11 @@ fun AppNavigation(navControler: NavHostController,
     NavHost(navControler, Rutas.Splash.ruta, modifier) {
         //Navegacion Home
         composable(Rutas.Home.ruta) {
+
             val viewModel: HomeViewModel= hiltViewModel()
+
+            val viewModel: HomeViewModel = viewModel()
+            
             val state by viewModel.uiState.collectAsState()
             if (state.navegar){
                 navControler.navigateSingleTopTo(Rutas.Login.ruta)
