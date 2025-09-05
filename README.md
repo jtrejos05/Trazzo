@@ -30,8 +30,6 @@ El proyecto sigue el patrón **MVVM** con:
   - Utilizar andorid studio
   - Sincronizar dependencias con Gradle.
   - Ejecutar en dispositivo físico o con un emulador.
- 
-## Demostración pantallas 
 
 ## HECHO POR: NICOLÁS ALGARRA, SARA GARCÍA, JUAN CAMILO ALBA, JUAN MARTIN TREJOS.
 
