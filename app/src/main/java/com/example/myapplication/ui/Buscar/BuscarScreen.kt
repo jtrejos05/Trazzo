@@ -1,4 +1,4 @@
-package com.example.myapplication.ui
+package com.example.myapplication.ui.Buscar
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -6,51 +6,27 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.myapplication.R
+import com.example.myapplication.ui.Buscar.BuscarViewModel
+
 @Composable
 fun BuscarScreen(
-    textoBusqueda: String,
-    onTextoBusquedaChange: (String) -> Unit
+    viewmodel: BuscarViewModel = hiltViewModel(),
+    onCategoriaClick: (String) -> Unit,
+    onTrendingClick: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    val categoriasTop = listOf(
-        stringResource(R.string.categoria_inicio),
-        stringResource(R.string.dise_o_digital),
-        stringResource(R.string.fotograf_a),
-        stringResource(R.string.pintura)
-    )
-
-    val trending = listOf(
-        stringResource(R.string.concept_art),
-        stringResource(R.string.ilustraci_n),
-        stringResource(R.string.arte_tradicional),
-        stringResource(R.string.street_art),
-        stringResource(R.string.fotograf_a),
-        stringResource(R.string.collage)
-    )
-
-    val recientes = listOf(
-        stringResource(R.string.fotograf_a),
-        stringResource(R.string.pintura),
-        stringResource(R.string.acuarela)
-    )
-
-    val explora = listOf(
-        stringResource(R.string.dibujo),
-        stringResource(R.string.origami),
-        stringResource(R.string.moda),
-        stringResource(R.string.escultura)
-    )
+    val state by viewmodel.uiState.collectAsState()
 
     LazyColumn(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -58,8 +34,8 @@ fun BuscarScreen(
         // Barra de búsqueda
         item {
             TextField(
-                value = textoBusqueda,
-                onValueChange = onTextoBusquedaChange,
+                value = state.texto,
+                onValueChange = {viewmodel.updateTexto(it)},
                 placeholder = { Text(stringResource(R.string.buscar_inspiraci_n_art_stica)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
@@ -72,7 +48,7 @@ fun BuscarScreen(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
-                items(categoriasTop) { cat ->
+                items(state.categoriasTop) { cat ->
                     Surface(
                         shape = MaterialTheme.shapes.large,
                         color = Color(0xFF19A05E)
@@ -100,7 +76,7 @@ fun BuscarScreen(
         }
         item {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                for (i in trending.chunked(2)) {
+                for (i in state.trending.chunked(2)) {
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         modifier = Modifier.fillMaxWidth()
@@ -127,7 +103,7 @@ fun BuscarScreen(
                 )
             )
         }
-        items(recientes) { rec ->
+        items(state.recientes) { rec ->
             Text(
                 text = "🕒 $rec",
                 style = MaterialTheme.typography.bodyLarge
@@ -149,7 +125,7 @@ fun BuscarScreen(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
-                items(explora) { cat ->
+                items(state.explora) { cat ->
                     Surface(
                         shape = MaterialTheme.shapes.large,
                         color = Color(0xFFF0F0F0)
@@ -167,16 +143,7 @@ fun BuscarScreen(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun BuscarScreenPreview() {
-    var texto by remember { mutableStateOf("") }
 
-    BuscarScreen(
-        textoBusqueda = texto,
-        onTextoBusquedaChange = { texto = it }
-    )
-}
 
 
 

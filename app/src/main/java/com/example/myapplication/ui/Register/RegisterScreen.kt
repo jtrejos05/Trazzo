@@ -1,8 +1,7 @@
-package com.example.myapplication.ui
+package com.example.myapplication.ui.Register
 
 
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -15,12 +14,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CalendarToday
+import androidx.compose.material.icons.filled.MailOutline
+import androidx.compose.material.icons.outlined.Cases
+import androidx.compose.material.icons.outlined.Description
+import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -30,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.R
+import com.example.myapplication.ui.Register.RegisterViewModel
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.utils.Bienvenida
 import com.example.myapplication.ui.utils.BotonInteres
@@ -47,6 +53,7 @@ fun LogoAppRPreview(){
 fun BienvenidaPreview(){
     Bienvenida(R.string.bienvenida,R.string.creatividad)
 }
+//Formulario Informacion basica del usuario
 @Composable
 fun InfoBasica(correo: String, contraseña: String, usuario: String, edad: String,
                onCorreoChange: (String) -> Unit,
@@ -65,11 +72,11 @@ fun InfoBasica(correo: String, contraseña: String, usuario: String, edad: Strin
             color = colorResource(R.color.GrisOscuro)
         )
         Spacer(modifier = Modifier.height(5.dp))
-        Form(R.drawable.correo,
+        Form(Icons.Default.MailOutline,
             stringResource(R.string.icono_correo),
             stringResource(R.string.correo),
             stringResource(R.string.tu_email_com),correo,onCorreoChange)
-        Form(R.drawable.contrasenia,
+        Form(Icons.Outlined.Lock,
             stringResource(R.string.icono_contrase_a),
             stringResource(R.string.contra),
             stringResource(R.string.minimo_6_caracteres),
@@ -78,14 +85,14 @@ fun InfoBasica(correo: String, contraseña: String, usuario: String, edad: Strin
             Column(
                 modifier.width(230.dp)
             ) {
-                Form(R.drawable.usuario,
+                Form(Icons.Outlined.Person,
                     stringResource(R.string.icono_usuario),
                     stringResource(R.string.usuario),
                     stringResource(R.string.nombre_artista),
                     usuario,onUsuarioChange)
             }
             Column {
-                Form(R.drawable.edad,
+                Form(Icons.Default.CalendarToday,
                     stringResource(R.string.icono_edad),
                     stringResource(R.string.edad),
                     stringResource(R.string._18),
@@ -108,6 +115,7 @@ fun InfoBasicaPreview(){
         onUsuarioChange = {},
         onEdadChange = {})
 }
+//Para hacer las badges de los interes artisticos
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun Intereses(modifier: Modifier = Modifier){
@@ -123,12 +131,14 @@ fun Intereses(modifier: Modifier = Modifier){
         stringResource(R.string.leo), stringResource(R.string.acr_lico)
     )
     FlowRow(modifier = modifier.padding(start = 5.dp)) {
-        intereses.forEach { interes -> BotonInteres(interes, R.color.VerdeClaroF,R.color.VerdaClaroL,
+        intereses.forEach { interes -> BotonInteres(interes, MaterialTheme.colorScheme.primaryContainer,
+            MaterialTheme.colorScheme.onPrimaryContainer,
             {},Modifier
                 .height(36.dp)
                 .padding(horizontal = 6.dp)) }
     }
 }
+//Formulario de los gustos artisticos del usuario
 @Composable
 fun PerfilArtistico(profesion: String,
                     bio: String,
@@ -145,7 +155,7 @@ fun PerfilArtistico(profesion: String,
             color = colorResource(R.color.GrisOscuro)
         )
         Spacer(modifier = Modifier.height(5.dp))
-        Form(R.drawable.briefcase_transparent,
+        Form(Icons.Outlined.Cases,
             stringResource(R.string.icono_profesion),
             stringResource(R.string.profe),
             stringResource(R.string.selecciona_tu_profesion),
@@ -153,7 +163,7 @@ fun PerfilArtistico(profesion: String,
             onProfesionChange,
             modifier.height(30.dp))
 
-        Form(R.drawable.biografia,
+        Form(Icons.Outlined.Description,
             stringResource(R.string.icono_biografia),
             stringResource(R.string.biografia),
             stringResource(R.string.cuentanos_sobre_ti_tu_estilo_artistico_experiencia_y_lo_que_te_apasina_del_arte),
@@ -169,6 +179,7 @@ fun PerfilArtisticoPreview(){
         onProfesionChange = {},
         onBioChange = {}) }
 }
+//Para mostrar todo el segmento de badges con los posibles intereses artisticos
 @Composable
 fun InteresAritistico(modifier: Modifier = Modifier){
     Column(
@@ -193,9 +204,11 @@ fun InteresAritistico(modifier: Modifier = Modifier){
 fun InteresAritisticoPreview(){
     InteresAritistico()
 }
+//Para Hacer e boton de Crear Cuenta
 @Composable
 fun BotonCrear(registerButtonPressed: () -> Unit = {},modifier: Modifier = Modifier){
-    BotonInteres(stringResource(R.string.crear),R.color.MentaBri,R.color.GrisClaro ,registerButtonPressed,modifier
+    BotonInteres(stringResource(R.string.crear), MaterialTheme.colorScheme.primaryContainer,
+        MaterialTheme.colorScheme.onSecondaryContainer ,registerButtonPressed,modifier
         .width(370.dp)
         .height(60.dp))
 }
@@ -206,8 +219,11 @@ fun BotonCrearPreview(){
     BotonCrear()
     }
 }
+// el cuerpo de la pantalla de registro
 @Composable
-fun BodyCrearCuenta(correo: String,
+fun BodyCrearCuenta(mensajeError: String,
+    mostrarMensajeError: Boolean,
+    correo: String,
     contraseña:String,
     usuario:String,
     edad:String,
@@ -249,6 +265,9 @@ fun BodyCrearCuenta(correo: String,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(8.dp))
+            if (mostrarMensajeError){
+                Text(mensajeError)
+            }
             BotonCrear(registerButtonPressed)
             Spacer(modifier = Modifier.height(8.dp))
             Text(
@@ -262,36 +281,25 @@ fun BodyCrearCuenta(correo: String,
 
 }
 
-
+//La pantalla de registro final
 @Composable
-fun RegisterScreen(registerButtonPressed: () -> Unit = {},
+fun RegisterScreen(viewModel: RegisterViewModel,
                    modifier: Modifier = Modifier){
-    var correo by remember(){mutableStateOf("")}
-    var contraseña by remember(){mutableStateOf("")}
-    var usuario by remember(){mutableStateOf("")}
-    var edad by remember(){mutableStateOf("")}
-    var profesion by remember(){mutableStateOf("")}
-    var bio by remember(){mutableStateOf("")}
+    val state by viewModel.uiState.collectAsState()
     Column(
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ){
-        BodyCrearCuenta(correo,contraseña,usuario,edad,profesion,bio,
-            onCorreoChange = {correo = it},
-            onContraseñaChange = {contraseña = it},
-            onUsuarioChange = {usuario = it},
-            onEdadChange = {edad = it},
-            onProfesionChange = {profesion = it},
-            onBioChange = {bio = it},registerButtonPressed)
+        BodyCrearCuenta(state.mensajeError,state.mostrarMensajeError,state.correo,state.contraseña,state.usuario,state.edad,state.profesion,state.bio,
+            onCorreoChange = {viewModel.updateCorreo(it)},
+            onContraseñaChange = {viewModel.updateContraseña(it)},
+            onUsuarioChange = {viewModel.updateUsuario(it)},
+            onEdadChange = {viewModel.updateEdad(it)},
+            onProfesionChange = {viewModel.updateProfesion(it)},
+            onBioChange = {viewModel.updateBio(it)},{viewModel.registerButtonPressed()})
 
         Spacer(modifier = Modifier.height(30.dp))
     }
 }
-@Composable
-@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
-fun RegisterPreview(){
-    MyApplicationTheme {
-        RegisterScreen()
-    }
-}
+

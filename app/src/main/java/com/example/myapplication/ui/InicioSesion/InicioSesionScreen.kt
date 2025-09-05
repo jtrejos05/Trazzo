@@ -1,4 +1,4 @@
-package com.example.myapplication.ui
+package com.example.myapplication.ui.InicioSesion
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,11 +9,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MailOutline
+import androidx.compose.material.icons.filled.PersonAddAlt
+import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.Divider
+import androidx.compose.material3.DividerDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,6 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.R
+import com.example.myapplication.ui.InicioSesion.InicioSesionViewModel
 import com.example.myapplication.ui.utils.Bienvenida
 import com.example.myapplication.ui.utils.BotonIcono
 import com.example.myapplication.ui.utils.BotonInteres
@@ -42,16 +49,17 @@ fun LogoAppPreview(){
 fun BienvenidaIniPreview(){
     Bienvenida(R.string.iniciar_sesion, R.string.accede_a_tu_mundo_creativo)
 }
+//Formulario con los datos de inicio de sesion
 @Composable
 fun InfoInicio(correo: String, contraseña: String,
                onCorreoChange: (String) -> Unit,
                onContraseñaChange: (String) -> Unit,
                modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
-        Form(R.drawable.correo, stringResource(R.string.icono_correo),stringResource(R.string.correo),stringResource(R.string.tu_email_com),
+        Form(Icons.Default.MailOutline, stringResource(R.string.icono_correo),stringResource(R.string.correo),stringResource(R.string.tu_email_com),
             correo,
             onCorreoChange)
-        Form(R.drawable.contrasenia, stringResource(R.string.icono_contrase_a),stringResource(R.string.contra),stringResource(R.string.minimo_6_caracteres),
+        Form(Icons.Outlined.Lock, stringResource(R.string.icono_contrase_a),stringResource(R.string.contra),stringResource(R.string.minimo_6_caracteres),
              contraseña,
              onContraseñaChange,op=2)
 
@@ -65,6 +73,7 @@ fun InfoInicioPreview(){
                onCorreoChange = {},
                onContraseñaChange = {})
 }
+//Linea con recordarme y olvidaste tu contraseña
 @Composable
 fun PieDeInicio(
     recordarme: Boolean,
@@ -106,7 +115,7 @@ fun PieDeInicioPreview() {
         )
     }
 }
-
+//funcin que crea los botones de inicio de sesion y registrarse
 @Composable
 fun Botones(loginButtonPressed: () -> Unit = {},
             registerButtonPressed: () -> Unit = {},
@@ -115,12 +124,12 @@ fun Botones(loginButtonPressed: () -> Unit = {},
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-        BotonInteres(stringResource(R.string.iniciar_sesion),R.color.MentaBri,R.color.GrisClaro,loginButtonPressed ,modifier
+        BotonInteres(stringResource(R.string.iniciar_sesion), MaterialTheme.colorScheme.primaryContainer,MaterialTheme.colorScheme.onSecondaryContainer,loginButtonPressed ,modifier
             .width(370.dp)
             .height(60.dp))
         Spacer(Modifier.height(10.dp))
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-            Divider(color = Color.LightGray)
+            HorizontalDivider(Modifier, DividerDefaults.Thickness, color = Color.LightGray)
             Box(
                 modifier = Modifier
                     .padding(horizontal = 8.dp)
@@ -133,21 +142,22 @@ fun Botones(loginButtonPressed: () -> Unit = {},
             }
         }
         Spacer(modifier.height(10.dp))
-        BotonIcono(R.drawable.nuevacuenta, stringResource(R.string.icono_nueva_cuenta),
+        BotonIcono(Icons.Default.PersonAddAlt, stringResource(R.string.icono_nueva_cuenta),
             stringResource(R.string.crear_cuenta_nueva),R.color.GrisClaro,R.color.GrisOscuro,registerButtonPressed,modifier
                 .width(370.dp)
                 .height(60.dp))
     }
 }
 
-
+//Pantalla final Inicio de sesion
 @Composable
-fun InicioSesionScreen(loginButtonPressed: () -> Unit = {},
+fun InicioSesionScreen(viewmodel: InicioSesionViewModel,
                        registerButtonPressed: () -> Unit = {}
-                       ,modifier: Modifier = Modifier){
-    var correo by remember { mutableStateOf("") }
-    var contraseña by remember { mutableStateOf("") }
-    var recordarme by remember { mutableStateOf(false) }
+                       , modifier: Modifier = Modifier){
+
+    val state by viewmodel.uiState.collectAsState()
+
+
     Column(modifier = modifier) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -159,25 +169,24 @@ fun InicioSesionScreen(loginButtonPressed: () -> Unit = {},
             Spacer(modifier = Modifier.height(40.dp))
         }
         Column {
-            InfoInicio(correo,contraseña,
-                onCorreoChange = {correo = it},
-                onContraseñaChange = {contraseña = it})
-            PieDeInicio(recordarme = recordarme,
-                onRecordarmeChanged = { recordarme = it })
+            InfoInicio(state.correo,state.contraseña,
+                onCorreoChange = {viewmodel.updateCorreo(it)},
+                onContraseñaChange = {viewmodel.updateContraseña(it)})
+            PieDeInicio(recordarme = state.recordarme,
+                onRecordarmeChanged = { viewmodel.updateRecordarme(it) })
         }
         Spacer(modifier.height(15.dp))
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Botones(loginButtonPressed,
-                registerButtonPressed)
+            if (state.mostrarError){
+                Text(state.error)
+            }
+            Botones(
+                { viewmodel.loginButtonPressed() },
+                { registerButtonPressed() })
             Spacer(modifier.height(140.dp))
             Text(stringResource(R.string.al_iniciar_sesion_aceptas_nuestros_terminos_de_servicio_y_politica_de_privacidad))
         }
     }
-}
-@Composable
-@Preview(showBackground = true)
-fun InicioSesionPreview(){
-    InicioSesionScreen()
 }

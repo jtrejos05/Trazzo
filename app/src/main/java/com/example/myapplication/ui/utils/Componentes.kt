@@ -1,44 +1,34 @@
 package com.example.myapplication.ui.utils
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DoNotDisturbOnTotalSilence
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.R
-import com.example.myapplication.data.Obra
-import java.text.Normalizer
-
-
 
 
 @Composable
@@ -54,35 +44,33 @@ fun Bienvenida(
             stringResource(Texto1),
             modifier = Modifier.padding(3.dp),
             fontWeight = FontWeight.Bold,
-            fontSize = 22.sp,
-            color = colorResource(R.color.GrisOscuro)
+            fontSize = 22.sp
         )
         Text(
             stringResource(Texto2),
             modifier = Modifier.padding(3.dp),
-            fontSize = 14.sp,
-            color = colorResource(R.color.GrisMedio)
+            fontSize = 14.sp
         )
     }
 }
 @Composable
 fun Iconos(
-    IdImage : Int,
+    imagen : ImageVector,
     Description : String,
     modifier: Modifier = Modifier
 ){
-    Image(
-        painter = painterResource(IdImage),
-        contentDescription = Description,
-        modifier = modifier.height(15.dp)
-            .padding(start = 15.dp)
-    )
+   Icon(
+         imageVector = imagen,
+         contentDescription = Description,
+         tint = MaterialTheme.colorScheme.primary,
+         modifier = modifier.padding(start = 16.dp)
+   )
 }
 @Composable
 fun BotonInteres(
-    Texto : String,
-    Color: Int,
-    ColorL: Int,
+    Texto: String,
+    Color: Color,
+    ColorL: Color,
     onClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ){
@@ -90,14 +78,14 @@ fun BotonInteres(
         onClick = onClick,
         shape = RoundedCornerShape(50),
         colors = ButtonDefaults.outlinedButtonColors(
-            containerColor = colorResource(Color)
+            containerColor = Color
         ),
         modifier = modifier.padding(vertical = 3.dp),
         contentPadding = PaddingValues(horizontal = 12.dp, vertical = 2.dp)
     ) {
         Text(
             text = Texto,
-            color = colorResource(ColorL),
+            color = ColorL,
             fontSize = 14.sp
 
         )
@@ -105,7 +93,7 @@ fun BotonInteres(
 }
 @Composable
 fun BotonIcono(
-    Icon : Int,
+    Icon : ImageVector,
     Description: String,
     Texto : String = "",
     Color: Int,
@@ -132,7 +120,7 @@ fun BotonIcono(
     }
 }
 @Composable
-fun Form(icon : Int = 0,
+fun Form(icon : ImageVector = Icons.Default.DoNotDisturbOnTotalSilence,
          description: String = "",
          texto : String,
          name: String,
@@ -146,7 +134,7 @@ fun Form(icon : Int = 0,
             verticalAlignment = Alignment.CenterVertically,
             modifier = modifier
         ) {
-            if (icon != 0) {
+            if (icon != Icons.Default.DoNotDisturbOnTotalSilence) {
                 if (op == 1) {
                     Iconos(icon, description,modifier.padding(end = 2.dp))
                 } else {
@@ -154,26 +142,23 @@ fun Form(icon : Int = 0,
 
                 }
             }
-            if (icon == 0 || op == 1){
+            if (icon == Icons.Default.DoNotDisturbOnTotalSilence || op == 1){
                 if (op == 1){
                     Text(texto,
                         modifier = Modifier.padding(vertical = 6.dp, horizontal = 4.dp),
-                        color = colorResource(R.color.GrisOscuro),
                         fontSize = 20.sp
                     )
                 }
                 else{
                     Text(texto,
                         modifier = Modifier.padding(vertical = 6.dp, horizontal = 18.dp),
-                        color = colorResource(R.color.GrisOscuro),
                         fontSize = 20.sp
                     )
                 }
             }else {
                 Text(
                     texto,
-                    modifier = Modifier.padding(3.dp),
-                    color = colorResource(R.color.GrisOscuro)
+                    modifier = Modifier.padding(3.dp)
                 )
             }
         }
@@ -227,10 +212,23 @@ fun AddButton(
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
-            containerColor = colorResource(id = R.color.verde_principal),
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
         ),
         modifier = modifier
     ) {
         Text(text = texto)
+    }
+}
+
+@Composable
+fun ReactionItem(imagen: ImageVector, descripcion: String, count: String) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Icon(
+            imageVector = imagen,
+            contentDescription = descripcion,
+            tint = MaterialTheme.colorScheme.primary,
+        )
+        Spacer(Modifier.width(4.dp))
+        Text(count, fontSize = 12.sp)
     }
 }

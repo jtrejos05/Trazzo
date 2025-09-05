@@ -5,8 +5,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Comment
+import androidx.compose.material.icons.filled.BookmarkBorder
+import androidx.compose.material.icons.filled.ThumbUpOffAlt
+import androidx.compose.material.icons.filled.TurnRight
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -24,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import com.example.myapplication.R
 import androidx.compose.ui.res.stringResource
 import com.example.myapplication.data.Obra
+import com.example.myapplication.ui.utils.ReactionItem
 
 @Composable
 fun TarjetaPublicacion(
@@ -36,9 +43,6 @@ fun TarjetaPublicacion(
         modifier = modifier
             .padding(horizontal = 16.dp),
         shape = RoundedCornerShape(10.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = colorResource(id = R.color.white)
-        ),
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -61,7 +65,6 @@ fun TarjetaPublicacion(
                     )
                     Text(
                         text = publicacion.hora,
-                        color = colorResource(id = R.color.gris_texto_secundario),
                         fontSize = 12.sp
                     )
                 }
@@ -89,13 +92,11 @@ fun TarjetaPublicacion(
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     publicacion.Tags.forEach { cat ->
                         Surface(
-                            shape = RoundedCornerShape(50),
-                            color = Color(0xFFEFF8F1)
+                            shape = RoundedCornerShape(50)
                         ) {
                             Text(
                                 text = cat,
                                 modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
-                                color = Color(0xFF19A05E),
                                 fontSize = 12.sp
                             )
                         }
@@ -124,17 +125,13 @@ fun TarjetaPublicacion(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconoConTexto(R.drawable.like, publicacion.likes)
-                IconoConTexto(R.drawable.comentarioicon, publicacion.comentarios)
-                Image(
-                    painter = painterResource(id = R.drawable.enviar),
-                    contentDescription = stringResource(id = R.string.usuario),
-                    modifier = Modifier.size(18.dp)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.icono_save),
-                    contentDescription = stringResource(id = R.string.icono_usuario),
-                    modifier = Modifier.size(18.dp)
+                ReactionItem(imagen = Icons.Default.ThumbUpOffAlt, descripcion = "like", count = publicacion.likes)
+                ReactionItem(imagen = Icons.AutoMirrored.Filled.Comment, descripcion = "comentarios", count = publicacion.comentarios)
+                ReactionItem(imagen = Icons.Default.TurnRight, descripcion = "compartidos", count = publicacion.compartidos)
+                Icon(
+                    imageVector = Icons.Default.BookmarkBorder,
+                    contentDescription = "guardar",
+                    tint = MaterialTheme.colorScheme.primary
                 )
             }
         }
@@ -150,6 +147,6 @@ fun IconoConTexto(iconId: Int, texto: String) {
             modifier = Modifier.size(25.dp)
         )
         Spacer(Modifier.width(6.dp))
-        Text(texto, color = colorResource(id = R.color.gris_texto_secundario))
+        Text(texto)
     }
 }

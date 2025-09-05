@@ -10,11 +10,11 @@ import androidx.navigation.compose.rememberNavController
 import coil.transition.Transition
 import com.example.myapplication.navigation.AppNavigation
 import com.example.myapplication.navigation.BottomNavigationBar
-import com.example.myapplication.navigation.NavigationBar
 import com.example.myapplication.navigation.Rutas
 import com.example.myapplication.navigation.TopNavigationBar
-import com.example.myapplication.ui.HomeScreen
 import com.example.myapplication.ui.theme.MyApplicationTheme
+import androidx.compose.ui.unit.dp
+import com.example.myapplication.navigation.NavegationLogic
 
 @Composable
 fun TrazzoApp() {
@@ -23,19 +23,16 @@ fun TrazzoApp() {
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
 
-    val ShowBottom = currentRoute == Rutas.Subir.ruta || currentRoute == Rutas.Login.ruta || currentRoute == Rutas.Register.ruta || currentRoute == Rutas.Home.ruta
-    val ShowAll = currentRoute == Rutas.Perfil.ruta || currentRoute == Rutas.Subir.ruta || currentRoute == Rutas.Login.ruta || currentRoute == Rutas.Register.ruta || currentRoute == Rutas.Home.ruta
+
     Scaffold(
             bottomBar = {
-                if (!ShowBottom) {
+                if (NavegationLogic.shouldShowBottomBar(currentRoute)) {
                     BottomNavigationBar(navController)
                 }
             },
-            topBar = {
-                 if (!ShowAll) {
-                    TopNavigationBar()
-                }
-            }
+            topBar = {if (NavegationLogic.shouldShowTopBar(currentRoute)){
+                TopNavigationBar(navController)
+            } }
         ) {
             AppNavigation(navController, Modifier.padding(it))
 
