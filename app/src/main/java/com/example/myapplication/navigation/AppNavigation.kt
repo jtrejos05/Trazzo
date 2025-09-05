@@ -110,11 +110,8 @@ fun AppNavigation(navControler: NavHostController,
         composable(Rutas.Principal.ruta) {
             val viewmodel: PrincipalViewModel = hiltViewModel()
             val state by viewmodel.uiState.collectAsState()
-            if (state.navegar){
-                navControler.navigateSingleTopTo(Rutas.Detalle.ruta)
-                viewmodel.resetFlag()
-            }
-            PrincipalScreen(ProveedorObras.obras, "Usuario", viewmodel)
+
+            PrincipalScreen({obraId->navControler.navigate(Rutas.Detalle.createRoute(obraId ))}, "Usuario", viewmodel)
         }
         //Navegacion Inicio de Sesion
         composable(Rutas.Login.ruta) {

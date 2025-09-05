@@ -1,6 +1,7 @@
 package com.example.myapplication.ui.Principal
 
 import androidx.lifecycle.ViewModel
+import com.example.myapplication.data.local.ProveedorObras
 import com.example.myapplication.ui.Principal.PricipalState
 import dagger.hilt.android.lifecycle.HiltViewModel
 
@@ -14,6 +15,8 @@ class PrincipalViewModel @Inject constructor(): ViewModel() {
     var uiState: MutableStateFlow<PricipalState> = _uiState
     //FUncion para cuando se oprime una obra
 
+    /*
+
     fun ObraPressed(int: Int = 0){
         _uiState.update { it.copy(navegar = true, obra = int) }
 
@@ -22,4 +25,14 @@ class PrincipalViewModel @Inject constructor(): ViewModel() {
     fun resetFlag(){
         _uiState.update { it.copy(navegar = false) }
     }
+    */
+
+
+    fun getObras(){
+        _uiState.update { it.copy(obras = ProveedorObras.obras) }
+    }
+    init {
+        getObras()
+    }
 }
+

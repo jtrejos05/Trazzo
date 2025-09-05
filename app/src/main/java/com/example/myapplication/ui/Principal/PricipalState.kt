@@ -1,6 +1,7 @@
 package com.example.myapplication.ui.Principal
 
+import com.example.myapplication.data.Obra
+
 data class PricipalState(
-    var navegar: Boolean= false,
-    var obra: Int = 0
+    var obras: List<Obra> = emptyList()
 )

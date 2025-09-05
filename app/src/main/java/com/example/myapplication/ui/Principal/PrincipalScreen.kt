@@ -12,17 +12,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.myapplication.data.Obra
 import com.example.myapplication.ui.Principal.PrincipalViewModel
 import com.example.myapplication.ui.TarjetaPublicacion
 
 @Composable
-fun PrincipalScreen(
-    obras: List<Obra>,
+fun PrincipalScreen( obraPressed: (Int) -> Unit = {},
     nombreUsuario: String,
     viewmodel: PrincipalViewModel,
     modifier: Modifier = Modifier
 ) {
+    val state by viewmodel.uiState.collectAsState()
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -68,8 +71,8 @@ fun PrincipalScreen(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 modifier = Modifier.padding(horizontal = 16.dp)
             ) {
-                items(obras) { obra ->
-                    TarjetaPublicacion(obra, { viewmodel.ObraPressed(obra.obraId) })
+                items(state.obras) { obra ->
+                    TarjetaPublicacion(obra, { obraPressed(obra.obraId) })
                 }
             }
         }
