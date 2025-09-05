@@ -1,4 +1,4 @@
-# TRAZO
+# TRAZZO
 Aplicación móvil realizada en andorid studio para explorar, compartir y guardar todo tipo de arte, desde pinturas, cuadros, manualidades hasta ropa, tutoriales, ilustraciones y mucho más.
 
 ## Características 
