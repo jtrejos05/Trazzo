@@ -3,7 +3,6 @@ package com.example.myapplication.navigation
 object NavegationLogic {
     //pantallas que no tienen la Barra inferior
     private val noBottomBarScreens= listOf(
-        Rutas.Subir.ruta,
         Rutas.Login.ruta,
         Rutas.Register.ruta,
         Rutas.Home.ruta

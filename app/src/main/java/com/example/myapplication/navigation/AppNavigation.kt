@@ -95,12 +95,7 @@ fun AppNavigation(navControler: NavHostController,
         composable(Rutas.Home.ruta) {
             val viewModel: HomeViewModel= hiltViewModel()
             val state by viewModel.uiState.collectAsState()
-            if (state.navegar){
-                navControler.navigateSingleTopTo(Rutas.Login.ruta)
-                viewModel.resetFlag()
-            }else if (state.navegarRegister){
-                navControler.navigateSingleTopTo(Rutas.Register.ruta)
-            }
+
             HomeScreen(
                 { navControler.navigate(Rutas.Login.ruta) },
                 { navControler.navigate(Rutas.Register.ruta) }
@@ -141,10 +136,11 @@ fun AppNavigation(navControler: NavHostController,
         }
         //Navegacion Detalles de las obras
         composable("detalle/{obraId}", arguments = listOf(navArgument("obraId"){type = NavType.IntType})) { backStackEntry ->
-            val obraId = backStackEntry.arguments?.getInt("obraId") ?: 0
-            val obra = ProveedorObras.obras.find { it.obraId == obraId }
-            if (obra != null) {
-                VistaObrasScreen(obra)
+            val obraId = backStackEntry.arguments?.getInt("obraId") ?: -1
+            val viewmodel: VistaObrasViewModel = hiltViewModel()
+            val state by viewmodel.uiState.collectAsState()
+            if (obraId != -1) {
+                VistaObrasScreen(obraId,viewmodel)
             }
         }
         //Navegacion Pantalla Perfil

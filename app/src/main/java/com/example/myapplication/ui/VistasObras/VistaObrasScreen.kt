@@ -3,7 +3,6 @@ package com.example.myapplication.ui.VistasObras
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -27,11 +26,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.data.Obra
-import com.example.myapplication.data.local.ProveedorObras
 import com.example.myapplication.data.local.ProveedorComentarios
 import com.example.myapplication.ui.utils.Comment
 import androidx.compose.material3.Icon
@@ -40,22 +37,35 @@ import androidx.compose.material.icons.automirrored.filled.Comment
 import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.ThumbUpOffAlt
 import androidx.compose.material.icons.filled.TurnRight
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import com.example.myapplication.ui.utils.ReactionItem
 
 
 @Composable
 fun VistaObrasScreen(
-    obra: Obra,
+    idObra: Int,
+    viewmodel: VistaObrasViewModel,
     modifier: Modifier = Modifier
 ){
-    Column(
-        modifier = modifier
-            .fillMaxSize(),
-        ){
-        PostCard(
-            obra = obra
-        )
+    val state by viewmodel.uiState.collectAsState()
+    var obra:Obra?= null
+
+    LaunchedEffect(Unit) {
+        obra = viewmodel.getObra(idObra)
     }
+    if (obra != null){
+        Column(
+            modifier = modifier
+                .fillMaxSize(),
+        ){
+            PostCard(
+                obra = obra!!
+            )
+        }
+    }
+
 }
 @Composable
 fun Encabezado(
@@ -205,11 +215,3 @@ fun PostCard(
         }
     }
 }
-
-@Composable
-@Preview(showBackground = true)
-fun PostCardPreview() {
-    VistaObrasScreen(ProveedorObras.obras[1])
-}
-
-

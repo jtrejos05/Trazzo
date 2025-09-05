@@ -1,3 +1,7 @@
 package com.example.myapplication.ui.VistasObras
 
-data class VistaObrasState(var uno:String="")
+import com.example.myapplication.data.Obra
+
+data class VistaObrasState(
+    var obra: Int = 0
+)
