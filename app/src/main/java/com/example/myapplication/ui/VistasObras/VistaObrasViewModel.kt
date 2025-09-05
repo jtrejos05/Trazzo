@@ -20,6 +20,9 @@ class VistaObrasViewModel @Inject constructor(): ViewModel() {
 
 
     }
+    fun updateObra(obra: Obra?){
+        _uiState.update { it.copy(obra=obra) }
+    }
 
 
 }

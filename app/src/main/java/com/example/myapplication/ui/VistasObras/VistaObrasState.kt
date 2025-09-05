@@ -3,5 +3,5 @@ package com.example.myapplication.ui.VistasObras
 import com.example.myapplication.data.Obra
 
 data class VistaObrasState(
-    var obra: Int = 0
+    var obra: Obra? = null
 )

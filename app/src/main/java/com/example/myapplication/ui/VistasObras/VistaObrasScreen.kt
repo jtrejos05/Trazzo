@@ -50,18 +50,18 @@ fun VistaObrasScreen(
     modifier: Modifier = Modifier
 ){
     val state by viewmodel.uiState.collectAsState()
-    var obra:Obra?= null
 
     LaunchedEffect(Unit) {
-        obra = viewmodel.getObra(idObra)
+        val obra = viewmodel.getObra(idObra)
+        viewmodel.updateObra(obra)
     }
-    if (obra != null){
+    if (state.obra != null){
         Column(
             modifier = modifier
                 .fillMaxSize(),
         ){
             PostCard(
-                obra = obra!!
+                obra = state.obra!!
             )
         }
     }
