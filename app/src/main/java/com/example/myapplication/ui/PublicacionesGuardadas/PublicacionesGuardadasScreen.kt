@@ -14,6 +14,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.style.TextAlign
 import com.example.myapplication.R
 import com.example.myapplication.data.Obra
@@ -22,10 +24,11 @@ import com.example.myapplication.ui.TarjetaPublicacion
 
 @Composable
 fun PublicacionesGuardadasScreen(
-    obras: List<Obra>,
+    obraPressed: (Int) -> Unit = {},
     viewmodel: PublicacionesGuardadasViewModel,
     modifier: Modifier = Modifier
 ) {
+    val state by viewmodel.uiState.collectAsState()
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -77,8 +80,8 @@ fun PublicacionesGuardadasScreen(
 
         // Lista de publicaciones
         LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            items(obras) { Obra ->
-                TarjetaPublicacion(Obra, { viewmodel.ObraPressed(Obra.obraId) })
+            items(state.obras) { Obra ->
+                TarjetaPublicacion(Obra, { obraPressed(Obra.obraId) })
             }
         }
     }

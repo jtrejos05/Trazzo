@@ -1,6 +1,8 @@
 package com.example.myapplication.ui.PublicacionesGuardadas
 
+import com.example.myapplication.data.Obra
+
 data class PublicacionesGuardadasState(
     var navegar: Boolean= false,
-    var obra: Int = 0
+    var obras: List<Obra> = emptyList()
 )

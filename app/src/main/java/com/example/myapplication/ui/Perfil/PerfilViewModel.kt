@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.R
 import com.example.myapplication.data.Artista
+import com.example.myapplication.data.local.ProveedorActividad
+import com.example.myapplication.data.local.ProveedorNotificaciones
 import com.example.myapplication.data.local.ProveedorObras
 import com.example.myapplication.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -48,6 +50,12 @@ class PerfilViewModel @Inject constructor(
             interses = listOf("Pintura", "Escultura", "Fotografía")
         )
         _uiState.update { it.copy(usuario = artista ) }
+    }
+    fun getActividades(){
+        _uiState.update { it.copy(actividades = ProveedorActividad.actividades) }
+    }
+    fun getNotificaciones(){
+        _uiState.update { it.copy(notificaciones = ProveedorNotificaciones.notificaciones) }
     }
 
     init {

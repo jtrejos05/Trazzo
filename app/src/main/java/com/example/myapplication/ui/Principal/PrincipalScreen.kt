@@ -21,7 +21,6 @@ import com.example.myapplication.ui.TarjetaPublicacion
 
 @Composable
 fun PrincipalScreen( obraPressed: (Int) -> Unit = {},
-    nombreUsuario: String,
     viewmodel: PrincipalViewModel,
     modifier: Modifier = Modifier
 ) {
@@ -45,7 +44,7 @@ fun PrincipalScreen( obraPressed: (Int) -> Unit = {},
 
             //Saludo
             Text(
-                text = "¡Hola, $nombreUsuario!👋",
+                text = "¡Hola!👋",
                 style = MaterialTheme.typography.titleLarge.copy(
                     fontWeight = FontWeight.Bold,
                     fontSize = 22.sp

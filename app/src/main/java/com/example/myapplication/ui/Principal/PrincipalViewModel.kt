@@ -15,17 +15,6 @@ class PrincipalViewModel @Inject constructor(): ViewModel() {
     var uiState: MutableStateFlow<PricipalState> = _uiState
     //FUncion para cuando se oprime una obra
 
-    /*
-
-    fun ObraPressed(int: Int = 0){
-        _uiState.update { it.copy(navegar = true, obra = int) }
-
-    }
-    //Funcion para resetear las flags y evitar dobles llamados
-    fun resetFlag(){
-        _uiState.update { it.copy(navegar = false) }
-    }
-    */
 
 
     fun getObras(){

@@ -106,7 +106,7 @@ fun AppNavigation(navControler: NavHostController,
             val viewmodel: PrincipalViewModel = hiltViewModel()
             val state by viewmodel.uiState.collectAsState()
 
-            PrincipalScreen({obraId->navControler.navigate(Rutas.Detalle.createRoute(obraId ))}, "Usuario", viewmodel)
+            PrincipalScreen({obraId->navControler.navigate(Rutas.Detalle.createRoute(obraId ))}, viewmodel)
         }
         //Navegacion Inicio de Sesion
         composable(Rutas.Login.ruta) {
@@ -147,8 +147,7 @@ fun AppNavigation(navControler: NavHostController,
         composable(Rutas.Perfil.ruta) {
             val viewmodel: PerfilViewModel = hiltViewModel()
             val state by viewmodel.uiState.collectAsState()
-            PerfilScreen(viewmodel, ProveedorActividad.actividades
-                , ProveedorNotificaciones.notificaciones,
+            PerfilScreen(viewmodel,
                 {navControler.navigate(
                     Rutas.Guardadas.ruta)}
                 ,{ obraId->navControler.navigate(Rutas.Detalle.createRoute(obraId )) },
@@ -170,11 +169,7 @@ fun AppNavigation(navControler: NavHostController,
             val viewmodel: PublicacionesGuardadasViewModel = hiltViewModel()
             val state by viewmodel.uiState.collectAsState()
 
-            if (state.navegar){
-                navControler.navigateSingleTopTo(Rutas.Detalle.createRoute(state.obra))
-                viewmodel.resetFlag()
-            }
-            PublicacionesGuardadasScreen(ProveedorObras.obras,viewmodel)
+            PublicacionesGuardadasScreen({ obraId->navControler.navigate(Rutas.Detalle.createRoute(obraId )) },viewmodel)
         }
         //Navegacion Pantalla Trending
         composable(Rutas.Trending.ruta) {

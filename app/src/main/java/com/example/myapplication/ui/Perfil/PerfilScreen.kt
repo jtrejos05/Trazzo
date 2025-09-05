@@ -570,8 +570,6 @@ fun MetricCard(title: String, value: String, subtitle: String, icon: ImageVector
 //Pantalla final Perfil
 @Composable
 fun PerfilScreen(viewmodel: PerfilViewModel,
-                 actividades: List<ActividadItem>,
-                 notificaciones: List<NotificacionItem>,
                  guardadoPressed: () -> Unit={},
                  ObraPressed: (Int) -> Unit = {},
                  EditarPressed: () -> Unit = {},
@@ -604,8 +602,8 @@ fun PerfilScreen(viewmodel: PerfilViewModel,
         // Contenido según el tab seleccionado
         when (state.selectedTab) {
             0 -> ObrasList(state.usuario.obras, {ObraPressed(it)}) // Tab "Obras"
-            1 -> ActividadTabContent(actividades) // Tab "Actividad"
-            2 -> NotificacionesTabContent(notificaciones) // Tab "Notificaciones"
+            1 -> ActividadTabContent(state.actividades) // Tab "Actividad"
+            2 -> NotificacionesTabContent(state.notificaciones) // Tab "Notificaciones"
             3 -> StatsTabContent(state.usuario) // Tab "Stats"
         }
     }
