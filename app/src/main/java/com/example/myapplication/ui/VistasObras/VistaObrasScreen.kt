@@ -3,6 +3,7 @@ package com.example.myapplication.ui.VistasObras
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -47,8 +48,6 @@ fun VistaObrasScreen(
     obra: Obra,
     modifier: Modifier = Modifier
 ){
-
-
     Column(
         modifier = modifier
             .fillMaxSize(),
@@ -58,7 +57,121 @@ fun VistaObrasScreen(
         )
     }
 }
+@Composable
+fun Encabezado(
+    obra: Obra,
+    modifier: Modifier = Modifier
+){
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier.fillMaxWidth()
+    ) {
+        Image(
+            painter = painterResource(id = obra.fotous),
+            contentDescription = "Foto de perfil",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(40.dp)
+                .clip(CircleShape)
+        )
 
+        Spacer(Modifier.width(8.dp))
+
+        Column {
+            Text(obra.usuario, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+            Text(obra.hora, fontSize = 12.sp)
+        }
+
+        Spacer(Modifier.weight(1f))
+    }
+    Spacer(Modifier.height(12.dp))
+}
+
+@Composable
+fun TituloyDescripcion(
+    obra: Obra,
+    modifier: Modifier = Modifier
+){
+    Column(
+        modifier = modifier
+    ){
+        Text(
+            obra.titulo,
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp
+        )
+        Spacer(Modifier.height(4.dp))
+        Text(
+            obra.descripcion,
+            fontSize = 14.sp
+        )
+        Spacer(Modifier.height(8.dp))
+    }
+}
+
+@Composable
+fun Etiquetas(
+    obra: Obra,
+    modifier: Modifier = Modifier
+){
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
+        modifier = modifier
+    ) {
+        items(obra.Tags){
+            Text(
+                it,
+                fontSize = 12.sp,
+                modifier = Modifier
+                    .clip(RoundedCornerShape(50.dp))
+                    .padding(horizontal = 8.dp, vertical = 4.dp)
+            )
+        }
+    }
+
+    Spacer(Modifier.height(12.dp))
+}
+
+@Composable
+fun ImagenPrincipal(
+    obra: Obra,
+    modifier: Modifier = Modifier
+){
+    Column (
+        modifier = modifier
+    ) {
+        Image(
+            painter = painterResource(id = obra.foto),
+            contentDescription = "Imagen principal",
+            contentScale = ContentScale.FillWidth,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(Modifier.height(12.dp))
+    }
+}
+
+@Composable
+fun Reacciones(
+    obra: Obra,
+    modifier: Modifier = Modifier
+){
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = modifier
+    ) {
+        ReactionItem(imagen = Icons.Default.ThumbUpOffAlt, descripcion = "like", count = obra.likes)
+        ReactionItem(imagen = Icons.AutoMirrored.Filled.Comment, descripcion = "comentarios", count = obra.comentarios)
+        ReactionItem(imagen = Icons.Default.TurnRight, descripcion = "compartidos", count = obra.compartidos)
+        Icon(
+            imageVector = Icons.Default.BookmarkBorder,
+            contentDescription = "guardar",
+            tint = MaterialTheme.colorScheme.primary
+        )
+    }
+    Spacer(modifier = Modifier.height(30.dp))
+}
 @Composable
 fun PostCard(
     obra: Obra
@@ -68,97 +181,12 @@ fun PostCard(
             .fillMaxWidth()
             .padding(12.dp)
     ) {
-        // Encabezado
         item {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Image(
-                    painter = painterResource(id = obra.fotous),
-                    contentDescription = "Foto de perfil",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .size(40.dp)
-                        .clip(CircleShape)
-                )
-
-                Spacer(Modifier.width(8.dp))
-
-                Column {
-                    Text(obra.usuario, fontWeight = FontWeight.Bold, fontSize = 14.sp)
-                    Text(obra.hora, fontSize = 12.sp)
-                }
-
-                Spacer(Modifier.weight(1f))
-
-                Text("⋯", fontSize = 20.sp) // Menú
-            }
-            Spacer(Modifier.height(12.dp))
-        }
-
-
-
-
-        // Título y descripción
-        item { Text(
-            obra.titulo,
-            fontWeight = FontWeight.Bold,
-            fontSize = 16.sp
-        )
-            Spacer(Modifier.height(4.dp))
-            Text(
-                obra.descripcion,
-                fontSize = 14.sp
-            )
-
-            Spacer(Modifier.height(8.dp))
-        }
-
-
-        // Etiquetas
-        item {
-            LazyRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                items(obra.Tags){
-                    Text(
-                        it,
-                        fontSize = 12.sp,
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(50.dp))
-                            .padding(horizontal = 8.dp, vertical = 4.dp)
-                    )
-                }
-            }
-
-            Spacer(Modifier.height(12.dp))
-
-            // Imagen principal
-            Image(
-                painter = painterResource(id = obra.foto),
-                contentDescription = "Imagen principal",
-                contentScale = ContentScale.FillWidth,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(Modifier.height(12.dp))
-
-            // Reacciones
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-
-
-                ReactionItem(imagen = Icons.Default.ThumbUpOffAlt, descripcion = "like", count = obra.likes)
-                ReactionItem(imagen = Icons.AutoMirrored.Filled.Comment, descripcion = "comentarios", count = obra.comentarios)
-                ReactionItem(imagen = Icons.Default.TurnRight, descripcion = "compartidos", count = obra.compartidos)
-                Icon(
-                    imageVector = Icons.Default.BookmarkBorder,
-                    contentDescription = "guardar",
-                    tint = MaterialTheme.colorScheme.primary
-                )
-            }
-            Spacer(modifier = Modifier.height(30.dp))
+            Encabezado(obra)
+            TituloyDescripcion(obra)
+            Etiquetas(obra)
+            ImagenPrincipal(obra)
+            Reacciones(obra)
             Text(
                 text = "Comentarios",
                 fontWeight = FontWeight.Bold,
@@ -166,7 +194,6 @@ fun PostCard(
             )
             Spacer(Modifier.height(8.dp))
         }
-
         items(ProveedorComentarios.comentarios.size) {
             Comment(
                 hora = ProveedorComentarios.comentarios[it].hora,

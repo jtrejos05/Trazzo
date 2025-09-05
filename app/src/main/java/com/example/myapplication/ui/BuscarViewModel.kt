@@ -1,6 +1,7 @@
 package com.example.myapplication.ui
 
 import androidx.lifecycle.ViewModel
+import com.example.myapplication.ui.Buscar.BuscarState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

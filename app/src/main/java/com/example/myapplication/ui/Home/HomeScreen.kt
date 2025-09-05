@@ -56,7 +56,8 @@ fun ExternalLogo(
 // Body del home Screen
 @Composable
 fun BodyHomeScreen(
-    viewmodel: HomeViewModel,
+    loginButtonPressed: () -> Unit,
+    registerButtonPressed: () -> Unit,
     modifier: Modifier = Modifier
 ){
     Column (
@@ -71,12 +72,12 @@ fun BodyHomeScreen(
         Spacer(modifier = Modifier.height(23.dp))
         AddButton(
             stringResource(R.string.iniciar_sesion),
-            onClick = {viewmodel.loginButtonPressed()},
+            onClick = {loginButtonPressed()},
             modifier = Modifier.width(200.dp)
         )
         AddButton(
             stringResource(R.string.registrarse),
-            onClick = {viewmodel.registerButtonPressed()},
+            onClick = {registerButtonPressed()},
             modifier = Modifier.width(200.dp),
         )
 
@@ -91,8 +92,8 @@ fun BodyHomeScreen(
 //Pantalla final Home
 @Composable
 fun HomeScreen(
-    viewmodel: HomeViewModel,
-
+    loginButtonPressed: () -> Unit,
+    registerButtonPressed: () -> Unit,
     modifier: Modifier = Modifier
 ){
     Column (
@@ -100,7 +101,7 @@ fun HomeScreen(
         modifier = modifier.fillMaxSize()
     ){
         Spacer(modifier = Modifier.weight(1f))
-        BodyHomeScreen(viewmodel)
+        BodyHomeScreen(loginButtonPressed,registerButtonPressed)
         Spacer(modifier = Modifier.weight(1f))
         Text(
             text = stringResource(R.string.todos_los_derechos_reservados)

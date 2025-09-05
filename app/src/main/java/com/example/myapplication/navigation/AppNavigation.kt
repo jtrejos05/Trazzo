@@ -38,8 +38,8 @@ import com.example.myapplication.data.local.ProveedorActividad
 import com.example.myapplication.data.local.ProveedorBotonesDeNavegacion
 import com.example.myapplication.data.local.ProveedorNotificaciones
 import com.example.myapplication.data.local.ProveedorObras
-import com.example.myapplication.ui.BuscarScreen
-import com.example.myapplication.ui.BuscarViewModel
+import com.example.myapplication.ui.Buscar.BuscarScreen
+import com.example.myapplication.ui.Buscar.BuscarViewModel
 import com.example.myapplication.ui.Editar.EditarPerfilScreen
 import com.example.myapplication.ui.Editar.EditarPerfilViewModel
 import com.example.myapplication.ui.Home.HomeScreen
@@ -50,8 +50,8 @@ import com.example.myapplication.ui.Perfil.PerfilScreen
 import com.example.myapplication.ui.Perfil.PerfilViewModel
 import com.example.myapplication.ui.Principal.PrincipalScreen
 import com.example.myapplication.ui.Principal.PrincipalViewModel
-import com.example.myapplication.ui.PublicacionesGuardadasScreen
-import com.example.myapplication.ui.PublicacionesGuardadasViewModel
+import com.example.myapplication.ui.PublicacionesGuardadas.PublicacionesGuardadasScreen
+import com.example.myapplication.ui.PublicacionesGuardadas.PublicacionesGuardadasViewModel
 import com.example.myapplication.ui.Register.RegisterScreen
 import com.example.myapplication.ui.Register.RegisterViewModel
 import com.example.myapplication.ui.Splash.SplashScreen
@@ -60,7 +60,8 @@ import com.example.myapplication.ui.SubirObra.SubirObraScreen
 import com.example.myapplication.ui.SubirObra.SubirObraViewModel
 import com.example.myapplication.ui.Trending.TrendingScreen
 import com.example.myapplication.ui.Trending.TrendingViewModel
-import com.example.myapplication.ui.VistaObrasScreen
+import com.example.myapplication.ui.VistasObras.VistaObrasScreen
+import com.example.myapplication.ui.VistasObras.VistaObrasViewModel
 import com.example.myapplication.ui.utils.LogoTrazzo
 
 //Sealed Class con las rutas a las pantallas
@@ -92,10 +93,7 @@ fun AppNavigation(navControler: NavHostController,
     NavHost(navControler, Rutas.Splash.ruta, modifier) {
         //Navegacion Home
         composable(Rutas.Home.ruta) {
-
             val viewModel: HomeViewModel= hiltViewModel()
-
-            
             val state by viewModel.uiState.collectAsState()
             if (state.navegar){
                 navControler.navigateSingleTopTo(Rutas.Login.ruta)
@@ -103,7 +101,10 @@ fun AppNavigation(navControler: NavHostController,
             }else if (state.navegarRegister){
                 navControler.navigateSingleTopTo(Rutas.Register.ruta)
             }
-            HomeScreen(viewModel)
+            HomeScreen(
+                { navControler.navigate(Rutas.Login.ruta) },
+                { navControler.navigate(Rutas.Register.ruta) }
+            )
         }
         //Navegacion Pagina principal
         composable(Rutas.Principal.ruta) {
