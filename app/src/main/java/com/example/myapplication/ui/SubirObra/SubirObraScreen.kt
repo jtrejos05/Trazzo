@@ -20,6 +20,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.R
@@ -45,20 +46,26 @@ fun SubirObraScreen(viewmodel: SubirObraViewModel,
             Bienvenida(R.string.sube_tu_obra, R.string.muestrale_al_mundo_tu_creacion)
         }
         //Empieza el Formulario para subir una obra
-        Form(texto = "Titulo", name="Dale un titulo a tu video", dato = state.titulo,
+        Form(texto = stringResource(R.string.titulo), name= stringResource(R.string.dale_un_titulo_a_tu_video), dato = state.titulo,
              onChange = { viewmodel.updateTitulo(it) })
-        Form(texto = "Descripcion", name="Dale una descripcion", dato = state.descrpcion,
+        Form(texto = stringResource(R.string.descripcion), name= stringResource(R.string.dale_una_descripcion), dato = state.descrpcion,
              onChange = { viewmodel.updateDescripcion(it) })
-        Form(icon = Icons.Outlined.CameraAlt,description="Icono Camara",texto = "Imagen", name = "https://ejemplo.com/imagen.jpg",
+        Form(icon = Icons.Outlined.CameraAlt,description= stringResource(R.string.icono_camara),texto = stringResource(
+            R.string.imagen
+        ), name = stringResource(R.string.https_ejemplo_com_imagen_jpg),
             state.imagen,
             onChange = { viewmodel.updateImagen(it) },
             op=1)
-        Text("Tambien puedes subir desde tu galeria tocando el icono de la camara", modifier = Modifier.padding(vertical = 3.dp, horizontal = 18.dp))
-        Form(texto = "Categoria", name = "Seleccionar", dato = state.categoria,
+        Text(stringResource(R.string.tambien_puedes_subir_desde_tu_galeria_tocando_el_icono_de_la_camara), modifier = Modifier.padding(vertical = 3.dp, horizontal = 18.dp))
+        Form(texto = stringResource(R.string.categoria), name = stringResource(R.string.seleccionar), dato = state.categoria,
              onChange = { viewmodel.updateCategoria(it) }, op=1)
-        Form(Icons.Default.Tag,"Icono Hashtag","Tags", "acuarela, tecnica, retrato, arte-digital",state.tags, onChange = {viewmodel.updateTags(it)},op=1)
+        Form(Icons.Default.Tag,
+            stringResource(R.string.icono_hashtag),
+
+            stringResource(R.string.tags),
+            stringResource(R.string.acuarela_tecnica_retrato_arte_digital),state.tags, onChange = {viewmodel.updateTags(it)},op=1)
         //Termina el Formulario
-        Text("Separa los tags con comas para ayudar a otros a encontrar tu contenido", modifier = Modifier.padding(vertical = 3.dp, horizontal = 18.dp))
+        Text(stringResource(R.string.separa_los_tags_con_comas_para_ayudar_a_otros_a_encontrar_tu_contenido), modifier = Modifier.padding(vertical = 3.dp, horizontal = 18.dp))
         Spacer(modifier = Modifier.height(20.dp))
         BotonesFinal({ButtonPressed()})
         Spacer(modifier = Modifier.height(25.dp))
@@ -73,13 +80,15 @@ fun BotonesFinal(ButtonPressed: () -> Unit, modifier: Modifier = Modifier){
     Row(modifier = modifier.fillMaxWidth(1F),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically){
-        BotonInteres("Cancelar", MaterialTheme.colorScheme.errorContainer, MaterialTheme.colorScheme.onSecondaryContainer, ButtonPressed,modifier
-            .width(180.dp)
-            .height(50.dp))
+        BotonInteres(
+            stringResource(R.string.cancelar), MaterialTheme.colorScheme.errorContainer, MaterialTheme.colorScheme.onSecondaryContainer, ButtonPressed,modifier
+                .width(180.dp)
+                .height(50.dp))
         Spacer(modifier= Modifier.width(20.dp))
-        BotonInteres("Publicar", MaterialTheme.colorScheme.primaryContainer,MaterialTheme.colorScheme.onSecondaryContainer, ButtonPressed,modifier
-            .width(180.dp)
-            .height(50.dp) )
+        BotonInteres(
+            stringResource(R.string.publicar), MaterialTheme.colorScheme.primaryContainer,MaterialTheme.colorScheme.onSecondaryContainer, ButtonPressed,modifier
+                .width(180.dp)
+                .height(50.dp) )
     }
 }
 @Composable
