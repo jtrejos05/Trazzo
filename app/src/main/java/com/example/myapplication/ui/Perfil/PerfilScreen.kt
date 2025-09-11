@@ -366,7 +366,7 @@ fun PostItem(post: Obra, ObraPressed: (Int) -> Unit, modifier: Modifier = Modifi
         onClick = { ObraPressed(post.obraId) }
     ) {
         Column {
-            obraAssyncImage(post.foto,200)
+            obraAssyncImage(post.foto,200, modifier = Modifier.fillMaxWidth())
             Text(
                 text = post.titulo,
                 modifier = Modifier.padding(8.dp),
