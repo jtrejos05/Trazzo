@@ -36,7 +36,7 @@ class PerfilViewModel @Inject constructor(
     }
     fun getUsuario(){
         val artista = Artista(
-            img = "https://cdn.pixabay.com/photo/2015/01/06/16/14/woman-590490_640.jpg",
+            img = authRepository.currentUser?.photoUrl.toString(),
             correo = "Correo@gmail.com",
             contrasena = "123456",
             usuario = "LA K",
