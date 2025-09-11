@@ -60,5 +60,7 @@ class PerfilViewModel @Inject constructor(
 
     init {
         getUsuario()
+        getNotificaciones()
+        getActividades()
     }
 }

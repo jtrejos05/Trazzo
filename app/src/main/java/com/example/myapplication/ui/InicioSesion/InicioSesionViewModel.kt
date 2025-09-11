@@ -37,12 +37,15 @@ class InicioSesionViewModel @Inject constructor(
                 _uiState.update { it.copy(mostrarError = true, error = "La contraseña debe tener al menos 6 caracteres") }
             }else{
                 viewModelScope.launch {
-                    try {
-                        authRepository.signIn(_uiState.value.correo,_uiState.value.contraseña)
+
+                    val result=authRepository.signIn(_uiState.value.correo,_uiState.value.contraseña)
+                    if (result.isSuccess){
+
                         _uiState.update { it.copy(navegar = true) }
-                    }catch (e: Exception){
+                    }else{
+                        val mensaje = result.exceptionOrNull()?.message?:"Error al iniciar Sesion"
                         _uiState.update { it.copy(mostrarError = true) }
-                        _uiState.update { it.copy(error = "Error al iniciar sesion") }
+                        _uiState.update { it.copy(error = mensaje) }
                     }
                 }
 

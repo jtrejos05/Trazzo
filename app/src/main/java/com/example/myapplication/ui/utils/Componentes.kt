@@ -1,15 +1,22 @@
 package com.example.myapplication.ui.utils
 
+import android.net.Uri
+import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.DoNotDisturbOnTotalSilence
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -231,4 +238,31 @@ fun ReactionItem(imagen: ImageVector, descripcion: String, count: String) {
         Spacer(Modifier.width(4.dp))
         Text(count, fontSize = 12.sp)
     }
+}
+@Composable
+fun PickImageButton(
+    action: (uri:Uri)-> Unit
+) {
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) {
+        uri: Uri? ->
+        uri?.let{
+            action(uri)
+        }
+    }
+
+    Button(
+        onClick = {
+            launcher.launch("image/*")
+        }
+    ) {
+        Icon(
+            imageVector = Icons.Default.Add,
+            contentDescription = "Simbolo mas",
+            modifier = Modifier.height(50.dp)
+        )
+    }
+
 }
