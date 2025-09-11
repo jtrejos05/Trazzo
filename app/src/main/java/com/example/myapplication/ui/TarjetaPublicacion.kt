@@ -31,6 +31,8 @@ import com.example.myapplication.R
 import androidx.compose.ui.res.stringResource
 import com.example.myapplication.data.Obra
 import com.example.myapplication.ui.utils.ReactionItem
+import com.example.myapplication.ui.utils.obraAssyncImage
+import com.example.myapplication.ui.utils.profileAssyncImage
 
 @Composable
 fun TarjetaPublicacion(
@@ -49,14 +51,7 @@ fun TarjetaPublicacion(
 
             // Perfil y nombre
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(
-                    painter = painterResource(id = publicacion.fotous),
-                    contentDescription = stringResource(id = R.string.icono_usuario),
-                    modifier = Modifier
-                        .size(36.dp)
-                        .clip(CircleShape),
-                    contentScale = ContentScale.Crop
-                )
+                profileAssyncImage(publicacion.fotous,36)
                 Spacer(Modifier.width(8.dp))
                 Column {
                     Text(
@@ -107,14 +102,10 @@ fun TarjetaPublicacion(
             // Imagen principal
             publicacion.foto?.let { img ->
                 Spacer(Modifier.height(12.dp))
-                Image(
-                    painter = painterResource(id = img),
-                    contentDescription = stringResource(id = R.string.arte_tradicional),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(8.dp)),
-                    contentScale = ContentScale.Crop
-                )
+                obraAssyncImage(img,200,Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(8.dp)))
+
             }
 
             Spacer(Modifier.height(12.dp))

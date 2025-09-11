@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ImageNotSupported
 import androidx.compose.material.icons.filled.Loop
@@ -31,6 +33,7 @@ import com.example.myapplication.ui.utils.BotonInteres
 import com.example.myapplication.ui.utils.Form
 import com.example.myapplication.ui.utils.LogoTrazzo
 import com.example.myapplication.ui.utils.PickImageButton
+import com.example.myapplication.ui.utils.profileAssyncImage
 import kotlin.contracts.contract
 
 
@@ -40,24 +43,15 @@ import kotlin.contracts.contract
 fun EditarPerfilScreen(viewmodel: EditarPerfilViewModel, modifier: Modifier= Modifier) {
 
     val state by viewmodel.uiState.collectAsState()
-    Column(modifier = modifier,
+    Column(modifier = modifier.verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
-    verticalArrangement = Arrangement.Center) {
+    verticalArrangement = Arrangement.Center,
+        ) {
         Spacer(modifier= Modifier.height(70.dp))
         LogoTrazzo(modifier=Modifier.height(70.dp)
             .fillMaxWidth())
         Spacer(modifier = Modifier.height(30.dp))
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(state.profileImgUrl)
-                .crossfade(true)
-                .build(),
-            error = painterResource(R.drawable.nocamera),
-            placeholder = painterResource(R.drawable.loading),
-            contentDescription = "User Image",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.size(200.dp).clip(CircleShape)
-        )
+        profileAssyncImage(profileImage = state.profileImgUrl ?: "", size = 200)
         PickImageButton(
             action = {
                 viewmodel.uploadImageToFirebase(it)

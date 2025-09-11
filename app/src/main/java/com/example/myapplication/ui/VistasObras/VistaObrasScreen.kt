@@ -41,6 +41,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.example.myapplication.ui.utils.ReactionItem
+import com.example.myapplication.ui.utils.obraAssyncImage
+import com.example.myapplication.ui.utils.profileAssyncImage
 
 
 @Composable
@@ -76,14 +78,7 @@ fun Encabezado(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier.fillMaxWidth()
     ) {
-        Image(
-            painter = painterResource(id = obra.fotous),
-            contentDescription = "Foto de perfil",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
-        )
+        profileAssyncImage(obra.fotous,40)
 
         Spacer(Modifier.width(8.dp))
 
@@ -150,13 +145,7 @@ fun ImagenPrincipal(
     Column (
         modifier = modifier
     ) {
-        Image(
-            painter = painterResource(id = obra.foto),
-            contentDescription = "Imagen principal",
-            contentScale = ContentScale.FillWidth,
-            modifier = Modifier.fillMaxWidth()
-        )
-
+        obraAssyncImage(obra.foto, modifier = Modifier.fillMaxWidth())
         Spacer(Modifier.height(12.dp))
     }
 }

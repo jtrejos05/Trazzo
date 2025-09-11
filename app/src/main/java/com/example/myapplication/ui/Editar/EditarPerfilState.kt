@@ -1,6 +1,5 @@
 package com.example.myapplication.ui.Editar
 
-import android.net.Uri
 import com.example.myapplication.data.Artista
 
 data class EditarPerfilState(

@@ -3,13 +3,13 @@ package com.example.myapplication.data
 import androidx.annotation.DrawableRes
 
 data class Obra(
-    @DrawableRes val fotous: Int,
+    val fotous: String,
     val usuario: String,
     val hora: String,
     val titulo: String,
     val descripcion: String,
     val Tags: List<String>,
-    @DrawableRes val foto: Int,
+    val foto: String,
     val likes: String,
     val comentarios: String,
     val compartidos: String,

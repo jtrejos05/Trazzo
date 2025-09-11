@@ -8,13 +8,13 @@ import com.example.myapplication.data.Obra
 object ProveedorObras {
     val obras = listOf(
         Obra(
-            fotous = R.drawable.juanito_foto,
+            fotous = "https://cdn.pixabay.com/photo/2022/12/24/21/14/portrait-7676482_640.jpg",
             usuario = "JuanitoArt",
             hora = "2h",
             titulo = "Pintura clasica",
             descripcion = "Tutorial para recrear una pintura famosa.",
             Tags = listOf("Pintura", "Tutorial"),
-            foto = R.drawable.obra1,
+            foto = "https://cdn.pixabay.com/photo/2019/03/02/16/26/man-4030112_640.jpg",
             likes = "325",
             comentarios = "12",
             compartidos = "3",
@@ -22,13 +22,13 @@ object ProveedorObras {
             obraId  = 1
     ),
         Obra(
-            fotous = R.drawable.maria_foto,
+            fotous = "https://cdn.pixabay.com/photo/2015/01/06/16/14/woman-590490_640.jpg",
             usuario = "MariaCrea",
             hora = "2h",
             titulo = "Cuadro al lienzo",
             descripcion = "Tutorial para pintar un cuadro al óleo.",
             Tags = listOf("Oleo", "Tutorial"),
-            foto = R.drawable.obra2,
+            foto = "https://cdn.pixabay.com/photo/2016/02/17/09/20/watches-1204696_640.jpg",
             likes = "300k",
             comentarios = "120",
             compartidos = "3",
@@ -36,13 +36,13 @@ object ProveedorObras {
             obraId = 2
         ),
         Obra(
-            fotous = R.drawable.juanito_foto,
+            fotous = "https://cdn.pixabay.com/photo/2022/12/24/21/14/portrait-7676482_640.jpg",
             usuario = "JuanitoArt",
             hora = "2m",
             titulo = "Pintura abstracta",
             descripcion = "Explorando el arte abstracto con colores vibrantes.",
             Tags = listOf("Abstracto", "Colores"),
-            foto = R.drawable.obra3,
+            foto = "https://cdn.pixabay.com/photo/2017/06/03/20/12/art-2369664_640.jpg",
             likes = "1500",
             comentarios = "45",
             compartidos = "3",

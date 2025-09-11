@@ -62,6 +62,8 @@ import com.example.myapplication.data.NotificacionItem
 import com.example.myapplication.data.Obra
 import com.example.myapplication.data.local.ProveedorObras
 import com.example.myapplication.ui.Perfil.PerfilViewModel
+import com.example.myapplication.ui.utils.obraAssyncImage
+import com.example.myapplication.ui.utils.profileAssyncImage
 import kotlin.Int
 import kotlin.String
 
@@ -196,15 +198,8 @@ fun ProfileHeader(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Image(
-                painter = painterResource(id = artista.img),
-                contentDescription = "Foto de perfil",
-                modifier = Modifier
-                    .size(100.dp)
-                    .clip(CircleShape)
-                    .border(2.dp, MaterialTheme.colorScheme.primary, CircleShape),
-                contentScale = ContentScale.Crop
-            )
+            profileAssyncImage(artista.img,100, Modifier.clip(CircleShape)
+                .border(2.dp, MaterialTheme.colorScheme.primary, CircleShape),)
             Spacer(modifier = Modifier.width(12.dp))
             Column {
 
@@ -242,7 +237,7 @@ fun ProfileHeader(
 fun PreviewProfileHeader() {
     ProfileHeader(
         artista = Artista(
-            img= R.drawable.maria_foto,
+            img= "https://cdn.pixabay.com/photo/2015/01/06/16/14/woman-590490_640.jpg",
             correo= "Correo@gmail.com",
             contrasena= "123456",
             usuario= "Maria",
@@ -371,14 +366,7 @@ fun PostItem(post: Obra, ObraPressed: (Int) -> Unit, modifier: Modifier = Modifi
         onClick = { ObraPressed(post.obraId) }
     ) {
         Column {
-            Image(
-                painter = painterResource(id = post.foto),
-                contentDescription = post.titulo,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp),
-                contentScale = ContentScale.Crop
-            )
+            obraAssyncImage(post.foto,200)
             Text(
                 text = post.titulo,
                 modifier = Modifier.padding(8.dp),

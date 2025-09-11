@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.myapplication.R
 import com.example.myapplication.data.Artista
 import com.example.myapplication.data.local.ProveedorObras
+import com.example.myapplication.data.repository.AuthRepository
 import com.example.myapplication.data.repository.StorageRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,10 +18,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditarPerfilViewModel @Inject constructor(
-    private val storage: StorageRepository
+    private val storage: StorageRepository,
+    private val authRepository: AuthRepository
 ): ViewModel() {
     //Declaracion Variable state
-    private val _uiState = MutableStateFlow(EditarPerfilState())
+    private val _uiState = MutableStateFlow(EditarPerfilState(profileImgUrl = authRepository.currentUser?.photoUrl?.toString() ?: ""))
     var uiState: StateFlow<EditarPerfilState> = _uiState
 
 
@@ -46,24 +48,5 @@ class EditarPerfilViewModel @Inject constructor(
         }
     }
 
-    fun getUsuario(){
-        val artista = Artista(
-            img = R.drawable.maria_foto,
-            correo = "Correo@gmail.com",
-            contrasena = "123456",
-            usuario = "LA K",
-            edad = 20,
-            profesion = "Artista",
-            biografia = "Me encanta el arte y la pintura.",
-            seguidores = 13,
-            siguiendo = 1,
-            likes = 20,
-            obras = ProveedorObras.obras,
-            interses = listOf("Pintura", "Escultura", "Fotografía")
-        )
-        //_uiState.update { it.copy(user = artista ) }
-    }
-    init {
-        getUsuario()
-    }
+
 }

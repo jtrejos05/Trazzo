@@ -11,12 +11,15 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.DoNotDisturbOnTotalSilence
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.ImageNotSupported
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -27,14 +30,21 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.myapplication.R
 
 
@@ -241,7 +251,8 @@ fun ReactionItem(imagen: ImageVector, descripcion: String, count: String) {
 }
 @Composable
 fun PickImageButton(
-    action: (uri:Uri)-> Unit
+    action: (uri:Uri)-> Unit,
+    modifier: Modifier= Modifier
 ) {
 
     val launcher = rememberLauncherForActivityResult(
@@ -265,4 +276,47 @@ fun PickImageButton(
         )
     }
 
+}
+
+@Composable
+fun profileAssyncImage(
+    profileImage: String,
+    size: Int,
+    modifier: Modifier= Modifier
+){
+    AsyncImage(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(profileImage)
+            .crossfade(true)
+            .build(),
+        error = painterResource(R.drawable.nocamera),
+        placeholder = painterResource(R.drawable.loading),
+        contentDescription = "User Image",
+        contentScale = ContentScale.Crop,
+        modifier = modifier
+            .size(size.dp)
+            .clip(CircleShape)
+    )
+}
+
+
+@Composable
+fun obraAssyncImage(
+    Image: String,
+    size: Int?=null,
+    modifier: Modifier= Modifier
+){
+    AsyncImage(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(Image)
+            .crossfade(true)
+            .build(),
+        error = rememberVectorPainter(Icons.Default.ImageNotSupported),
+        placeholder = painterResource(R.drawable.loading),
+        contentDescription = "Imagen Obra",
+        contentScale = ContentScale.Crop,
+        modifier = if (size != null) modifier.size(size.dp) else modifier
+
+
+    )
 }
