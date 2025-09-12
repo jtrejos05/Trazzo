@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Trazzo</string>
     <string name="anuncio">Al registrarte, aceptas nuestros Terminos de Servicio y Politica de Privacidad</string>
     <string name="crear">Crear mi cuenta</string>
     <string name="seleccionar">Selecciona los tipos de arte que mas te interesan</string>
@@ -63,6 +63,6 @@
     <string name="buscar_inspiraci_n_art_stica">Buscar inspiración artística...</string>
     <string name="busca_inspiracion_artistica">Busca Inspiracion Artistica</string>
     <string name="responder">Responder</string>
-
+    <string name="comentarios">Comentarios</string>
 
 </resources>

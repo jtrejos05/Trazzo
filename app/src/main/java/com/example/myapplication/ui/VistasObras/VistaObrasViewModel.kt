@@ -15,10 +15,7 @@ class VistaObrasViewModel @Inject constructor(): ViewModel() {
     fun getObra(id: Int): Obra? {
         //ir al repo y filtrar
         val obra = ProveedorObras.obras.find { it.obraId == id }
-
-            return obra
-
-
+        return obra
     }
     fun updateObra(obra: Obra?){
         _uiState.update { it.copy(obra=obra) }
