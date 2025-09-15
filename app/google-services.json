@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "832635860787",
-    "project_id": "trazzo-b8109",
-    "storage_bucket": "trazzo-b8109.firebasestorage.app"
+    "project_number": "242022315495",
+    "project_id": "trazzo-f1120",
+    "storage_bucket": "trazzo-f1120.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:832635860787:android:2c7bf19e6ad43e69c5b046",
+        "mobilesdk_app_id": "1:242022315495:android:43cb2c95730f472fba7942",
         "android_client_info": {
           "package_name": "com.example.myapplication"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDjP8w-QjmTg72ALcjjvvjrgwoxxJ7fbkw"
+          "current_key": "AIzaSyB5Vvjdqs7nPB6HgZifipoVIofpuYvLJM0"
         }
       ],
       "services": {
