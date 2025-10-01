@@ -74,7 +74,7 @@ sealed class Rutas(
     object Register : Rutas("register")
     object Subir : Rutas("subir")
     object Detalle : Rutas("detalle/{obraId}"){
-        fun createRoute(obraId: Int): String {
+        fun createRoute(obraId: String): String {
             return "detalle/$obraId"
         }
     }
@@ -135,11 +135,11 @@ fun AppNavigation(navControler: NavHostController,
             SubirObraScreen(viewmodel,{ navControler.navigate(Rutas.Perfil.ruta) })
         }
         //Navegacion Detalles de las obras
-        composable("detalle/{obraId}", arguments = listOf(navArgument("obraId"){type = NavType.IntType})) { backStackEntry ->
-            val obraId = backStackEntry.arguments?.getInt("obraId") ?: -1
+        composable("detalle/{obraId}", arguments = listOf(navArgument("obraId"){type = NavType.StringType})) {
+            val obraId = it.arguments?.getString("obraId") ?: ""
             val viewmodel: VistaObrasViewModel = hiltViewModel()
             val state by viewmodel.uiState.collectAsState()
-            if (obraId != -1) {
+            if (obraId != "") {
                 VistaObrasScreen(obraId,viewmodel)
             }
         }

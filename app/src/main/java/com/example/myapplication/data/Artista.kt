@@ -3,6 +3,7 @@ package com.example.myapplication.data
 import androidx.annotation.DrawableRes
 
 data class Artista(
+    val id :String,
     val img: String,
     val correo: String,
     val contrasena: String,

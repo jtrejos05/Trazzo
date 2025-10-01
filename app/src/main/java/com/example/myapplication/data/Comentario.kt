@@ -3,9 +3,11 @@ package com.example.myapplication.data
 import androidx.annotation.DrawableRes
 
 data class Comentario(
-    @DrawableRes val fotous: Int,
+    val id: String,
+    val fotous: String,
     val usuario: String,
     val hora: String,
     val comentario: String,
-    val likes: Int
+    val likes: Int,
+    val calificacion: Double
 )

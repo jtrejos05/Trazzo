@@ -20,7 +20,7 @@ import com.example.myapplication.ui.Principal.PrincipalViewModel
 import com.example.myapplication.ui.TarjetaPublicacion
 
 @Composable
-fun PrincipalScreen( obraPressed: (Int) -> Unit = {},
+fun PrincipalScreen( obraPressed: (String) -> Unit = {},
     viewmodel: PrincipalViewModel,
     modifier: Modifier = Modifier
 ) {

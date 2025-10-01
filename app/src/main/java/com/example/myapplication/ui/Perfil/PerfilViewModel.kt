@@ -47,7 +47,8 @@ class PerfilViewModel @Inject constructor(
             siguiendo = 1,
             likes = 20,
             obras = ProveedorObras.obras,
-            interses = listOf("Pintura", "Escultura", "Fotografía")
+            interses = listOf("Pintura", "Escultura", "Fotografía"),
+            id = "1"
         )
         _uiState.update { it.copy(usuario = artista ) }
     }

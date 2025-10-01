@@ -14,7 +14,7 @@ class VistaObrasViewModel @Inject constructor(): ViewModel() {
     var uiState: MutableStateFlow<VistaObrasState> = _uiState
     fun getObra(id: Int): Obra? {
         //ir al repo y filtrar
-        val obra = ProveedorObras.obras.find { it.obraId == id }
+        val obra = ProveedorObras.obras.find { it.obraId.toInt() == id }
 
             return obra
 

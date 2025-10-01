@@ -16,8 +16,8 @@ import com.example.myapplication.ui.Trending.TrendingViewModel
 
 @Composable
 fun TrendingScreen(viewmodel: TrendingViewModel,
-    obraPressed: (Int) -> Unit = {},
-    modifier: Modifier = Modifier
+                   obraPressed: (String) -> Unit = {},
+                   modifier: Modifier = Modifier
 ) {
     val state by viewmodel.uiState.collectAsState()
     Box(
