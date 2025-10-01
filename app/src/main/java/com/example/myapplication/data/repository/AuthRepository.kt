@@ -1,8 +1,15 @@
 package com.example.myapplication.data.repository
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.example.myapplication.R
 import com.example.myapplication.data.datasource.AuthRemoteDataSource
+import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.FirebaseUser
 import javax.inject.Inject
 
@@ -19,7 +26,7 @@ class AuthRepository @Inject constructor(
             Result.success(Unit)
         }
         catch (e: FirebaseAuthInvalidCredentialsException){
-            Result.failure(Exception("Credenciales Incorrectas"))
+            Result.failure(Exception("Credenciles invalidas"))
         }
         catch (e: FirebaseAuthInvalidUserException){
             Result.failure(Exception("El usuario no existe"))
@@ -30,11 +37,21 @@ class AuthRepository @Inject constructor(
 
     }
     suspend fun signUp(email: String,password: String): Result<Unit>{
-        try {
-            authRemoteDataSource.signUp(email,password)
-            return Result.success(Unit)
-        }catch (e: Exception){
-            return Result.failure(e)
+        return try {
+            authRemoteDataSource.signUp(email, password)
+            Result.success(Unit)
+        }catch(e: FirebaseAuthWeakPasswordException){
+            Result.failure(Exception("La contraseña es debil"))
+        } catch (e: FirebaseAuthInvalidCredentialsException){
+            Result.failure(Exception("Correo electronico invalido"))
+        } catch(e: FirebaseAuthUserCollisionException){
+            Result.failure(Exception("El correo ya esta registrado"))
+        } catch(e: FirebaseNetworkException){
+            Result.failure(Exception("Error al conectar con la aplicación"))
+        } catch (e: FirebaseTooManyRequestsException){
+            Result.failure(Exception("Se han hecho bastantes intentos en poco tiempo. Espere un poco"))
+        } catch (e: Exception){
+             Result.failure(e)
         }
 
     }
