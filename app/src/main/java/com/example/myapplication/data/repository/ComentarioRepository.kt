@@ -40,7 +40,7 @@ class ComentarioRepository @Inject constructor(
 
     suspend fun getComentarioByArtistaId(id: String): Result<List<Comentario>>{
         return try {
-            val comentarios = DataSource.getAllComentariosByUsuarioId(id)
+            val comentarios = DataSource.getAllComentariosByArtistaId(id)
             val comentario = comentarios.map { it.toComentario() }
             Result.success(comentario)
         }catch (e: HttpException){

@@ -12,7 +12,7 @@ class ComentarioRetrofitDataSourceImpl @Inject constructor(
         return service.getAllComentariosByObraId(id.toInt())
     }
 
-    override suspend fun getAllComentariosByUsuarioId(id: String): List<ComentarioDto> {
+    override suspend fun getAllComentariosByArtistaId(id: String): List<ComentarioDto> {
         return service.getAllComentariosByArtistaId(id.toInt())
     }
 

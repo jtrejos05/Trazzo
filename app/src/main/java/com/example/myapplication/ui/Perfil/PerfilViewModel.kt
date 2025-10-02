@@ -8,6 +8,7 @@ import com.example.myapplication.data.local.ProveedorActividad
 import com.example.myapplication.data.local.ProveedorNotificaciones
 import com.example.myapplication.data.local.ProveedorObras
 import com.example.myapplication.data.repository.AuthRepository
+import com.example.myapplication.data.repository.ComentarioRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PerfilViewModel @Inject constructor(
-    private  val authRepository: AuthRepository
+    private  val authRepository: AuthRepository,
+    private val comentarioRepo: ComentarioRepository
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow(PerfilState())
@@ -52,8 +54,18 @@ class PerfilViewModel @Inject constructor(
         )
         _uiState.update { it.copy(usuario = artista ) }
     }
-    fun getActividades(){
-        _uiState.update { it.copy(actividades = ProveedorActividad.actividades) }
+    fun getReviews(){
+        viewModelScope.launch {
+            val result = comentarioRepo.getComentarioByArtistaId("1")
+            if (result.isSuccess){
+                _uiState.update { it.copy(reviews = result.getOrNull() ?: emptyList()) }
+
+            }else{
+                result.exceptionOrNull()?.printStackTrace()
+            }
+
+        }
+
     }
     fun getNotificaciones(){
         _uiState.update { it.copy(notificaciones = ProveedorNotificaciones.notificaciones) }
@@ -62,6 +74,6 @@ class PerfilViewModel @Inject constructor(
     init {
         getUsuario()
         getNotificaciones()
-        getActividades()
+        getReviews()
     }
 }
