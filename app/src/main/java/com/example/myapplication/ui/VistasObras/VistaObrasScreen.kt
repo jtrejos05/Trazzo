@@ -49,14 +49,14 @@ import com.example.myapplication.ui.utils.profileAssyncImage
 
 @Composable
 fun VistaObrasScreen(
-    idObra: Int,
+    idObra: String,
     viewmodel: VistaObrasViewModel,
     modifier: Modifier = Modifier
 ){
     val state by viewmodel.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
-        val obra = viewmodel.getObra(idObra)
+        val obra = viewmodel.getObra(idObra.toInt())
         viewmodel.updateObra(obra)
     }
     if (state.obra != null){
@@ -201,7 +201,8 @@ fun PostCard(
                 comentario = ProveedorComentarios.comentarios[it].comentario,
                 username = ProveedorComentarios.comentarios[it].usuario,
                 likes = ProveedorComentarios.comentarios[it].likes.toString(),
-                idPerfil = ProveedorComentarios.comentarios[it].fotous
+                idPerfil = ProveedorComentarios.comentarios[it].fotous,
+                calificacion = ProveedorComentarios.comentarios[it].calificacion
             )
         }
     }

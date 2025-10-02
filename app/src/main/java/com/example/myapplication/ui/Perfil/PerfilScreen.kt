@@ -58,10 +58,12 @@ import androidx.compose.ui.unit.dp
 import com.example.myapplication.R
 import com.example.myapplication.data.ActividadItem
 import com.example.myapplication.data.Artista
+import com.example.myapplication.data.Comentario
 import com.example.myapplication.data.NotificacionItem
 import com.example.myapplication.data.Obra
 import com.example.myapplication.data.local.ProveedorObras
 import com.example.myapplication.ui.Perfil.PerfilViewModel
+import com.example.myapplication.ui.utils.Comment
 import com.example.myapplication.ui.utils.obraAssyncImage
 import com.example.myapplication.ui.utils.profileAssyncImage
 import kotlin.Int
@@ -248,7 +250,8 @@ fun PreviewProfileHeader() {
             siguiendo=1,
             likes= 20,
             obras= ProveedorObras.obras,
-            interses = listOf("Pintura", "Escultura", "Fotografía")
+            interses = listOf("Pintura", "Escultura", "Fotografía"),
+            id= "1"
         )
     )
 }
@@ -284,7 +287,7 @@ fun TabsSection(
 ) {
     val tabs = listOf(
         "Obras" to Icons.Default.Image,
-        "Actividad" to Icons.Default.History,
+        "Reviews" to Icons.Default.History,
         "Notificaciones" to Icons.Default.Notifications,
         "Stats" to Icons.Default.BarChart
     )
@@ -323,7 +326,7 @@ fun PreviewTabsSection() {
 //Tab que muestra las obras del usuario
 @Composable
 fun ObrasList(obras: List<Obra>,
-              ObraPressed: (Int) -> Unit = {},
+              ObraPressed: (String) -> Unit = {},
               modifier: Modifier = Modifier) {
     LazyColumn(modifier = modifier) {
         items(obras) { obra ->
@@ -358,7 +361,7 @@ fun Elementos(painter: ImageVector, descripcion: String, texto: String, modifier
 }
 //Para la presentacion de las obras
 @Composable
-fun PostItem(post: Obra, ObraPressed: (Int) -> Unit, modifier: Modifier = Modifier) {
+fun PostItem(post: Obra, ObraPressed: (String) -> Unit, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
@@ -389,40 +392,19 @@ fun PreviewObrasList() {
     ObrasList(ProveedorObras.obras)
 
 }
-//Tab con la actividad reciente del usuario
+//Tab con los reviews del user
 @Composable
-fun ActividadTabContent(actividades: List<ActividadItem>) {
+fun ReviewTabContent(reviews: List<Comentario>) {
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         item {
             Text(
-                "Actividad Reciente",
+                "Reviews",
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(16.dp)
             )
         }
-        items(actividades) { actividad ->
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(12.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    imageVector = actividad.icon,
-                    contentDescription = null,
-                    tint = actividad.color,
-                    modifier = Modifier.size(24.dp)
-                )
-                Spacer(Modifier.width(12.dp))
-                Column {
-                    Text(actividad.descripcion, style = MaterialTheme.typography.bodyMedium)
-                    Text(
-                        actividad.tiempo,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
+        items(reviews) { review ->
+            Comment(hora = review.hora, comentario = review.comentario, username = review.usuario, likes = review.likes.toString(), idPerfil = review.fotous, calificacion = review.calificacion, )
         }
     }
 }
@@ -559,7 +541,7 @@ fun MetricCard(title: String, value: String, subtitle: String, icon: ImageVector
 @Composable
 fun PerfilScreen(viewmodel: PerfilViewModel,
                  guardadoPressed: () -> Unit={},
-                 ObraPressed: (Int) -> Unit = {},
+                 ObraPressed: (String) -> Unit = {},
                  EditarPressed: () -> Unit = {},
                  LogOutPressed:()-> Unit = {},
                  modifier: Modifier = Modifier) {
@@ -589,8 +571,8 @@ fun PerfilScreen(viewmodel: PerfilViewModel,
 
         // Contenido según el tab seleccionado
         when (state.selectedTab) {
-            0 -> ObrasList(state.usuario.obras, {ObraPressed(it)}) // Tab "Obras"
-            1 -> ActividadTabContent(state.actividades) // Tab "Actividad"
+            0 -> ObrasList(state.usuario.obras, {ObraPressed(it.toString())}) // Tab "Obras"
+            1 -> ReviewTabContent(state.reviews) // Tab "Actividad"
             2 -> NotificacionesTabContent(state.notificaciones) // Tab "Notificaciones"
             3 -> StatsTabContent(state.usuario) // Tab "Stats"
         }

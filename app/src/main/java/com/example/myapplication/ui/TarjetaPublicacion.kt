@@ -39,7 +39,7 @@ import com.example.myapplication.ui.utils.profileAssyncImage
 @Composable
 fun TarjetaPublicacion(
     publicacion: Obra,
-    obraClicked: (Int) -> Unit = {},
+    obraClicked: (String) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Card(

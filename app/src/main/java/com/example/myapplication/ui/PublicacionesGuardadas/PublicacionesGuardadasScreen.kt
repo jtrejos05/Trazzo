@@ -27,7 +27,7 @@ import com.example.myapplication.ui.TarjetaPublicacion
 
 @Composable
 fun PublicacionesGuardadasScreen(
-    obraPressed: (Int) -> Unit = {},
+    obraPressed: (String) -> Unit = {},
     viewmodel: PublicacionesGuardadasViewModel,
     modifier: Modifier = Modifier
 ) {
