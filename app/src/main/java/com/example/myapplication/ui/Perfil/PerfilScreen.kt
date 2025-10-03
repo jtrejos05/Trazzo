@@ -39,6 +39,7 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -539,7 +540,8 @@ fun MetricCard(title: String, value: String, subtitle: String, icon: ImageVector
 }
 //Pantalla final Perfil
 @Composable
-fun PerfilScreen(viewmodel: PerfilViewModel,
+fun PerfilScreen(id: String,
+    viewmodel: PerfilViewModel,
                  guardadoPressed: () -> Unit={},
                  ObraPressed: (String) -> Unit = {},
                  EditarPressed: () -> Unit = {},
@@ -547,6 +549,10 @@ fun PerfilScreen(viewmodel: PerfilViewModel,
                  modifier: Modifier = Modifier) {
 
     val state by viewmodel.uiState.collectAsState()
+    LaunchedEffect(Unit) {
+        viewmodel.getUsuario(id)
+        viewmodel.getReviews(id.toInt())
+    }
     Column(
         modifier = modifier
             .fillMaxSize()

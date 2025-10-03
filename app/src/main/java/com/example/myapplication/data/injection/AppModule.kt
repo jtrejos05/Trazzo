@@ -1,6 +1,8 @@
 package com.example.myapplication.data.injection
 
+import com.example.myapplication.data.Artista
 import com.example.myapplication.data.datasource.services.ComentarioRetrofitService
+import com.example.myapplication.data.datasource.services.UserRetrofitService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,7 +20,7 @@ object AppModule {
     @Provides
     fun providesRetrofit(): Retrofit{
         return Retrofit.Builder()
-            .baseUrl("http://192.168.0.10:3000/")
+            .baseUrl("http://192.168.0.8:3000/")
             .addConverterFactory(GsonConverterFactory.create())
             .addConverterFactory(ScalarsConverterFactory.create())
             .build()
@@ -28,5 +30,11 @@ object AppModule {
     @Provides
     fun providesComentarioRetrofitService(retrofit: Retrofit): ComentarioRetrofitService{
         return retrofit.create(ComentarioRetrofitService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun providesArtistaRetrofitService(retrofit: Retrofit): UserRetrofitService{
+        return retrofit.create(UserRetrofitService::class.java)
     }
 }
