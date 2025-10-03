@@ -10,5 +10,6 @@ data class PerfilState(
     var usuario:Artista = Artista("","","","","",0,"","",0,0,0,listOf(),listOf("")),
     var reviews: List<Comentario> = emptyList(),
     var notificaciones: List<NotificacionItem> = emptyList(),
-    var errormsg: String? = ""
+    var errormsg: String? = "",
+    var isLoading: Boolean = false
 )

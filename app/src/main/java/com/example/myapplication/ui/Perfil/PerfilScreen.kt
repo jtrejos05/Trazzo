@@ -24,6 +24,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Comment
 import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.BarChart
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.History
@@ -32,6 +33,7 @@ import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -51,9 +53,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.data.Artista
 import com.example.myapplication.data.Comentario
 import com.example.myapplication.data.NotificacionItem
@@ -400,7 +404,10 @@ fun PreviewObrasList() {
 }
 //Tab con los reviews del user
 @Composable
-fun ReviewTabContent(reviews: List<Comentario>) {
+fun ReviewTabContent(reviews: List<Comentario>,
+                     onclick: (String)-> Unit={},
+                     onDelete: (String)-> Unit={}
+) {
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         item {
             Text(
@@ -410,7 +417,29 @@ fun ReviewTabContent(reviews: List<Comentario>) {
             )
         }
         items(reviews) { review ->
-            Comment(hora = review.hora, comentario = review.comentario, username = review.usuario, likes = review.likes.toString(), idPerfil = review.fotous, calificacion = review.calificacion, )
+            Comment(hora = review.hora, comentario = review.comentario, username = review.usuario, likes = review.likes.toString(), idPerfil = review.fotous, calificacion = review.calificacion, respoderClicked = {})
+            Row() {
+                Spacer(modifier = Modifier.width(50.dp))
+                Icon(
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = "Icono Editar",
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.clickable{
+                        Log.d("IDESITAR","${review.id}")
+                        onclick(review.id)
+                    }
+                )
+                Spacer(modifier = Modifier.width(17.dp))
+                Icon(
+                    imageVector = Icons.Default.Delete,
+                    contentDescription = "Icono Borrar",
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.clickable{
+                        onDelete(review.id)
+                    }
+                )
+            }
+            Spacer(modifier = Modifier.height(10.dp))
         }
     }
 }
@@ -546,11 +575,12 @@ fun MetricCard(title: String, value: String, subtitle: String, icon: ImageVector
 //Pantalla final Perfil
 @Composable
 fun PerfilScreen(id: String,
-    viewmodel: PerfilViewModel,
+                 viewmodel: PerfilViewModel,
                  guardadoPressed: () -> Unit={},
                  ObraPressed: (String) -> Unit = {},
                  EditarPressed: () -> Unit = {},
                  LogOutPressed:()-> Unit = {},
+                 EditarRPressed: (String) -> Unit ={},
                  modifier: Modifier = Modifier) {
 
     val state by viewmodel.uiState.collectAsState()
@@ -565,59 +595,77 @@ fun PerfilScreen(id: String,
 
 
     }
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-    ) {
-        if (state.errormsg.equals(null)){
-            Text(state.errormsg!!)
-        }else {
 
-            if (state.usuario.id.equals("1")){
-                // Barra superior
-                TopBarProfile(
-                    username = state.usuario.usuario,
-                    onOutClick = { viewmodel.onOutClick() },
-                    onEditClick = { EditarPressed() },
-                    onLogOutClick = { LogOutPressed() }
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                // Cabecera
-                ProfileHeader(state.usuario, { guardadoPressed() })
-
-                // Tabs con íconos
-                TabsSection(
-                    selectedTab = state.selectedTab,
-                    onTabSelected = { viewmodel.updateSelectedTab(it) },
-                    user = state.usuario.id
-                )
-
-                // Contenido según el tab seleccionado
-                when (state.selectedTab) {
-                    0 -> ObrasList(state.usuario.obras, { ObraPressed(it.toString()) }) // Tab "Obras"
-                    1 -> ReviewTabContent(state.reviews) // Tab "Actividad"
-                    2 -> NotificacionesTabContent(state.notificaciones) // Tab "Notificaciones"
-                    3 -> StatsTabContent(state.usuario) // Tab "Stats"
-                }
-            }else{
-                ProfileHeader(state.usuario, { guardadoPressed() })
-
-                // Tabs con íconos
-                TabsSection(
-                    selectedTab = state.selectedTab,
-                    onTabSelected = { viewmodel.updateSelectedTab(it) },
-                    user = state.usuario.id
-                )
-
-                // Contenido según el tab seleccionado
-                when (state.selectedTab) {
-                    0 -> ObrasList(state.usuario.obras, { ObraPressed(it.toString()) }) // Tab "Obras"
-                    1 -> ReviewTabContent(state.reviews) // Tab "Actividad"
-                }
+    when{
+        state.isLoading->{
+            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center){
+                CircularProgressIndicator()
             }
-            }
+        }
 
+        state.errormsg != null ->{
+            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center){
+                Text(state.errormsg ?: "Error desconocido")
+            }
+        }
+        else ->{
+            Column(
+                modifier = modifier
+                    .fillMaxSize()
+            ) {
+                if (state.errormsg != null){
+                    Text(state.errormsg!!)
+                }else {
+
+                    if (state.usuario.id.equals("1")){
+                        // Barra superior
+                        TopBarProfile(
+                            username = state.usuario.usuario,
+                            onOutClick = { viewmodel.onOutClick() },
+                            onEditClick = { EditarPressed() },
+                            onLogOutClick = { LogOutPressed() }
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        // Cabecera
+                        ProfileHeader(state.usuario, { guardadoPressed() })
+
+                        // Tabs con íconos
+                        TabsSection(
+                            selectedTab = state.selectedTab,
+                            onTabSelected = { viewmodel.updateSelectedTab(it) },
+                            user = state.usuario.id
+                        )
+
+                        // Contenido según el tab seleccionado
+                        when (state.selectedTab) {
+                            0 -> ObrasList(state.usuario.obras, { ObraPressed(it.toString()) }) // Tab "Obras"
+                            1 -> ReviewTabContent(state.reviews,
+                                EditarRPressed ,{id -> { viewmodel.deleteComment(id) }}) // Tab "Actividad"
+                            2 -> NotificacionesTabContent(state.notificaciones) // Tab "Notificaciones"
+                            3 -> StatsTabContent(state.usuario) // Tab "Stats"
+                        }
+                    }else{
+                        ProfileHeader(state.usuario, { guardadoPressed() })
+
+                        // Tabs con íconos
+                        TabsSection(
+                            selectedTab = state.selectedTab,
+                            onTabSelected = { viewmodel.updateSelectedTab(it) },
+                            user = state.usuario.id
+                        )
+
+                        // Contenido según el tab seleccionado
+                        when (state.selectedTab) {
+                            0 -> ObrasList(state.usuario.obras, { ObraPressed(it.toString()) }) // Tab "Obras"
+                            1 -> ReviewTabContent(state.reviews) // Tab "Actividad"
+                        }
+                    }
+                }
+
+            }
+        }
     }
+
 }
 
 

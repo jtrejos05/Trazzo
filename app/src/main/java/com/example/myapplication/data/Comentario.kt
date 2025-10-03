@@ -9,5 +9,6 @@ data class Comentario(
     val hora: String,
     val comentario: String,
     val likes: Int,
-    val calificacion: Double
+    val calificacion: Double,
+    val obraId: String
 )

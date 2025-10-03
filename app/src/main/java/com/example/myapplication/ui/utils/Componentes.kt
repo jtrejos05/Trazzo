@@ -4,6 +4,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -238,8 +239,10 @@ fun AddButton(
 }
 
 @Composable
-fun ReactionItem(imagen: ImageVector, descripcion: String, count: String) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
+fun ReactionItem(imagen: ImageVector, descripcion: String, count: String, onClick: () -> Unit) {
+    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.clickable{
+        onClick()
+    }) {
         Icon(
             imageVector = imagen,
             contentDescription = descripcion,

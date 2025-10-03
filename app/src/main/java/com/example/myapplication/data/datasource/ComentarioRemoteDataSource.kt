@@ -1,10 +1,18 @@
 package com.example.myapplication.data.datasource
 
+import com.example.myapplication.data.Comentario
 import com.example.myapplication.data.dtos.ComentarioDto
+import com.example.myapplication.data.dtos.CreateCommentDto
 
 interface ComentarioRemoteDataSource {
     suspend fun getAllCommentarios():List<ComentarioDto>
     suspend fun getComentarioById(id: String): ComentarioDto
     suspend fun getAllComentariosByObraId(id: String): List<ComentarioDto>
     suspend fun getAllComentariosByArtistaId(id: String): List<ComentarioDto>
+
+    suspend fun createCommentario(comment: CreateCommentDto): Unit
+
+    suspend fun updateCommentario(id: String, comentario: CreateCommentDto): Unit
+
+    suspend fun deleteComentario(id: String): Unit
 }

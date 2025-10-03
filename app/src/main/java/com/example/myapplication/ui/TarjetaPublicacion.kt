@@ -120,9 +120,9 @@ fun TarjetaPublicacion(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                ReactionItem(imagen = Icons.Default.ThumbUpOffAlt, descripcion = "like", count = publicacion.likes)
-                ReactionItem(imagen = Icons.AutoMirrored.Filled.Comment, descripcion = "comentarios", count = publicacion.comentarios)
-                ReactionItem(imagen = Icons.Default.TurnRight, descripcion = "compartidos", count = publicacion.compartidos)
+                ReactionItem(imagen = Icons.Default.ThumbUpOffAlt, descripcion = "like", count = publicacion.likes,{})
+                ReactionItem(imagen = Icons.AutoMirrored.Filled.Comment, descripcion = "comentarios", count = publicacion.comentarios,{})
+                ReactionItem(imagen = Icons.Default.TurnRight, descripcion = "compartidos", count = publicacion.compartidos,{})
                 Icon(
                     imageVector = Icons.Default.BookmarkBorder,
                     contentDescription = "guardar",

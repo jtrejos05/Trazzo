@@ -2,6 +2,7 @@ package com.example.myapplication.ui.utils
 
 import android.widget.RatingBar
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -78,7 +79,8 @@ fun Comment(
     username: String,
     likes: String,
     idPerfil: String,
-    calificacion: Double
+    calificacion: Double,
+    respoderClicked: ()-> Unit
 ){
     Row(
         horizontalArrangement = Arrangement.Center,
@@ -121,7 +123,10 @@ fun Comment(
                 Icon(
                     imageVector = Icons.Default.TurnLeft,
                     contentDescription = "Reply Icon",
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.clickable{
+                        respoderClicked()
+                    }
                 )
                 Text(
                     text = "Responder",

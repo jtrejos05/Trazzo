@@ -22,7 +22,7 @@ data class ComentarioDto(
     val parentComentarioId: Int?,
     val comentario: String,
     val likes: Int,
-    val calificacion: Int,
+    val calificacion: Double,
     val createdAt: String,
     val updatedAt: String,
     val artista: ArtistaComentarioDto,
@@ -56,6 +56,8 @@ fun ComentarioDto.toComentario(): Comentario {
         hora = tiempoVisual(this.createdAt),
         comentario = this.comentario,
         likes = this.likes,
-        calificacion = this.calificacion.toDouble()
+        calificacion = this.calificacion.toDouble(),
+        obraId = this.obraId.toString()
+
     )
 }

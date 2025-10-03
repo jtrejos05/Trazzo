@@ -36,6 +36,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Comment
 import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.ThumbUpOffAlt
+import androidx.compose.material.icons.filled.TurnLeft
 import androidx.compose.material.icons.filled.TurnRight
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -51,6 +52,8 @@ import com.example.myapplication.ui.utils.profileAssyncImage
 @Composable
 fun VistaObrasScreen(
     idObra: String,
+    onComentario: (String) -> Unit = {},
+    onResponse: ()->Unit = {},
     viewmodel: VistaObrasViewModel,
     modifier: Modifier = Modifier
 ){
@@ -67,7 +70,9 @@ fun VistaObrasScreen(
         ){
             PostCard(
                 obra = state.obra!!,
-                reviews = state.reviews
+                reviews = state.reviews,
+                onclick = onComentario,
+                responderClicked = onResponse
             )
         }
     }
@@ -157,6 +162,7 @@ fun ImagenPrincipal(
 @Composable
 fun Reacciones(
     obra: Obra,
+    onClick: (String) -> Unit = {},
     modifier: Modifier = Modifier
 ){
     Row(
@@ -164,9 +170,9 @@ fun Reacciones(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier
     ) {
-        ReactionItem(imagen = Icons.Default.ThumbUpOffAlt, descripcion = "like", count = obra.likes)
-        ReactionItem(imagen = Icons.AutoMirrored.Filled.Comment, descripcion = "comentarios", count = obra.comentarios)
-        ReactionItem(imagen = Icons.Default.TurnRight, descripcion = "compartidos", count = obra.compartidos)
+        ReactionItem(imagen = Icons.Default.ThumbUpOffAlt, descripcion = "like", count = obra.likes,{})
+        ReactionItem(imagen = Icons.AutoMirrored.Filled.Comment, descripcion = "comentarios", count = obra.comentarios,{onClick(obra.obraId)}  )
+        ReactionItem(imagen = Icons.Default.TurnRight, descripcion = "compartidos", count = obra.compartidos,{})
         Icon(
             imageVector = Icons.Default.BookmarkBorder,
             contentDescription = "guardar",
@@ -178,6 +184,8 @@ fun Reacciones(
 @Composable
 fun PostCard(
     obra: Obra,
+    onclick: (String) -> Unit = {},
+    responderClicked: ()-> Unit = {},
     reviews: List<Comentario>
 ) {
     LazyColumn(
@@ -190,7 +198,7 @@ fun PostCard(
             TituloyDescripcion(obra)
             Etiquetas(obra)
             ImagenPrincipal(obra)
-            Reacciones(obra)
+            Reacciones(obra, {onclick(obra.obraId)})
             Text(
                 text = "Comentarios",
                 fontWeight = FontWeight.Bold,
@@ -210,8 +218,11 @@ fun PostCard(
                     username = reviews[it].usuario,
                     likes = reviews[it].likes.toString(),
                     idPerfil = reviews[it].fotous,
-                    calificacion = reviews[it].calificacion
+                    calificacion = reviews[it].calificacion,
+                    respoderClicked = { responderClicked() }
                 )
+
+
             }
         }
 

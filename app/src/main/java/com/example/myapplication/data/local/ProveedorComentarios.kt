@@ -13,7 +13,8 @@ object ProveedorComentarios {
             hora = "5h",
             comentario = "Los pliegues estan explicados con mucha claridad",
             likes = 5,
-            calificacion = 5.0
+            calificacion = 5.0,
+            obraId = ""
         ),
         Comentario(
             id = "2",

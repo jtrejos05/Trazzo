@@ -1,5 +1,6 @@
 package com.example.myapplication.navigation
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -40,6 +41,8 @@ import com.example.myapplication.data.local.ProveedorNotificaciones
 import com.example.myapplication.data.local.ProveedorObras
 import com.example.myapplication.ui.Buscar.BuscarScreen
 import com.example.myapplication.ui.Buscar.BuscarViewModel
+import com.example.myapplication.ui.CrearEditarComment.CrearEditarCommentViewModel
+import com.example.myapplication.ui.CrearEditarComment.CrearEditarScreen
 import com.example.myapplication.ui.Editar.EditarPerfilScreen
 import com.example.myapplication.ui.Editar.EditarPerfilViewModel
 import com.example.myapplication.ui.Home.HomeScreen
@@ -90,12 +93,25 @@ sealed class Rutas(
     object Barra: Rutas("barra")
     object Principal: Rutas("principal")
     object EditarPerfil: Rutas("editarperfil")
+    object CrearComment: Rutas("crearComment/{obraId}"){
+        fun createCRoute(obraId: String):String{
+            return "crearComment/$obraId"
+        }
+    }
+    object EditarComment: Rutas("editarComment/{commentId}"){
+        fun createMRoute(commentId: String): String{
+            return "editarComment/$commentId"
+        }
+    }
+
 }
 //Todo lo relacionado a la navegacion entre pantallas
 @Composable
 fun AppNavigation(navControler: NavHostController,
     modifier: Modifier = Modifier){
     NavHost(navControler, Rutas.Splash.ruta, modifier) {
+
+
         //Navegacion Home
         composable(Rutas.Home.ruta) {
             val viewModel: HomeViewModel= hiltViewModel()
@@ -145,9 +161,34 @@ fun AppNavigation(navControler: NavHostController,
             val viewmodel: VistaObrasViewModel = hiltViewModel()
             val state by viewmodel.uiState.collectAsState()
             if (obraId != "") {
-                VistaObrasScreen(obraId,viewmodel)
+                VistaObrasScreen(obraId,{obraId->navControler.navigate(Rutas.CrearComment.createCRoute(obraId))},{},viewmodel)
             }
         }
+        composable(Rutas.CrearComment.ruta, arguments = listOf(navArgument("obraId"){type = NavType.StringType})){
+            val obraId = it.arguments?.getString("obraId") ?: ""
+            val viewModel: CrearEditarCommentViewModel = hiltViewModel()
+            val stat by viewModel.uiState.collectAsState()
+            if (obraId != ""){
+                CrearEditarScreen(obraId=obraId,viewModel=viewModel, onBack = {navControler.navigate(Rutas.Principal.ruta)})
+            }
+
+        }
+
+        composable(Rutas.EditarComment.ruta,arguments = listOf(navArgument("commentId"){type = NavType.StringType})) {
+            val commentId = it.arguments?.getString("commentId") ?: ""
+
+            val viewModel: CrearEditarCommentViewModel = hiltViewModel()
+            val stat by viewModel.uiState.collectAsState()
+            if (commentId != "") {
+                CrearEditarScreen(
+                    id = commentId,
+                    obraId = "0",
+                    viewModel = viewModel,
+                    onBack = { navControler.navigate(Rutas.Principal.ruta) })
+            }
+        }
+
+
         //Navegacion Pantalla Perfil
         composable(Rutas.Perfil.ruta, arguments = listOf(navArgument("perfilId"){type = NavType.StringType})) {
             val UsuarioId=it.arguments?.getString("perfilId") ?:""
@@ -157,7 +198,11 @@ fun AppNavigation(navControler: NavHostController,
                 {navControler.navigate(
                     Rutas.Guardadas.ruta)}
                 ,{ obraId->navControler.navigate(Rutas.Detalle.createRoute(obraId )) },
-                {navControler.navigate(Rutas.EditarPerfil.ruta)}, {navControler.navigate(Rutas.Home.ruta)})
+                {navControler.navigate(Rutas.EditarPerfil.ruta)}, {navControler.navigate(Rutas.Home.ruta)},
+                {commentId->
+
+                    navControler.navigate(Rutas.EditarComment.createMRoute(commentId))
+                })
         }
 
         // Navegacion pantalla buscar

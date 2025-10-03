@@ -47,12 +47,15 @@ class PerfilViewModel @Inject constructor(
     }
     fun getUsuario(id: String){
         viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true, errormsg = null) }
             val result=userRepo.getUserById(id)
             if (result.isSuccess){
                 _uiState.update { it.copy(usuario = result.getOrDefault(Artista("","","","","",0,"","",0,0,0,listOf(),listOf("")))) }
+                _uiState.update { it.copy(isLoading = false, errormsg = null) }
             }else{
+                _uiState.update { it.copy(errormsg = result.exceptionOrNull()?.message, isLoading = false) }
                 Log.e("PerfilViewModel", "Error al obtener usuario")
-                result.exceptionOrNull()?.printStackTrace()
+
             }
             if (_uiState.value.usuario.id != ""){
                 getReviews()
@@ -80,6 +83,19 @@ class PerfilViewModel @Inject constructor(
         _uiState.update { it.copy(notificaciones = ProveedorNotificaciones.notificaciones) }
     }
 
+    fun deleteComment(id: String){
+        viewModelScope.launch {
+            val result = comentarioRepo.deleteComentario(id)
+            if (result.isSuccess){
+                _uiState.value = _uiState.value.copy(
+                    reviews = _uiState.value.reviews.filter { it.id != id }
+                )
+
+            }else{
+
+            }
+        }
+    }
     init {
         getNotificaciones()
 
