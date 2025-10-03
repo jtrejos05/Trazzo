@@ -201,7 +201,7 @@ fun ProfileHeader(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            profileAssyncImage(artista.img,100, Modifier.clip(CircleShape)
+            profileAssyncImage(artista.img,70, Modifier.clip(CircleShape)
                 .border(2.dp, MaterialTheme.colorScheme.primary, CircleShape),)
             Spacer(modifier = Modifier.width(12.dp))
             Column {

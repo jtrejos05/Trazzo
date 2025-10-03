@@ -15,14 +15,8 @@ class UserRepository @Inject constructor(
 ) {
     suspend fun getUserById(id: String): Result<Artista>{
         return try {
-            Log.d("UserRepository", "🔎 Buscando usuario en DataSource con id=$id")
-
             val artistaDto = DataSource.getUserById(id)
-            Log.d("UserRepository", "📦 DTO recibido: $artistaDto")
-
             val usuario= artistaDto.toArtista()
-            Log.d("UserRepository", "✅ Mapeado a entidad: $usuario")
-
 
             Result.success(usuario)
         }catch (e: HttpException){

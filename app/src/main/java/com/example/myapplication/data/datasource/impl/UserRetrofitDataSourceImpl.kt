@@ -11,9 +11,7 @@ class UserRetrofitDataSourceImpl @Inject constructor(
 ): UserRemoteDataSource {
     override suspend fun getUserById(id:String): ArtistaDto{
         try {
-            Log.d("UserRemoteDS", "🌐 Llamando API getUsuarioById con id=$id")
             val usuario = service.getUsuarioById(id.toInt())
-            Log.d("UserRemoteDS", "🌐 Llamando API encontro usuario=$usuario")
             return usuario
         }catch (e: Exception){
             Log.d("UserRemoteDS", "🚨 Error en getUsuarioById", e)
