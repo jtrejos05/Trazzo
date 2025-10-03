@@ -2,13 +2,13 @@ package com.example.myapplication.data.repository
 
 import coil.network.HttpException
 import com.example.myapplication.data.Obra
-import com.example.myapplication.data.datasource.ObraRemoteDataSource
 import com.example.myapplication.data.datasource.impl.ObraRetrofitDataSourceImpl
 import com.example.myapplication.data.dtos.ArtistaObraDto
-import com.example.myapplication.data.dtos.ObraDto
+import com.example.myapplication.data.dtos.CreateObraDto
 import com.example.myapplication.data.dtos.TagDto
 import com.example.myapplication.data.dtos.toObra
 import javax.inject.Inject
+import kotlin.Int
 
 class ObraRepository @Inject constructor(
     private val ObraRemoteDataSource: ObraRetrofitDataSourceImpl
@@ -27,7 +27,7 @@ class ObraRepository @Inject constructor(
     }
 
     suspend fun createObra(
-         id: Int,
+        id: Int,
          artistaId: Int,
          titulo: String,
          descripcion: String,
@@ -40,7 +40,12 @@ class ObraRepository @Inject constructor(
          updatedAt: String,
          artista: ArtistaObraDto,
          tags: List<TagDto>
-    ){
-
+                           ) : Result<Unit> {
+        return try{
+                val createObraDto= CreateObraDto(               )
+        ObraRemoteDataSource.createObra(createObraDto)
+        }catch (Exception e){
+            Result.failure(e)
+        }
     }
 }
