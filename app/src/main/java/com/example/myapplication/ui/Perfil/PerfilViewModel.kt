@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.Perfil
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.R
@@ -9,6 +10,7 @@ import com.example.myapplication.data.local.ProveedorNotificaciones
 import com.example.myapplication.data.local.ProveedorObras
 import com.example.myapplication.data.repository.AuthRepository
 import com.example.myapplication.data.repository.ComentarioRepository
+import com.example.myapplication.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class PerfilViewModel @Inject constructor(
     private  val authRepository: AuthRepository,
-    private val comentarioRepo: ComentarioRepository
+    private val comentarioRepo: ComentarioRepository,
+    private val userRepo: UserRepository
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow(PerfilState())
@@ -36,27 +39,27 @@ class PerfilViewModel @Inject constructor(
     fun updateSelectedTab(nuevaSelectedTab: Int = 0) {
         _uiState.update { it.copy(selectedTab = nuevaSelectedTab) }
     }
-    fun getUsuario(){
-        val artista = Artista(
-            img = authRepository.currentUser?.photoUrl.toString(),
-            correo = "Correo@gmail.com",
-            contrasena = "123456",
-            usuario = "LA K",
-            edad = 20,
-            profesion = "Artista",
-            biografia = "Me encanta el arte y la pintura.",
-            seguidores = 13,
-            siguiendo = 1,
-            likes = 20,
-            obras = ProveedorObras.obras,
-            interses = listOf("Pintura", "Escultura", "Fotografía"),
-            id = "1"
-        )
-        _uiState.update { it.copy(usuario = artista ) }
+    fun updateArtista(artista: Artista){
+        _uiState.update { it.copy(usuario = artista) }
     }
-    fun getReviews(){
+    fun getUsuario(id: String){
         viewModelScope.launch {
-            val result = comentarioRepo.getComentarioByArtistaId("1")
+            Log.d("PerfilViewModel", "Usuario encontrado: $id")
+            val result=userRepo.getUserById(id)
+            Log.d("PerfilViewModel", "Usuario encontrado: ${result.isSuccess}")
+            if (result.isSuccess){
+                _uiState.update { it.copy(usuario = result.getOrDefault(Artista("","","","","",0,"","",0,0,0,listOf(),listOf("")))) }
+            }else{
+                Log.e("PerfilViewModel", "Error al obtener usuario")
+                result.exceptionOrNull()?.printStackTrace()
+            }
+        }
+
+
+    }
+    fun getReviews(id:Int){
+        viewModelScope.launch {
+            val result = comentarioRepo.getComentarioByArtistaId(_uiState.value.usuario.id)
             if (result.isSuccess){
                 _uiState.update { it.copy(reviews = result.getOrNull() ?: emptyList()) }
 
@@ -72,8 +75,7 @@ class PerfilViewModel @Inject constructor(
     }
 
     init {
-        getUsuario()
         getNotificaciones()
-        getReviews()
+
     }
 }

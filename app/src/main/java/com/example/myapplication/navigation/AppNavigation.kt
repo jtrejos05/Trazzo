@@ -63,6 +63,7 @@ import com.example.myapplication.ui.Trending.TrendingViewModel
 import com.example.myapplication.ui.VistasObras.VistaObrasScreen
 import com.example.myapplication.ui.VistasObras.VistaObrasViewModel
 import com.example.myapplication.ui.utils.LogoTrazzo
+import javax.inject.Inject
 
 //Sealed Class con las rutas a las pantallas
 sealed class Rutas(
@@ -78,7 +79,11 @@ sealed class Rutas(
             return "detalle/$obraId"
         }
     }
-    object Perfil : Rutas("perfil")
+    object Perfil : Rutas("perfil/{perfilId}"){
+        fun createPRoute(perfilId: String): String{
+            return "perfil/$perfilId"
+        }
+    }
     object Buscar : Rutas("buscar")
     object Guardadas : Rutas("guardadas")
     object Trending : Rutas("trending")
@@ -144,10 +149,11 @@ fun AppNavigation(navControler: NavHostController,
             }
         }
         //Navegacion Pantalla Perfil
-        composable(Rutas.Perfil.ruta) {
+        composable(Rutas.Perfil.ruta, arguments = listOf(navArgument("perfilId"){type = NavType.StringType})) {
+            val UsuarioId=it.arguments?.getString("perfilId") ?:""
             val viewmodel: PerfilViewModel = hiltViewModel()
             val state by viewmodel.uiState.collectAsState()
-            PerfilScreen(viewmodel,
+            PerfilScreen(UsuarioId, viewmodel,
                 {navControler.navigate(
                     Rutas.Guardadas.ruta)}
                 ,{ obraId->navControler.navigate(Rutas.Detalle.createRoute(obraId )) },
@@ -205,7 +211,7 @@ fun AppNavigation(navControler: NavHostController,
 }
 //Barra de navegacion Inferior
 @Composable
-fun BottomNavigationBar(
+fun BottomNavigationBar (
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
@@ -222,7 +228,14 @@ fun BottomNavigationBar(
                     )
                 } ,
                 selected = false,
-                onClick = { navController.navigateSingleTopTo(item.route) }
+                onClick = {
+                    if (item.route == Rutas.Perfil.ruta){
+                        navController.navigateSingleTopTo(Rutas.Perfil.createPRoute("1"))
+                    }else {
+                        navController.navigateSingleTopTo(item.route)
+                    }
+                }
+
             )
         }
     }
