@@ -42,8 +42,7 @@ class ObraRepository @Inject constructor(
          tags: List<TagDto>
                            ) : Result<Unit> {
         return try{
-                val createObraDto= CreateObraDto(id, artistaId, titulo, descripcion, obraIMG, numComentarios, likes, compartidos, vistas, createdAt, updatedAt, artista, tags
-                )
+                val createObraDto= CreateObraDto(               )
         ObraRemoteDataSource.createObra(createObraDto)
         }catch (Exception e){
             Result.failure(e)
