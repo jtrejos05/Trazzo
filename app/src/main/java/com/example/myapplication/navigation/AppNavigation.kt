@@ -224,9 +224,9 @@ fun AppNavigation(navControler: NavHostController,
         }
         //Navegacion Pantalla Trending
         composable(Rutas.Trending.ruta) {
-            val viewmodel: TrendingViewModel=viewModel ()
+            val viewmodel: TrendingViewModel=hiltViewModel()
             val state by viewmodel.uiState.collectAsState()
-            TrendingScreen( viewmodel,{ obraId->navControler.navigate(Rutas.Detalle.createRoute(obraId )) })
+            TrendingScreen( viewmodel,{ obraId->navControler.navigate(Rutas.Detalle.createRoute(obraId )) }, {perfilId->navControler.navigate(Rutas.Perfil.createPRoute(perfilId))})
         }
         //Navegacion Pantalla Editar Perfil
         composable(Rutas.EditarPerfil.ruta) {

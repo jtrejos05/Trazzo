@@ -61,7 +61,6 @@ fun VistaObrasScreen(
 
     LaunchedEffect(Unit) {
         viewmodel.getObra(idObra.toInt())
-
     }
     if (state.obra != null){
         Column(
@@ -200,7 +199,7 @@ fun PostCard(
             ImagenPrincipal(obra)
             Reacciones(obra, {onclick(obra.obraId)})
             Text(
-                text = "Comentarios",
+                text = stringResource(R.string.reviews),
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp
             )

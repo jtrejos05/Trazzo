@@ -1,5 +1,6 @@
 package com.example.myapplication.data.repository
 
+import android.util.Log
 import coil.network.HttpException
 import com.example.myapplication.data.Obra
 import com.example.myapplication.data.datasource.impl.ObraRetrofitDataSourceImpl
@@ -34,6 +35,20 @@ class ObraRepository @Inject constructor(
             Result.success(obra)
         }catch (e: HttpException){
             e.response.code
+            Result.failure(e)
+        }
+        catch (e: Exception){
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getTrendingObras(): Result<List<Obra>> {
+        return try{
+            var obras= ObraRemoteDataSource.getObras()
+            obras = obras.sortedByDescending { it.likes }
+            val obrasInfo=obras.map {it.toObra()}
+            Result.success(obrasInfo)
+        }catch (e: HttpException){
             Result.failure(e)
         }
         catch (e: Exception){

@@ -76,8 +76,6 @@ fun PrincipalScreen( obraPressed: (String) -> Unit = {},
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-
-
                     // Lista de publicaciones
                     LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(12.dp),
