@@ -42,6 +42,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import com.example.myapplication.R
+import com.example.myapplication.data.Comentario
 import com.example.myapplication.ui.utils.ReactionItem
 import com.example.myapplication.ui.utils.obraAssyncImage
 import com.example.myapplication.ui.utils.profileAssyncImage
@@ -56,8 +57,8 @@ fun VistaObrasScreen(
     val state by viewmodel.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
-        val obra = viewmodel.getObra(idObra.toInt())
-        viewmodel.updateObra(obra)
+        viewmodel.getObra(idObra.toInt())
+
     }
     if (state.obra != null){
         Column(
@@ -65,7 +66,8 @@ fun VistaObrasScreen(
                 .fillMaxSize(),
         ){
             PostCard(
-                obra = state.obra!!
+                obra = state.obra!!,
+                reviews = state.reviews
             )
         }
     }
@@ -175,7 +177,8 @@ fun Reacciones(
 }
 @Composable
 fun PostCard(
-    obra: Obra
+    obra: Obra,
+    reviews: List<Comentario>
 ) {
     LazyColumn(
         modifier = Modifier
@@ -189,21 +192,28 @@ fun PostCard(
             ImagenPrincipal(obra)
             Reacciones(obra)
             Text(
-                text = stringResource(R.string.comentarios),
+                text = "Comentarios",
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp
             )
             Spacer(Modifier.height(8.dp))
         }
-        items(ProveedorComentarios.comentarios.size) {
-            Comment(
-                hora = ProveedorComentarios.comentarios[it].hora,
-                comentario = ProveedorComentarios.comentarios[it].comentario,
-                username = ProveedorComentarios.comentarios[it].usuario,
-                likes = ProveedorComentarios.comentarios[it].likes.toString(),
-                idPerfil = ProveedorComentarios.comentarios[it].fotous,
-                calificacion = ProveedorComentarios.comentarios[it].calificacion
-            )
+        if (reviews.isEmpty()){
+            item {
+                Text("No hay reviews que mostrar")
+            }
+        }else{
+            items(reviews.size) {
+                Comment(
+                    hora = reviews[it].hora,
+                    comentario = reviews[it].comentario,
+                    username = reviews[it].usuario,
+                    likes = reviews[it].likes.toString(),
+                    idPerfil = reviews[it].fotous,
+                    calificacion = reviews[it].calificacion
+                )
+            }
         }
+
     }
 }

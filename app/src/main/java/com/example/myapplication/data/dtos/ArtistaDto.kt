@@ -38,7 +38,7 @@ data class ArtistaDto(
     val obras: List<ObrasArtistaDto>,
     val intereses: List<InteresesDto>
 )
-fun ObrasArtistaDto.toObra(fotousuario: String, usuario: String): Obra{
+fun ObrasArtistaDto.toObra(fotousuario: String, usuario: String, id:Int): Obra{
     var likesString = ""
     if (likes>1000) {
         val likesInK = likes / 1000.0
@@ -46,6 +46,7 @@ fun ObrasArtistaDto.toObra(fotousuario: String, usuario: String): Obra{
     } else {
         likesString = likes.toString()
     }
+
     return Obra(
         fotous = fotousuario,
         usuario = usuario,
@@ -58,11 +59,12 @@ fun ObrasArtistaDto.toObra(fotousuario: String, usuario: String): Obra{
         compartidos = this.compartidos.toString(),
         vistas = this.vistas.toString(),
         obraId = this.id.toString(),
-        Tags = emptyList()
+        Tags = emptyList(),
+        artistaId = id.toString()
     )
 }
 fun ArtistaDto.toArtista(): Artista {
-    var obras = this.obras.map { it.toObra(this.fotousuario, this.nombre) }
+    var obras = this.obras.map { it.toObra(this.fotousuario, this.nombre, this.id) }
     var intereses = this.intereses.map { it.interes }
 
 

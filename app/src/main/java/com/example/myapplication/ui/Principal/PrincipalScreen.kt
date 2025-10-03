@@ -20,6 +20,7 @@ import com.example.myapplication.ui.TarjetaPublicacion
 
 @Composable
 fun PrincipalScreen( obraPressed: (String) -> Unit = {},
+                     perfilPressed: (String)-> Unit = {},
     viewmodel: PrincipalViewModel,
     modifier: Modifier = Modifier
 ) {
@@ -83,7 +84,7 @@ fun PrincipalScreen( obraPressed: (String) -> Unit = {},
                         modifier = Modifier.padding(horizontal = 16.dp)
                     ) {
                         items(state.obras) { obra ->
-                            TarjetaPublicacion(obra, { obraPressed(obra.obraId) })
+                            TarjetaPublicacion(obra, { obraPressed(obra.obraId) }, {perfilPressed(obra.artistaId)})
                         }
                     }
                 }

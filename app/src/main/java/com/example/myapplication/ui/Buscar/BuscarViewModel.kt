@@ -3,6 +3,7 @@ package com.example.myapplication.ui.Buscar
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.data.Obra
+import com.example.myapplication.data.local.ProveedorObras
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -93,52 +94,7 @@ class BuscarViewModel @Inject constructor(): ViewModel() {
 
 
     private fun simularBusqueda(query: String): List<Obra> {
-        return if (query.isNotEmpty() && query.lowercase().contains("arte")) {
-            listOf(
-                Obra(
-                    fotous = "url_foto_usuario_1",
-                    usuario = "Usuario1",
-                    hora = "1h",
-                    titulo = "Arte Moderno",
-                    descripcion = "Una descripción de arte moderno.",
-                    Tags = listOf("arte", "moderno"),
-                    foto = "url_foto_obra_1",
-                    likes = "100",
-                    comentarios = "15",
-                    compartidos = "5",
-                    obraId = 1
-                ),
-                Obra(
-                    fotous = "url_foto_usuario_2",
-                    usuario = "Usuario2",
-                    hora = "2h",
-                    titulo = "Arte Contemporáneo",
-                    descripcion = "Una descripción de arte contemporáneo.",
-                    Tags = listOf("arte", "contemporaneo"),
-                    foto = "url_foto_obra_2",
-                    likes = "200",
-                    comentarios = "25",
-                    compartidos = "10",
-                    obraId = 2
-                ),
-                Obra(
-                    fotous = "url_foto_usuario_3",
-                    usuario = "Usuario3",
-                    hora = "3h",
-                    titulo = "Arte Digital",
-                    descripcion = "Una descripción de arte digital.",
-                    Tags = listOf("arte", "digital"),
-                    foto = "url_foto_obra_3",
-                    likes = "300",
-                    comentarios = "30",
-                    compartidos = "15",
-                    obraId = 3
-                )
-            )
-        } else {
-            emptyList()
-        }
+        return ProveedorObras.obras
     }
-
 }
 

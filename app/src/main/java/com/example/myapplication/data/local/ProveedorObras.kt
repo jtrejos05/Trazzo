@@ -19,7 +19,8 @@ object ProveedorObras {
             comentarios = "12",
             compartidos = "3",
             vistas = "1000",
-            obraId  = "1"
+            obraId  = "1",
+            artistaId = "1"
     ),
         Obra(
             fotous = "https://cdn.pixabay.com/photo/2015/01/06/16/14/woman-590490_640.jpg",
@@ -33,7 +34,8 @@ object ProveedorObras {
             comentarios = "120",
             compartidos = "3",
             vistas = "5000",
-            obraId = "2"
+            obraId = "2",
+            artistaId = "1"
         ),
         Obra(
             fotous = "https://cdn.pixabay.com/photo/2022/12/24/21/14/portrait-7676482_640.jpg",
@@ -47,7 +49,8 @@ object ProveedorObras {
             comentarios = "45",
             compartidos = "3",
             vistas = "2000",
-            obraId = "3"
+            obraId = "3",
+            artistaId = "1"
         )
         )
 

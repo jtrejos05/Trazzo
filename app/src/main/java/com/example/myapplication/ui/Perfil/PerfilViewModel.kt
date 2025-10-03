@@ -39,6 +39,9 @@ class PerfilViewModel @Inject constructor(
     fun updateSelectedTab(nuevaSelectedTab: Int = 0) {
         _uiState.update { it.copy(selectedTab = nuevaSelectedTab) }
     }
+    fun updateError(msg: String){
+        _uiState.update { it.copy(errormsg = msg) }
+    }
     fun updateArtista(artista: Artista){
         _uiState.update { it.copy(usuario = artista) }
     }
@@ -51,12 +54,17 @@ class PerfilViewModel @Inject constructor(
                 Log.e("PerfilViewModel", "Error al obtener usuario")
                 result.exceptionOrNull()?.printStackTrace()
             }
+            if (_uiState.value.usuario.id != ""){
+                getReviews()
+            }
+
         }
 
 
     }
-    fun getReviews(id:Int){
+    fun getReviews(){
         viewModelScope.launch {
+            Log.d("ViewModel","${_uiState.value.usuario.id}")
             val result = comentarioRepo.getComentarioByArtistaId(_uiState.value.usuario.id)
             if (result.isSuccess){
                 _uiState.update { it.copy(reviews = result.getOrNull() ?: emptyList()) }
