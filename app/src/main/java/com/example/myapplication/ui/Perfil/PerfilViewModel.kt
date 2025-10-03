@@ -44,9 +44,7 @@ class PerfilViewModel @Inject constructor(
     }
     fun getUsuario(id: String){
         viewModelScope.launch {
-            Log.d("PerfilViewModel", "Usuario encontrado: $id")
             val result=userRepo.getUserById(id)
-            Log.d("PerfilViewModel", "Usuario encontrado: ${result.isSuccess}")
             if (result.isSuccess){
                 _uiState.update { it.copy(usuario = result.getOrDefault(Artista("","","","","",0,"","",0,0,0,listOf(),listOf("")))) }
             }else{
