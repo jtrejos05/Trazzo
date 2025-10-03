@@ -40,6 +40,8 @@ import androidx.compose.material.icons.filled.TurnRight
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
+import com.example.myapplication.R
 import com.example.myapplication.ui.utils.ReactionItem
 import com.example.myapplication.ui.utils.obraAssyncImage
 import com.example.myapplication.ui.utils.profileAssyncImage
@@ -187,7 +189,7 @@ fun PostCard(
             ImagenPrincipal(obra)
             Reacciones(obra)
             Text(
-                text = "Comentarios",
+                text = stringResource(R.string.comentarios),
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp
             )

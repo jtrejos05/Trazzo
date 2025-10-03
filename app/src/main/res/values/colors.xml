@@ -24,4 +24,5 @@
     <color name="blanco_fondo">#FFFFFF</color>
     <color name="gris_fondo">#F8F9F9</color>
     <color name="amarillo_dorado">#FFD700</color>
+    <color name="rojo_error">#FF0000</color>
 </resources>

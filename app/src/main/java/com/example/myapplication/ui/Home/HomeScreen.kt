@@ -82,10 +82,10 @@ fun BodyHomeScreen(
         )
 
         Row {
-            ExternalLogo(idImagen = R.drawable.google_logo, description = "Google")
-            ExternalLogo(idImagen = R.drawable.facebook_logo, description = "Facebook")
-            ExternalLogo(idImagen = R.drawable.instagram_logo, description = "Instagram")
-            ExternalLogo(idImagen = R.drawable.github_logo, description = "Github")
+            ExternalLogo(idImagen = R.drawable.google_logo, description = stringResource(R.string.google))
+            ExternalLogo(idImagen = R.drawable.facebook_logo, description = stringResource(R.string.facebook))
+            ExternalLogo(idImagen = R.drawable.instagram_logo, description = stringResource(R.string.instagram))
+            ExternalLogo(idImagen = R.drawable.github_logo, description = stringResource(R.string.github))
         }
     }
 }

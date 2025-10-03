@@ -1,5 +1,7 @@
 package com.example.myapplication.ui.Buscar
 
+import com.example.myapplication.data.Obra
+
 data class BuscarState(
     val texto: String = "",
     val categoriasTop: List<String> = emptyList(),
@@ -10,5 +12,11 @@ data class BuscarState(
     val navegarCategoria: Boolean = false,
     val categoriaSeleccionada: String = "",
     val navegarTrending: Boolean = false,
-    val trendingSeleccionado: String = ""
+    val trendingSeleccionado: String = "",
+
+    val resultadosBusqueda: List<Obra> = emptyList(),
+    val errorMessage: String? = null,
+    val isLoading: Boolean = false,
+
+    val mensajeSinResultados: String? = null
 )

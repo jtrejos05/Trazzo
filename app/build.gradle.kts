@@ -63,6 +63,7 @@ dependencies {
     implementation("com.google.firebase:firebase-storage-ktx")
     implementation(libs.dagger.hilt)
     implementation(libs.hilt.compose.navigation)
+    implementation(libs.ui)
     kapt(libs.dagger.kapt)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.firestore)
