@@ -1,13 +1,20 @@
 package com.example.myapplication.ui.utils
 
+import android.widget.RatingBar
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.StarHalf
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.StarBorder
+import androidx.compose.material.icons.filled.StarHalf
 import androidx.compose.material.icons.filled.TurnLeft
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -15,10 +22,53 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.R
+
+@Composable
+fun Calificacion(
+    calificacion: Double,
+    modifier: Modifier = Modifier
+){
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+    ) {
+        var cal = calificacion;
+        for (i in 1..5) {
+            if (cal >=0) {
+                if (cal == 0.5) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.StarHalf,
+                        contentDescription = "estrella media",
+                        tint = MaterialTheme.colorScheme.inversePrimary,
+                        modifier = modifier.size(20.dp)
+                    )
+                    cal = cal-1
+                } else {
+                    Icon(
+                        imageVector = Icons.Default.Star,
+                        contentDescription = "estrella completa",
+                        tint = MaterialTheme.colorScheme.inversePrimary,
+                        modifier = modifier.size(20.dp)
+                    )
+                    cal = cal-1
+                }
+            } else {
+                Icon(
+                    imageVector = Icons.Default.StarBorder,
+                    contentDescription = "estrella vacia",
+                    tint = MaterialTheme.colorScheme.inversePrimary,
+                    modifier = modifier.size(20.dp)
+                )
+            }
+        }
+    }
+}
 
 @Composable
 fun Comment(
@@ -27,14 +77,15 @@ fun Comment(
     comentario: String,
     username: String,
     likes: String,
-    idPerfil: Int
+    idPerfil: String,
+    calificacion: Double
 ){
     Row(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.Top,
         modifier = modifier.padding(bottom = 20.dp)
     ){
-        UserProfileImage(idImage = idPerfil, modifier = Modifier.padding(end = 10.dp))
+        profileAssyncImage(profileImage = idPerfil, size = 40, modifier = Modifier.padding(end = 10.dp))
         Column(){
             Row(
                 modifier = Modifier.padding(bottom = 5.dp),
@@ -48,6 +99,8 @@ fun Comment(
                     color = MaterialTheme.colorScheme.primary,
                     fontSize = MaterialTheme.typography.bodySmall.fontSize
                 )
+                Spacer(modifier= Modifier.width(40.dp))
+                Calificacion(calificacion)
             }
             Text(
                 comentario,

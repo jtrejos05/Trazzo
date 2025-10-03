@@ -14,5 +14,5 @@ data class Obra(
     val comentarios: String,
     val compartidos: String,
     val vistas: String = "0",
-    val obraId: Int
+    val obraId: String
 )

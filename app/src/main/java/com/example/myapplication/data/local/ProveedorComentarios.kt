@@ -7,18 +7,22 @@ import com.example.myapplication.data.Comentario
 object ProveedorComentarios {
     val comentarios = listOf(
         Comentario(
-            fotous = R.drawable.juanito_foto,
+            id = "1",
+            fotous = "https://cdn.pixabay.com/photo/2025/09/10/11/25/duck-9826181_640.jpg",
             usuario = "Juanito Perez",
             hora = "5h",
             comentario = "Los pliegues estan explicados con mucha claridad",
             likes = 5,
+            calificacion = 5.0
         ),
         Comentario(
-            fotous = R.drawable.maria_foto,
+            id = "2",
+            fotous = "https://randomuser.me/api/portraits",
             usuario = "Maria Sato",
             hora = "2h",
             comentario = "¡Increible tutorial! Por fin logre hacer mi primera grulla perfecta. Los pliegues estan explicados super claramente",
             likes = 12,
+            calificacion = 4.5
         )
     )
 }

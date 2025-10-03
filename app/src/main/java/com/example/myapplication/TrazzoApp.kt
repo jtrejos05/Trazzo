@@ -3,6 +3,7 @@ package com.example.myapplication
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.currentCompositionContext
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -14,6 +15,8 @@ import com.example.myapplication.navigation.Rutas
 import com.example.myapplication.navigation.TopNavigationBar
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.myapplication.data.repository.AuthRepository
 import com.example.myapplication.navigation.NavegationLogic
 
 @Composable
