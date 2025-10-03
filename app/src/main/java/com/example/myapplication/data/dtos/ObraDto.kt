@@ -1,6 +1,7 @@
 package com.example.myapplication.data.dtos
 
 import com.example.myapplication.data.Obra
+import kotlin.Int
 
 
 data class ArtistaObraDto(
@@ -41,17 +42,20 @@ fun ObraDto.toObra(): Obra {
         likesString = likes.toString()
     }
     return Obra(
-        fotous = this.artista.fotousuario,
-        usuario = this.artista.nombre,
-        hora = this.createdAt,
-        titulo = this.titulo,
-        descripcion = this.descripcion,
-        Tags = tagStrings as List<String>,
-        foto = this.obraIMG,
+
+        id = id.toString(),
+        createdAt = createdAt,
+        titulo = titulo,
+        descripcion = descripcion,
+        obraIMG = obraIMG,
         likes = likesString,
-        comentarios = this.numComentarios.toString(),
-        compartidos = this.compartidos.toString(),
-        vistas = this.vistas.toString(),
-        obraId = this.id.toString()
+        numComentarios = numComentarios.toString(),
+        compartidos = compartidos.toString(),
+        vistas = vistas.toString(),
+        tags =tags.toString(),
+        artista = artista,
+        updatedAt = updatedAt,
+        artistaId = artistaId.toString()
+
     )
 }
