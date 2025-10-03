@@ -1,7 +1,11 @@
 package com.example.myapplication.data.dtos
 
+import android.text.format.DateUtils
+import android.util.Log
 import com.example.myapplication.data.Obra
-import kotlin.Int
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.TimeZone
 
 
 data class ArtistaObraDto(
@@ -10,7 +14,7 @@ data class ArtistaObraDto(
 )
 
 data class TagDto(
-    val nombre: String
+    val tag: String
 )
 
 data class ObraDto(
@@ -30,10 +34,7 @@ data class ObraDto(
 )
 
 fun ObraDto.toObra(): Obra {
-    val tagStrings: MutableList<String?> = ArrayList<String?>()
-    this.tags.forEach { tagDto -> {
-        tagStrings.add(tagDto.nombre)
-    } }
+    val tagStrings = tags.map { it.tag }
     var likesString = ""
     if (likes>1000) {
         val likesInK = likes / 1000.0
@@ -42,20 +43,18 @@ fun ObraDto.toObra(): Obra {
         likesString = likes.toString()
     }
     return Obra(
-
-        id = id.toString(),
-        createdAt = createdAt,
-        titulo = titulo,
-        descripcion = descripcion,
-        obraIMG = obraIMG,
+        fotous = this.artista.fotousuario,
+        usuario = this.artista.nombre,
+        hora = tiempoVisual(this.createdAt),
+        titulo = this.titulo,
+        descripcion = this.descripcion,
+        Tags = tagStrings,
+        foto = this.obraIMG,
         likes = likesString,
-        numComentarios = numComentarios.toString(),
-        compartidos = compartidos.toString(),
-        vistas = vistas.toString(),
-        tags =tags.toString(),
-        artista = artista,
-        updatedAt = updatedAt,
-        artistaId = artistaId.toString()
-
+        comentarios = this.numComentarios.toString(),
+        compartidos = this.compartidos.toString(),
+        vistas = this.vistas.toString(),
+        obraId = this.id.toString(),
+        artistaId = this.artistaId.toString()
     )
 }

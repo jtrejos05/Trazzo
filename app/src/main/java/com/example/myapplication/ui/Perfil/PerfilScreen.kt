@@ -1,10 +1,12 @@
 package com.example.myapplication.ui.Perfil
 
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -277,14 +279,23 @@ fun guardados(guardadoPressed: () -> Unit = {},modifier: Modifier= Modifier) {
 @Composable
 fun TabsSection(
     selectedTab: Int,
-    onTabSelected: (Int) -> Unit
+    onTabSelected: (Int) -> Unit,
+    user: String
 ) {
-    val tabs = listOf(
-        "Obras" to Icons.Default.Image,
-        "Reviews" to Icons.Default.History,
-        "Notificaciones" to Icons.Default.Notifications,
-        "Stats" to Icons.Default.BarChart
-    )
+    val tabs: List<Pair<String, ImageVector>>
+    if (user.equals("1")) {
+        tabs = listOf(
+            "Obras" to Icons.Default.Image,
+            "Reviews" to Icons.Default.History,
+            "Notificaciones" to Icons.Default.Notifications,
+            "Stats" to Icons.Default.BarChart
+        )
+    }else{
+        tabs = listOf(
+            "Obras" to Icons.Default.Image,
+            "Reviews" to Icons.Default.History,
+        )
+    }
 
     TabRow(selectedTabIndex = selectedTab) {
         tabs.forEachIndexed { index, (title, icon) ->
@@ -313,7 +324,8 @@ fun PreviewTabsSection() {
     var selectedTab by remember { mutableStateOf(0) }
     TabsSection(
         selectedTab = selectedTab,
-        onTabSelected = { selectedTab = it }
+        onTabSelected = { selectedTab = it },
+        user = "1"
     )
 }
 
@@ -544,37 +556,67 @@ fun PerfilScreen(id: String,
     val state by viewmodel.uiState.collectAsState()
     LaunchedEffect(Unit) {
         viewmodel.getUsuario(id)
-        viewmodel.getReviews(id.toInt())
+
+        if (state.usuario.id.equals("")){
+
+                viewmodel.updateError("El usuario no existe o no esta disponible")
+
+        }
+
+
     }
     Column(
         modifier = modifier
             .fillMaxSize()
     ) {
-        // Barra superior
-        TopBarProfile(
-            username = state.usuario.usuario,
-            onOutClick = {viewmodel.onOutClick()},
-            onEditClick = {EditarPressed()},
-            onLogOutClick = {LogOutPressed()}
-        )
-        Spacer(modifier = Modifier.height(8.dp))
+        if (state.errormsg.equals(null)){
+            Text(state.errormsg!!)
+        }else {
 
-        // Cabecera
-        ProfileHeader( state.usuario, {guardadoPressed()})
+            if (state.usuario.id.equals("1")){
+                // Barra superior
+                TopBarProfile(
+                    username = state.usuario.usuario,
+                    onOutClick = { viewmodel.onOutClick() },
+                    onEditClick = { EditarPressed() },
+                    onLogOutClick = { LogOutPressed() }
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                // Cabecera
+                ProfileHeader(state.usuario, { guardadoPressed() })
 
-        // Tabs con íconos
-        TabsSection(
-            selectedTab = state.selectedTab,
-            onTabSelected = { viewmodel.updateSelectedTab(it) }
-        )
+                // Tabs con íconos
+                TabsSection(
+                    selectedTab = state.selectedTab,
+                    onTabSelected = { viewmodel.updateSelectedTab(it) },
+                    user = state.usuario.id
+                )
 
-        // Contenido según el tab seleccionado
-        when (state.selectedTab) {
-            0 -> ObrasList(state.usuario.obras, {ObraPressed(it.toString())}) // Tab "Obras"
-            1 -> ReviewTabContent(state.reviews) // Tab "Actividad"
-            2 -> NotificacionesTabContent(state.notificaciones) // Tab "Notificaciones"
-            3 -> StatsTabContent(state.usuario) // Tab "Stats"
-        }
+                // Contenido según el tab seleccionado
+                when (state.selectedTab) {
+                    0 -> ObrasList(state.usuario.obras, { ObraPressed(it.toString()) }) // Tab "Obras"
+                    1 -> ReviewTabContent(state.reviews) // Tab "Actividad"
+                    2 -> NotificacionesTabContent(state.notificaciones) // Tab "Notificaciones"
+                    3 -> StatsTabContent(state.usuario) // Tab "Stats"
+                }
+            }else{
+                ProfileHeader(state.usuario, { guardadoPressed() })
+
+                // Tabs con íconos
+                TabsSection(
+                    selectedTab = state.selectedTab,
+                    onTabSelected = { viewmodel.updateSelectedTab(it) },
+                    user = state.usuario.id
+                )
+
+                // Contenido según el tab seleccionado
+                when (state.selectedTab) {
+                    0 -> ObrasList(state.usuario.obras, { ObraPressed(it.toString()) }) // Tab "Obras"
+                    1 -> ReviewTabContent(state.reviews) // Tab "Actividad"
+                }
+            }
+            }
+
     }
 }
 

@@ -29,17 +29,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.R
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.myapplication.data.Obra
 import com.example.myapplication.ui.utils.ReactionItem
 import com.example.myapplication.ui.utils.obraAssyncImage
 import com.example.myapplication.ui.utils.profileAssyncImage
 
-
 @Composable
 fun TarjetaPublicacion(
     publicacion: Obra,
     obraClicked: (String) -> Unit = {},
+    perfilClicked: (String) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -52,7 +51,10 @@ fun TarjetaPublicacion(
         Column(modifier = Modifier.padding(16.dp)) {
 
             // Perfil y nombre
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.clickable{
+                    perfilClicked(publicacion.artistaId)
+                }) {
                 profileAssyncImage(publicacion.fotous,36)
                 Spacer(Modifier.width(8.dp))
                 Column {
@@ -118,20 +120,18 @@ fun TarjetaPublicacion(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                ReactionItem(imagen = Icons.Default.ThumbUpOffAlt, descripcion = stringResource(R.string.like), count = publicacion.likes)
-                ReactionItem(imagen = Icons.AutoMirrored.Filled.Comment, descripcion = stringResource(R.string.comentarios), count = publicacion.comentarios)
-                ReactionItem(imagen = Icons.Default.TurnRight, descripcion = stringResource(R.string.compartidos), count = publicacion.compartidos)
+                ReactionItem(imagen = Icons.Default.ThumbUpOffAlt, descripcion = "like", count = publicacion.likes)
+                ReactionItem(imagen = Icons.AutoMirrored.Filled.Comment, descripcion = "comentarios", count = publicacion.comentarios)
+                ReactionItem(imagen = Icons.Default.TurnRight, descripcion = "compartidos", count = publicacion.compartidos)
                 Icon(
                     imageVector = Icons.Default.BookmarkBorder,
-                    contentDescription = stringResource(R.string.guardar),
+                    contentDescription = "guardar",
                     tint = MaterialTheme.colorScheme.primary
                 )
             }
         }
     }
 }
-
-
 
 @Composable
 fun IconoConTexto(iconId: Int, texto: String) {

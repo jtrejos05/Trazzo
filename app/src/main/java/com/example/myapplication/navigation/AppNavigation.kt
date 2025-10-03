@@ -111,7 +111,7 @@ fun AppNavigation(navControler: NavHostController,
             val viewmodel: PrincipalViewModel = hiltViewModel()
             val state by viewmodel.uiState.collectAsState()
 
-            PrincipalScreen({obraId->navControler.navigate(Rutas.Detalle.createRoute(obraId ))}, viewmodel)
+            PrincipalScreen({obraId->navControler.navigate(Rutas.Detalle.createRoute(obraId ))}, {perfilId->navControler.navigate(Rutas.Perfil.createPRoute(perfilId))},viewmodel)
         }
         //Navegacion Inicio de Sesion
         composable(Rutas.Login.ruta) {

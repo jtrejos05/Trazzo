@@ -6,6 +6,7 @@ import com.example.myapplication.data.datasource.impl.ObraRetrofitDataSourceImpl
 import com.example.myapplication.data.dtos.ArtistaObraDto
 import com.example.myapplication.data.dtos.CreateObraDto
 import com.example.myapplication.data.dtos.TagDto
+import com.example.myapplication.data.dtos.toArtista
 import com.example.myapplication.data.dtos.toObra
 import javax.inject.Inject
 import kotlin.Int
@@ -26,25 +27,16 @@ class ObraRepository @Inject constructor(
         }
     }
 
-    suspend fun createObra(
-        id: Int,
-         artistaId: Int,
-         titulo: String,
-         descripcion: String,
-         obraIMG: String,
-         numComentarios: Int,
-         likes: Int,
-         compartidos: Int,
-         vistas: Int,
-         createdAt: String,
-         updatedAt: String,
-         artista: ArtistaObraDto,
-         tags: List<TagDto>
-                           ) : Result<Unit> {
-        return try{
-                val createObraDto= CreateObraDto(               )
-        ObraRemoteDataSource.createObra(createObraDto)
-        }catch (Exception e){
+    suspend fun getObra(id: String): Result<Obra>{
+        return try {
+            val obraDto = ObraRemoteDataSource.getObraById(id)
+            val obra= obraDto.toObra()
+            Result.success(obra)
+        }catch (e: HttpException){
+            e.response.code
+            Result.failure(e)
+        }
+        catch (e: Exception){
             Result.failure(e)
         }
     }
