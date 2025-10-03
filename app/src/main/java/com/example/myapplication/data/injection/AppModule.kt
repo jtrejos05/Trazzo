@@ -2,6 +2,7 @@ package com.example.myapplication.data.injection
 
 import com.example.myapplication.data.Artista
 import com.example.myapplication.data.datasource.services.ComentarioRetrofitService
+import com.example.myapplication.data.datasource.services.ObraRetrofitService
 import com.example.myapplication.data.datasource.services.UserRetrofitService
 import dagger.Module
 import dagger.Provides
@@ -36,5 +37,11 @@ object AppModule {
     @Provides
     fun providesArtistaRetrofitService(retrofit: Retrofit): UserRetrofitService{
         return retrofit.create(UserRetrofitService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun providesObraRetrofitService(retrofit: Retrofit): ObraRetrofitService{
+        return retrofit.create(ObraRetrofitService::class.java)
     }
 }
