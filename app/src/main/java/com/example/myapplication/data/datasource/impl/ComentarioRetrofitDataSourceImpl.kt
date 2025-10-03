@@ -38,6 +38,7 @@ class ComentarioRetrofitDataSourceImpl @Inject constructor(
     }
 
     override suspend fun deleteComentario(id: String) {
+        Log.d("IDESITAR L", "AYDA JESUS")
         return service.deleteComentario(id.toInt())
     }
 

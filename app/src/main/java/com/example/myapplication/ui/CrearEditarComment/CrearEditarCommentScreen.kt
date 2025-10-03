@@ -73,8 +73,13 @@ fun CrearEditarScreen(
             Spacer(modifier= Modifier.width(20.dp))
             BotonInteres("Publicar", MaterialTheme.colorScheme.primaryContainer,MaterialTheme.colorScheme.onSecondaryContainer,
                 {
-                    Log.d("IDESITAR", "${state.obraId} $id")
-                    viewModel.createComment(obraId= state.obraId, parentComment = responseId,id= id)
+                    Log.d("IDESITAR crear", "Obra${state.obraId} ID$id")
+                    if (state.obraId == ""){
+                        viewModel.createComment(obraId= obraId, parentComment = responseId,id= id)
+                    }else{
+                        viewModel.createComment(obraId= state.obraId, parentComment = responseId,id= id)
+                    }
+
                 },modifier
                     .width(180.dp)
                     .height(50.dp) )

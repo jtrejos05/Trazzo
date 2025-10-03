@@ -29,7 +29,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.data.Obra
-import com.example.myapplication.data.local.ProveedorComentarios
 import com.example.myapplication.ui.utils.Comment
 import androidx.compose.material3.Icon
 import androidx.compose.material.icons.Icons
