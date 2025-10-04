@@ -88,16 +88,13 @@ class ComentarioRepository @Inject constructor(
 
     suspend fun deleteComentario(id:String): Result<Unit>{
         return try {
-            Log.d("IDESITAR E", "DIOS ESTAS HAY?")
             DataSource.deleteComentario(id)
             Result.success(Unit)
         }catch (e: HttpException){
-            Log.d("IDESITAR E", "DIOS NOS ABANDONO???")
             e.response.code
             Result.failure(e)
         }
         catch (e: Exception){
-            Log.d("IDESITAR E", "DIOS NOS ABANDONO???")
             Result.failure(e)
         }
     }

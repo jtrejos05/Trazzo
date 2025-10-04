@@ -3,6 +3,7 @@ package com.example.myapplication.data.datasource
 import com.example.myapplication.data.Comentario
 import com.example.myapplication.data.dtos.ComentarioDto
 import com.example.myapplication.data.dtos.CreateCommentDto
+import retrofit2.Response
 
 interface ComentarioRemoteDataSource {
     suspend fun getAllCommentarios():List<ComentarioDto>
@@ -14,5 +15,5 @@ interface ComentarioRemoteDataSource {
 
     suspend fun updateCommentario(id: String, comentario: CreateCommentDto): Unit
 
-    suspend fun deleteComentario(id: String): Unit
+    suspend fun deleteComentario(id: String): Response<Unit>
 }

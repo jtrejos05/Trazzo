@@ -85,16 +85,14 @@ class PerfilViewModel @Inject constructor(
 
     fun deleteComment(id: String){
         viewModelScope.launch {
-            Log.d("IDESITAR SIII", "LLEGO")
             val result = comentarioRepo.deleteComentario(id)
-            Log.d("IDESITAR SIUII", "${result.isSuccess}")
             if (result.isSuccess){
                 _uiState.value = _uiState.value.copy(
                     reviews = _uiState.value.reviews.filter { it.id != id }
                 )
 
             }else{
-                Log.d("IDESITAR FALLO", "FALLO :(")
+                _uiState.update { it.copy(errormsg = "Fallo la eliminacion") }
             }
         }
     }

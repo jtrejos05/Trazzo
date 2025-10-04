@@ -5,6 +5,7 @@ import com.example.myapplication.data.datasource.ComentarioRemoteDataSource
 import com.example.myapplication.data.datasource.services.ComentarioRetrofitService
 import com.example.myapplication.data.dtos.ComentarioDto
 import com.example.myapplication.data.dtos.CreateCommentDto
+import retrofit2.Response
 import javax.inject.Inject
 
 class ComentarioRetrofitDataSourceImpl @Inject constructor(
@@ -31,14 +32,10 @@ class ComentarioRetrofitDataSourceImpl @Inject constructor(
     }
 
     override suspend fun updateCommentario(id: String, comentario: CreateCommentDto) {
-
-        Log.d("Actualizado", "$id $comentario")
-
         return service.updateComentario(id.toInt(), comentario)
     }
 
-    override suspend fun deleteComentario(id: String) {
-        Log.d("IDESITAR L", "AYDA JESUS")
+    override suspend fun deleteComentario(id: String): Response<Unit> {
         return service.deleteComentario(id.toInt())
     }
 

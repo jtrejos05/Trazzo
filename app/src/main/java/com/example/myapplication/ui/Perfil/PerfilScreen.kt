@@ -406,7 +406,7 @@ fun PreviewObrasList() {
 @Composable
 fun ReviewTabContent(reviews: List<Comentario>,
                      onclick: (String)-> Unit={},
-                     onDelete: (String)-> Unit
+                     onDelete: (String)-> Unit={}
 ) {
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         item {
@@ -425,7 +425,6 @@ fun ReviewTabContent(reviews: List<Comentario>,
                     contentDescription = "Icono Editar",
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.clickable{
-                        Log.d("IDESITAR","${review.id}")
                         onclick(review.id)
                     }
                 )
@@ -435,9 +434,7 @@ fun ReviewTabContent(reviews: List<Comentario>,
                     contentDescription = "Icono Borrar",
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.clickable{
-                        Log.d("IDESITAR PERFIL",review.id)
-                        onDelete(review.id.toString())
-                        Log.d("IDESITAR Y", "Se ejecutó onDelete con id=${review.id}")
+                        onDelete(review.id)
 
                     }
                 )
@@ -638,15 +635,13 @@ fun PerfilScreen(id: String,
                             onTabSelected = { viewmodel.updateSelectedTab(it) },
                             user = state.usuario.id
                         )
-                        val borrar: Int
                         // Contenido según el tab seleccionado
                         when (state.selectedTab) {
                             0 -> ObrasList(state.usuario.obras, { ObraPressed(it.toString()) }) // Tab "Obras"
                             1 -> ReviewTabContent(state.reviews,
-                                EditarRPressed ,{borrar ->{
-                                    Log.d("IDESITAR OU", "HACE ALGO ?????")
-                                    viewmodel.deleteComment(borrar)
-                                }}) // Tab "Actividad"
+                                EditarRPressed ,onDelete = { borrarId ->
+                                    viewmodel.deleteComment(borrarId)
+                                }) // Tab "Actividad"
                             2 -> NotificacionesTabContent(state.notificaciones) // Tab "Notificaciones"
                             3 -> StatsTabContent(state.usuario) // Tab "Stats"
                         }
@@ -664,10 +659,7 @@ fun PerfilScreen(id: String,
                         when (state.selectedTab) {
                             0 -> ObrasList(state.usuario.obras, { ObraPressed(it.toString()) }) // Tab "Obras"
                             1 -> ReviewTabContent(
-                                state.reviews, onDelete = {borrar->
-                                    Log.d("IDESITAR OU", "HACE ALGO ?????")
-                                    viewmodel.deleteComment(borrar)
-                                } ) // Tab "Actividad"
+                                state.reviews, onDelete = {  } ) // Tab "Actividad"
                         }
                     }
                 }
