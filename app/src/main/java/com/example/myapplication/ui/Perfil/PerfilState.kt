@@ -4,6 +4,7 @@ import com.example.myapplication.data.ActividadItem
 import com.example.myapplication.data.Artista
 import com.example.myapplication.data.Comentario
 import com.example.myapplication.data.NotificacionItem
+import com.example.myapplication.data.Obra
 
 data class PerfilState(
     var selectedTab: Int = 0,
@@ -11,5 +12,7 @@ data class PerfilState(
     var reviews: List<Comentario> = emptyList(),
     var notificaciones: List<NotificacionItem> = emptyList(),
     var errormsg: String? = "",
-    var isLoading: Boolean = false
+    var isLoading: Boolean = false,
+    var ObraReview: Obra = Obra("","","","","", listOf(),"", "", "", "", "0", "",""),
+    var cargandoObra: Boolean = false,
 )

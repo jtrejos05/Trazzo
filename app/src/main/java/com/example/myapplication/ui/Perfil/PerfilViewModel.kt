@@ -5,11 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.R
 import com.example.myapplication.data.Artista
+import com.example.myapplication.data.Obra
 import com.example.myapplication.data.local.ProveedorActividad
 import com.example.myapplication.data.local.ProveedorNotificaciones
 import com.example.myapplication.data.local.ProveedorObras
 import com.example.myapplication.data.repository.AuthRepository
 import com.example.myapplication.data.repository.ComentarioRepository
+import com.example.myapplication.data.repository.ObraRepository
 import com.example.myapplication.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 
@@ -23,7 +25,8 @@ import javax.inject.Inject
 class PerfilViewModel @Inject constructor(
     private  val authRepository: AuthRepository,
     private val comentarioRepo: ComentarioRepository,
-    private val userRepo: UserRepository
+    private val userRepo: UserRepository,
+    private val obraRepo: ObraRepository
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow(PerfilState())
@@ -65,9 +68,23 @@ class PerfilViewModel @Inject constructor(
 
 
     }
+   fun getObraByReviewId(id:String): Obra{
+        viewModelScope.launch {
+            _uiState.update { it.copy(cargandoObra = true) }
+            val result = obraRepo.getObra(id)
+            if (result.isSuccess){
+                _uiState.update { it.copy(ObraReview = result.getOrNull() ?: Obra("","","","","", listOf(),"", "", "", "", "0", "","")) }
+                _uiState.update { it.copy(cargandoObra = false) }
+            }else{
+                _uiState.update { it.copy(errormsg = "La obra no se pudo Obtener") }
+                _uiState.update { it.copy(cargandoObra = false) }
+            }
+        }
+        return _uiState.value.ObraReview
+    }
     fun getReviews(){
         viewModelScope.launch {
-            Log.d("ViewModel","${_uiState.value.usuario.id}")
+
             val result = comentarioRepo.getComentarioByArtistaId(_uiState.value.usuario.id)
             if (result.isSuccess){
                 _uiState.update { it.copy(reviews = result.getOrNull() ?: emptyList()) }

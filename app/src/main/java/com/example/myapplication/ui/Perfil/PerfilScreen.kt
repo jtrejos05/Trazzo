@@ -369,6 +369,24 @@ fun Elementos(painter: ImageVector, descripcion: String, texto: String, modifier
 
 
 }
+
+@Composable
+fun ReviewObras(post: Obra, ObraPressed: (String) -> Unit = {}, modifier: Modifier = Modifier) {
+    Card(
+        modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+        shape = RoundedCornerShape(12.dp),
+        onClick = { ObraPressed(post.obraId) }
+    ) {
+        Column {
+            obraAssyncImage(post.foto,200, modifier = Modifier.fillMaxWidth())
+            Text(
+                text = "${post.titulo} by ${post.usuario}",
+                modifier = Modifier.padding(8.dp),
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
+    }
+}
 //Para la presentacion de las obras
 @Composable
 fun PostItem(post: Obra, ObraPressed: (String) -> Unit, modifier: Modifier = Modifier) {
@@ -406,7 +424,10 @@ fun PreviewObrasList() {
 @Composable
 fun ReviewTabContent(reviews: List<Comentario>,
                      onclick: (String)-> Unit={},
-                     onDelete: (String)-> Unit={}
+                     onDelete: (String)-> Unit={},
+                     verObra: (String) -> Obra ,
+                     ObraPressed: (String) -> Unit = {},
+
 ) {
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         item {
@@ -417,32 +438,59 @@ fun ReviewTabContent(reviews: List<Comentario>,
             )
         }
         items(reviews) { review ->
-            Comment(hora = review.hora, comentario = review.comentario, username = review.usuario, likes = review.likes.toString(), idPerfil = review.fotous, calificacion = review.calificacion, respoderClicked = {})
-            Row() {
-                Spacer(modifier = Modifier.width(50.dp))
-                Icon(
-                    imageVector = Icons.Default.Edit,
-                    contentDescription = "Icono Editar",
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.clickable{
-                        onclick(review.id)
-                    }
-                )
-                Spacer(modifier = Modifier.width(17.dp))
-                Icon(
-                    imageVector = Icons.Default.Delete,
-                    contentDescription = "Icono Borrar",
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.clickable{
-                        onDelete(review.id)
 
+            val obra: Obra = verObra(review.obraId)
+
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    ReviewObras(
+                        obra,
+                        ObraPressed,
+                        modifier = Modifier.padding(bottom = 10.dp, top = 20.dp)
+                    )
+                    Comment(
+                        hora = review.hora,
+                        comentario = review.comentario,
+                        username = review.usuario,
+                        likes = review.likes.toString(),
+                        idPerfil = review.fotous,
+                        calificacion = review.calificacion,
+                        respoderClicked = {},
+                        modifier = Modifier.padding(start = 11.dp)
+                    )
+                    Row() {
+                        Spacer(modifier = Modifier.width(50.dp))
+                        Icon(
+                            imageVector = Icons.Default.Edit,
+                            contentDescription = "Icono Editar",
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.clickable {
+                                onclick(review.id)
+                            }
+                        )
+                        Spacer(modifier = Modifier.width(17.dp))
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "Icono Borrar",
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.clickable {
+                                onDelete(review.id)
+
+                            }
+                        )
                     }
-                )
+                    Spacer(modifier = Modifier.height(10.dp))
+                }
+
             }
-            Spacer(modifier = Modifier.height(10.dp))
         }
     }
-}
+
 //Tab con las notificaciones que le llegan al usuario
 
 @Composable
@@ -641,7 +689,7 @@ fun PerfilScreen(id: String,
                             1 -> ReviewTabContent(state.reviews,
                                 EditarRPressed ,onDelete = { borrarId ->
                                     viewmodel.deleteComment(borrarId)
-                                }) // Tab "Actividad"
+                                }, {viewmodel.getObraByReviewId(it)},{ObraPressed(it)}) // Tab "Actividad"
                             2 -> NotificacionesTabContent(state.notificaciones) // Tab "Notificaciones"
                             3 -> StatsTabContent(state.usuario) // Tab "Stats"
                         }
@@ -659,7 +707,7 @@ fun PerfilScreen(id: String,
                         when (state.selectedTab) {
                             0 -> ObrasList(state.usuario.obras, { ObraPressed(it.toString()) }) // Tab "Obras"
                             1 -> ReviewTabContent(
-                                state.reviews, onDelete = {  } ) // Tab "Actividad"
+                                state.reviews, onDelete = {  }, verObra = {viewmodel.getObraByReviewId(it)}, ObraPressed = {ObraPressed(it)}  ) // Tab "Actividad"
                         }
                     }
                 }

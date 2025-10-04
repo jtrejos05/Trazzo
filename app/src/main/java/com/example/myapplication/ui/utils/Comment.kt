@@ -41,7 +41,7 @@ fun Calificacion(
     ) {
         var cal = calificacion;
         for (i in 1..5) {
-            if (cal >=0) {
+            if (cal >=0.5) {
                 if (cal == 0.5) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.StarHalf,
@@ -101,7 +101,7 @@ fun Comment(
                     color = MaterialTheme.colorScheme.primary,
                     fontSize = MaterialTheme.typography.bodySmall.fontSize
                 )
-                Spacer(modifier= Modifier.width(40.dp))
+                Spacer(modifier= Modifier.width(30.dp))
                 Calificacion(calificacion)
             }
             Text(

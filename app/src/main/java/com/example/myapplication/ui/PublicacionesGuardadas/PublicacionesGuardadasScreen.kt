@@ -33,6 +33,7 @@ fun PublicacionesGuardadasScreen(
 ) {
     val state by viewmodel.uiState.collectAsState()
 
+
     if (state.isLoading) {
         Box(
             modifier = Modifier.fillMaxSize(),
