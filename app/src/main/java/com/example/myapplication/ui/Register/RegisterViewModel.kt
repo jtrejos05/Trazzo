@@ -3,6 +3,7 @@ package com.example.myapplication.ui.Register
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.data.repository.AuthRepository
+import com.example.myapplication.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +14,8 @@ import javax.inject.Inject
 @HiltViewModel
 
 class RegisterViewModel @Inject constructor(
-    private  val authRepository: AuthRepository
+    private  val authRepository: AuthRepository,
+    private val userRepository: UserRepository
 ): ViewModel() {
     private val _uiState = MutableStateFlow(RegisterState())
     var uiState: MutableStateFlow<RegisterState> = _uiState
@@ -36,6 +38,9 @@ class RegisterViewModel @Inject constructor(
                         val result =
                             authRepository.signUp(_uiState.value.correo, _uiState.value.contraseña)
                         if (result.isSuccess) {
+
+                            val userId= authRepository.currentUser?.uid
+                            //userRepository.registerUser()
 
                             _uiState.update { it.copy(navegar = true) }
                         } else {
