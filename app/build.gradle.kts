@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.dagger.hilt)
     implementation(libs.hilt.compose.navigation)
     implementation(libs.ui)
+    implementation(libs.androidx.runtime)
     kapt(libs.dagger.kapt)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.firestore)
@@ -81,6 +82,9 @@ dependencies {
 
     implementation("androidx.compose.runtime:runtime-livedata:1.8.3")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
+
+    //Firestore
+    implementation("com.google.firebase:firebase-firestore")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
