@@ -59,7 +59,7 @@ fun VistaObrasScreen(
     val state by viewmodel.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewmodel.getObra(idObra.toInt())
+        viewmodel.getObra(idObra)
     }
     if (state.obra != null){
         Column(

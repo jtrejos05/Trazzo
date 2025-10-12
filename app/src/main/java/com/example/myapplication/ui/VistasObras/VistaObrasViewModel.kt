@@ -20,11 +20,11 @@ class VistaObrasViewModel @Inject constructor(
 ): ViewModel() {
     private val _uiState = MutableStateFlow(VistaObrasState())
     var uiState: MutableStateFlow<VistaObrasState> = _uiState
-    fun getObra(id: Int) {
+    fun getObra(id: String) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
             try {
-                val result=ObrasRepo.getObra(id.toString())
+                val result=ObrasRepo.getObra(id)
                 if (result.isSuccess){
                     _uiState.update { it.copy(obra = result.getOrNull()) }
                 }else{
@@ -57,6 +57,7 @@ class VistaObrasViewModel @Inject constructor(
     fun getReviews(){
         viewModelScope.launch {
             try {
+                Log.d("COMENTS",_uiState.value.obra!!.obraId)
                 val result= CommentRepo.getComentarioByObraId(_uiState.value.obra!!.obraId)
                 if (result.isSuccess){
                     _uiState.update { it.copy(reviews = result.getOrDefault(emptyList())) }

@@ -3,13 +3,20 @@ package com.example.myapplication.data.repository
 import android.util.Log
 import coil.network.HttpException
 import com.example.myapplication.data.Comentario
-import com.example.myapplication.data.datasource.impl.ComentarioRetrofitDataSourceImpl
+import com.example.myapplication.data.datasource.AuthRemoteDataSource
+import com.example.myapplication.data.datasource.impl.Firestore.ComentarioFirestoreDataSourceImpl
+import com.example.myapplication.data.datasource.impl.Firestore.UserFirestoreDataSourceImpl
+import com.example.myapplication.data.datasource.impl.RetroFit.ComentarioRetrofitDataSourceImpl
+import com.example.myapplication.data.datasource.impl.RetroFit.UserRetrofitDataSourceImpl
 import com.example.myapplication.data.dtos.CreateCommentDto
+import com.example.myapplication.data.dtos.CreateCommentUserDto
 import com.example.myapplication.data.dtos.toComentario
 import javax.inject.Inject
 
 class ComentarioRepository @Inject constructor(
-    private val DataSource: ComentarioRetrofitDataSourceImpl
+    private val DataSource: ComentarioFirestoreDataSourceImpl,
+    private val UserDataSource: UserFirestoreDataSourceImpl,
+    private val authDataSource: AuthRemoteDataSource
 ) {
     suspend fun getAllComentarios(): Result<List<Comentario>>{
         return try {
@@ -56,24 +63,40 @@ class ComentarioRepository @Inject constructor(
 
     suspend fun getComentarioByObraId(id: String): Result<List<Comentario>>{
         return try {
+            Log.d("COMENTS", "SALIO AL DATA")
             val comentarios = DataSource.getAllComentariosByObraId(id)
+            Log.d("COMENTS", "LLEGO ALGO DEL DATA")
             val comentario = comentarios.map { it.toComentario() }
+            Log.d("COMENTS","SE MAPEO")
             Result.success(comentario)
         }catch (e: HttpException){
-            e.response.code
+            Log.d("COMENT",e.response.message)
             Result.failure(e)
         }
         catch (e: Exception){
+            Log.d("COMENT",e.message!!)
             Result.failure(e)
         }
     }
 
     suspend fun createComentario(comentario: String, calificacion: Double, artistaId: String, obraId: String, parentCommentId: String?, commentId: String?): Result<Unit>{
         return try {
-            val createCommentDto = CreateCommentDto(calificacion,comentario,artistaId.toInt(),obraId.toInt(),parentCommentId?.toInt(), commentId?.toInt())
+            Log.d("Users", "Repo: User")
+            val user = UserDataSource.getUserById(artistaId)
+            Log.d("Users", "Repo: photo")
+            val photoUrl = authDataSource.currentUser?.photoUrl?.toString()
+            Log.d("Users", "Repo: Dto User: ${user.nombre}  Photo: ${photoUrl}")
+            val createCommentUserDto = CreateCommentUserDto(
+                nombre = user.nombre,
+                fotousuario = photoUrl
+            )
+            Log.d("Users", "Repo: create")
+            val createCommentDto = CreateCommentDto(calificacion,comentario,artistaId,obraId,parentCommentId?.toInt(), commentId ?: null,createCommentUserDto)
+            Log.d("User", "CREANDO DTO")
             if (commentId != null){
                 DataSource.updateCommentario(commentId,createCommentDto)
             }else{
+                Log.d("User", "CREando comment")
                 DataSource.createCommentario(createCommentDto)
             }
             Result.success(Unit)

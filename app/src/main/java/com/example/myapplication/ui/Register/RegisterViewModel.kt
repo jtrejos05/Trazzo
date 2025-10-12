@@ -1,10 +1,12 @@
 package com.example.myapplication.ui.Register
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.data.repository.AuthRepository
 import com.example.myapplication.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -35,12 +37,21 @@ class RegisterViewModel @Inject constructor(
                 } else {
                     viewModelScope.launch {
 
-                        val result =
-                            authRepository.signUp(_uiState.value.correo, _uiState.value.contraseña)
+                        val result = authRepository.signUp(_uiState.value.correo, _uiState.value.contraseña)
                         if (result.isSuccess) {
+                            Log.d("USER", "Va a ver userId")
 
-                            val userId= authRepository.currentUser?.uid
-                            //userRepository.registerUser()
+                            val userId= authRepository.currentUser?.uid ?: throw Exception("No se encontro el usuario")
+
+                            Log.d("USER", "RViewModel ${userId}")
+
+                            userRepository.registerUser(
+                                usuario = uiState.value.usuario,
+                                edad = uiState.value.edad,
+                                profesion = uiState.value.profesion,
+                                bio = uiState.value.bio,
+                                userId = userId,
+                            )
 
                             _uiState.update { it.copy(navegar = true) }
                         } else {

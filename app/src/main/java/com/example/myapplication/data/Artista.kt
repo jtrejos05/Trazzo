@@ -4,7 +4,7 @@ import androidx.annotation.DrawableRes
 
 data class Artista(
     val id :String,
-    val img: String,
+    var img: String,
     val correo: String,
     val contrasena: String,
     val usuario: String,
@@ -14,6 +14,6 @@ data class Artista(
     val seguidores: Int,
     val siguiendo: Int,
     val likes: Int,
-    val obras: List<Obra>,
+    var obras: List<Obra>,
     val interses: List<String>
 )

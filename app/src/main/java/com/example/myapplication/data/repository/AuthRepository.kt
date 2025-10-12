@@ -1,5 +1,6 @@
 package com.example.myapplication.data.repository
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.example.myapplication.R
@@ -18,7 +19,8 @@ class AuthRepository @Inject constructor(
     private val authRemoteDataSource: AuthRemoteDataSource
 ) {
 
-    val currentUser: FirebaseUser?= authRemoteDataSource.currentUser
+    val currentUser: FirebaseUser?
+        get() = authRemoteDataSource.currentUser
 
     suspend fun signIn(email: String, password:String): Result<Unit>{
         return try {
@@ -39,6 +41,7 @@ class AuthRepository @Inject constructor(
     suspend fun signUp(email: String,password: String): Result<Unit>{
         return try {
             authRemoteDataSource.signUp(email, password)
+            Log.d("USER","UID  ${currentUser?.uid ?: "NULL"}")
             Result.success(Unit)
         }catch(e: FirebaseAuthWeakPasswordException){
             Result.failure(Exception("La contraseña es debil"))

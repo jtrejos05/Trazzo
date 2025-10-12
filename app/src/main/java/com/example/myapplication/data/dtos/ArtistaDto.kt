@@ -22,14 +22,14 @@ data class InteresesDto(
     val interes:String
 )
 data class ArtistaDto(
-    val id: Int,
+    val id: String ,
     val nombre: String,
     val correo: String,
-    val fotousuario: String,
+    val fotousuario: String?,
     val contraseña: String,
-    val edad: Int,
+    val edad: String,
     val profesion: String,
-    val biografia: String,
+    val biografia: String?,
     val seguidores: Int,
     val seguidos: Int,
     val likes: Int,
@@ -37,7 +37,9 @@ data class ArtistaDto(
     val updatedAt: String,
     val obras: List<ObrasArtistaDto>,
     val intereses: List<InteresesDto>
-)
+){
+    constructor(): this("0","","","","","0","","",0,0,0,"","",emptyList(),emptyList())
+}
 fun ObrasArtistaDto.toObra(fotousuario: String, usuario: String, id:Int): Obra{
     var likesString = ""
     if (likes>1000) {
@@ -64,19 +66,19 @@ fun ObrasArtistaDto.toObra(fotousuario: String, usuario: String, id:Int): Obra{
     )
 }
 fun ArtistaDto.toArtista(): Artista {
-    var obras = this.obras.map { it.toObra(this.fotousuario, this.nombre, this.id) }
+    var obras = this.obras.map { it.toObra(this.fotousuario ?: "", this.nombre, this.id.toInt()) }
     var intereses = this.intereses.map { it.interes }
 
 
     return Artista(
         id=this.id.toString(),
-        img = this.fotousuario,
+        img = this.fotousuario ?: "",
         correo = this.correo,
         contrasena = this.contraseña,
         usuario = this.nombre,
-        edad = this.edad,
+        edad = this.edad.toInt(),
         profesion = this.profesion,
-        biografia = this.biografia,
+        biografia = this.biografia ?: "No hay biografia",
         seguidores = this.seguidores,
         siguiendo = this.seguidos,
         likes = likes,

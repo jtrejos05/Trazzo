@@ -3,7 +3,8 @@ package com.example.myapplication.data.repository
 import android.util.Log
 import coil.network.HttpException
 import com.example.myapplication.data.Obra
-import com.example.myapplication.data.datasource.impl.ObraRetrofitDataSourceImpl
+import com.example.myapplication.data.datasource.impl.Firestore.ObraFirestoreDataSourceImpl
+import com.example.myapplication.data.datasource.impl.RetroFit.ObraRetrofitDataSourceImpl
 import com.example.myapplication.data.dtos.ArtistaObraDto
 import com.example.myapplication.data.dtos.CreateObraDto
 import com.example.myapplication.data.dtos.TagDto
@@ -13,7 +14,7 @@ import javax.inject.Inject
 import kotlin.Int
 
 class ObraRepository @Inject constructor(
-    private val ObraRemoteDataSource: ObraRetrofitDataSourceImpl
+    private val ObraRemoteDataSource: ObraFirestoreDataSourceImpl
 ){
     suspend fun getObras(): Result<List<Obra>> {
         return try{

@@ -24,5 +24,5 @@ class FirebaseHiltModule {
 
     @Singleton
     @Provides
-    fun firestore(): FirebaseFirestore=Firebase.firestore
+    fun firestore(): FirebaseFirestore = Firebase.firestore
 }

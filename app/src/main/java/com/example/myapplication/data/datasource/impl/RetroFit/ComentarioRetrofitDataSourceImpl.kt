@@ -1,6 +1,5 @@
-package com.example.myapplication.data.datasource.impl
+package com.example.myapplication.data.datasource.impl.RetroFit
 
-import android.util.Log
 import com.example.myapplication.data.datasource.ComentarioRemoteDataSource
 import com.example.myapplication.data.datasource.services.ComentarioRetrofitService
 import com.example.myapplication.data.dtos.ComentarioDto
@@ -28,6 +27,7 @@ class ComentarioRetrofitDataSourceImpl @Inject constructor(
     }
 
     override suspend fun createCommentario(comment: CreateCommentDto) {
+        comment.id = 1.toString()
         return service.createComentario(comment)
     }
 

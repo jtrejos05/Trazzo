@@ -55,22 +55,24 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-
+    //RetroFit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
-    implementation("io.coil-kt:coil-compose:2.4.0")
-    implementation("com.google.firebase:firebase-storage-ktx")
+    //Dagger-Hilt
     implementation(libs.dagger.hilt)
     implementation(libs.hilt.compose.navigation)
     implementation(libs.ui)
     implementation(libs.androidx.runtime)
     kapt(libs.dagger.kapt)
+    //FireBase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.analytics)
+    implementation("com.google.firebase:firebase-storage-ktx")
+
     implementation("androidx.navigation:navigation-compose:2.9.3")
     implementation("io.coil-kt:coil-compose:2.6.0")
     implementation(libs.material3)
@@ -79,7 +81,6 @@ dependencies {
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation("androidx.compose.runtime:runtime-livedata:1.8.3")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
-
     implementation("androidx.compose.runtime:runtime-livedata:1.8.3")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
 

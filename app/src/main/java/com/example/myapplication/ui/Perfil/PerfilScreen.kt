@@ -287,7 +287,7 @@ fun TabsSection(
     user: String
 ) {
     val tabs: List<Pair<String, ImageVector>>
-    if (user.equals("1")) {
+    if (user.equals("jLNuY4U1zoNpJRoofnsbti8UOop2")) {
         tabs = listOf(
             "Obras" to Icons.Default.Image,
             "Reviews" to Icons.Default.History,
@@ -634,7 +634,7 @@ fun PerfilScreen(id: String,
     val state by viewmodel.uiState.collectAsState()
     LaunchedEffect(Unit) {
         viewmodel.getUsuario(id)
-
+        Log.d("User","Se encontro user")
         if (state.usuario.id.equals("")){
 
                 viewmodel.updateError("El usuario no existe o no esta disponible")
@@ -664,8 +664,8 @@ fun PerfilScreen(id: String,
                 if (state.errormsg != null){
                     Text(state.errormsg!!)
                 }else {
-
-                    if (state.usuario.id.equals("1")){
+                    Log.d("User", "ID:  ${state.usuario.id}")
+                    if (state.usuario.id.equals("jLNuY4U1zoNpJRoofnsbti8UOop2")){
                         // Barra superior
                         TopBarProfile(
                             username = state.usuario.usuario,

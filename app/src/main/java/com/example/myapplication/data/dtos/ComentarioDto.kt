@@ -8,17 +8,21 @@ import java.util.TimeZone
 
 data class ArtistaComentarioDto(
     val nombre: String,
-    val fotousuario: String
-)
+    val fotousuario: String? = ""
+){
+    constructor(): this("","")
+}
 
 data class ObraComentarioDto(
     val titulo: String
-)
+){
+    constructor(): this("")
+}
 
 data class ComentarioDto(
-    val id: Int,
-    val obraId: Int,
-    val artistaId: Int,
+    val id: String?,
+    val obraId: String,
+    val artistaId: String,
     val parentComentarioId: Int?,
     val comentario: String,
     val likes: Int,
@@ -27,7 +31,9 @@ data class ComentarioDto(
     val updatedAt: String,
     val artista: ArtistaComentarioDto,
     val obra: ObraComentarioDto
-)
+){
+    constructor(): this("","","",0,"",0,0.0,"","", ArtistaComentarioDto("",""), ObraComentarioDto(""))
+}
 
 fun tiempoVisual(createdAt: String): String {
 
@@ -50,14 +56,14 @@ fun tiempoVisual(createdAt: String): String {
 }
 fun ComentarioDto.toComentario(): Comentario {
     return Comentario(
-        id = this.id.toString(),
-        fotous = this.artista.fotousuario,
+        id = this.id ?: "",
+        fotous = this.artista.fotousuario ?: "",
         usuario = this.artista.nombre, 
         hora = tiempoVisual(this.createdAt),
         comentario = this.comentario,
         likes = this.likes,
         calificacion = this.calificacion.toDouble(),
-        obraId = this.obraId.toString()
+        obraId = this.obraId
 
     )
 }

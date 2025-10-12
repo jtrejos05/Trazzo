@@ -19,6 +19,7 @@ dagger= "2.50"
 ui = "1.9.1"
 
 [libraries]
+androidx-runtime = { group = "androidx.compose.runtime", name = "runtime" }
 dagger-hilt = {module = "com.google.dagger:hilt-android", version = "2.52"}
 dagger-kapt = {module = 'com.google.dagger:hilt-android-compiler', version = "2.52"}
 hilt-compose-navigation = {module = "androidx.hilt:hilt-navigation-compose", version = "1.2.0"}

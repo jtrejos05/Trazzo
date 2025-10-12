@@ -11,15 +11,19 @@ import java.util.TimeZone
 data class ArtistaObraDto(
     val nombre: String,
     val fotousuario: String
-)
+){
+    constructor(): this("","")
+}
 
 data class TagDto(
     val tag: String
-)
+){
+    constructor(): this("")
+}
 
 data class ObraDto(
-    val id: Int,
-    val artistaId: Int,
+    val id: String,
+    val artistaId: String,
     val titulo: String,
     val descripcion: String,
     val obraIMG: String,
@@ -31,7 +35,9 @@ data class ObraDto(
     val updatedAt: String,
     val artista: ArtistaObraDto,
     val tags: List<TagDto>
-)
+){
+    constructor(): this("","","","","",0,0,0,0,"","", ArtistaObraDto("",""),emptyList())
+}
 
 fun ObraDto.toObra(): Obra {
     val tagStrings = tags.map { it.tag }

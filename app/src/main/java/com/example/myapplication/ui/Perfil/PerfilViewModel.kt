@@ -50,10 +50,12 @@ class PerfilViewModel @Inject constructor(
     }
     fun getUsuario(id: String){
         viewModelScope.launch {
+            Log.d("User", "Se busca el user ${id}")
             _uiState.update { it.copy(isLoading = true, errormsg = null) }
             val result=userRepo.getUserById(id)
             if (result.isSuccess){
                 _uiState.update { it.copy(usuario = result.getOrDefault(Artista("","","","","",0,"","",0,0,0,listOf(),listOf("")))) }
+               Log.d("USER", uiState.value.usuario.usuario)
                 _uiState.update { it.copy(isLoading = false, errormsg = null) }
             }else{
                 _uiState.update { it.copy(errormsg = result.exceptionOrNull()?.message, isLoading = false) }
@@ -62,6 +64,9 @@ class PerfilViewModel @Inject constructor(
             }
             if (_uiState.value.usuario.id != ""){
                 getReviews()
+            }
+            if (_uiState.value.usuario.obras.isEmpty()){
+                getObraByArtista()
             }
 
         }
@@ -95,6 +100,18 @@ class PerfilViewModel @Inject constructor(
 
         }
 
+    }
+
+    fun getObraByArtista(){
+        viewModelScope.launch {
+            val result= userRepo.getObrasByArtista(_uiState.value.usuario.id)
+            if (result.isSuccess){
+                var obras = result.getOrNull()
+                var usuario = _uiState.value.usuario
+                usuario.obras = obras ?: emptyList()
+                _uiState.update { it.copy(usuario=usuario) }
+            }
+        }
     }
     fun getNotificaciones(){
         _uiState.update { it.copy(notificaciones = ProveedorNotificaciones.notificaciones) }

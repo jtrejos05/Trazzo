@@ -23,9 +23,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.PathSegment
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavArgument
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -92,7 +94,11 @@ sealed class Rutas(
     object Trending : Rutas("trending")
     object Barra: Rutas("barra")
     object Principal: Rutas("principal")
-    object EditarPerfil: Rutas("editarperfil")
+    object EditarPerfil: Rutas("editarperfil/{id}"){
+        fun createEditRoute(id:String):String{
+            return "editarperfil/${id}"
+        }
+    }
     object CrearComment: Rutas("crearComment/{obraId}"){
         fun createCRoute(obraId: String):String{
             return "crearComment/$obraId"
@@ -198,7 +204,7 @@ fun AppNavigation(navControler: NavHostController,
                 {navControler.navigate(
                     Rutas.Guardadas.ruta)}
                 ,{ obraId->navControler.navigate(Rutas.Detalle.createRoute(obraId )) },
-                {navControler.navigate(Rutas.EditarPerfil.ruta)}, {navControler.navigate(Rutas.Home.ruta)},
+                {navControler.navigate(Rutas.EditarPerfil.createEditRoute(UsuarioId))}, {navControler.navigate(Rutas.Home.ruta)},
                 {commentId->
 
                     navControler.navigate(Rutas.EditarComment.createMRoute(commentId))
@@ -229,9 +235,15 @@ fun AppNavigation(navControler: NavHostController,
             TrendingScreen( viewmodel,{ obraId->navControler.navigate(Rutas.Detalle.createRoute(obraId )) }, {perfilId->navControler.navigate(Rutas.Perfil.createPRoute(perfilId))})
         }
         //Navegacion Pantalla Editar Perfil
-        composable(Rutas.EditarPerfil.ruta) {
+        composable(Rutas.EditarPerfil.ruta, arguments = listOf(navArgument("id"){type = NavType.StringType})) {
+            val UsuarioId=it.arguments?.getString("id") ?:""
             val viewmodel: EditarPerfilViewModel = hiltViewModel()
-            EditarPerfilScreen(viewmodel)
+            val state by viewmodel.uiState.collectAsState()
+            if (state.navegar){
+                navControler.navigateSingleTopTo(Rutas.Perfil.createPRoute(UsuarioId))
+                viewmodel.resetFlag()
+            }
+            EditarPerfilScreen(UsuarioId,viewmodel)
         }
         //Navegacion Splash Screen
         composable(Rutas.Splash.ruta){
@@ -275,7 +287,7 @@ fun BottomNavigationBar (
                 selected = false,
                 onClick = {
                     if (item.route == Rutas.Perfil.ruta){
-                        navController.navigateSingleTopTo(Rutas.Perfil.createPRoute("1"))
+                        navController.navigateSingleTopTo(Rutas.Perfil.createPRoute("jLNuY4U1zoNpJRoofnsbti8UOop2"))
                     }else {
                         navController.navigateSingleTopTo(item.route)
                     }
