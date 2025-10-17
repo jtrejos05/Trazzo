@@ -36,4 +36,8 @@ class ObraRetrofitDataSourceImpl @Inject constructor(
     override suspend fun listenAllObras(): Flow<List<ObraDto>> {
         TODO("Not yet implemented")
     }
+
+    override suspend fun getObrasByUserId(): List<ObraDto> {
+        TODO("Not yet implemented")
+    }
 }

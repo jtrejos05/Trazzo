@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -51,10 +53,18 @@ fun SeguidoresoSeguidosScreen(viewmodel: SeguidoresoSeguidosViewModel, user: Str
         }
         else -> {
             LazyColumn(
-                modifier = modifier
+                modifier = modifier.padding(horizontal = 16.dp),
             ) {
+                item {
+                    Spacer(modifier= Modifier.height(20.dp))
+                    Text(
+                        text = if (seguidos){"SIGUIENDO"} else{"SEGUIDORES"}
+                    )
+                    Spacer(modifier= Modifier.height(12.dp))
+                }
                 items(state.lista){ user->
                     tarjetaUser(user)
+                    Spacer(modifier= Modifier.height(8.dp))
                 }
             }
         }

@@ -89,4 +89,10 @@ class ObraFirestoreDataSourceImpl @Inject constructor(
         }
         awaitClose { listener.remove() }
     }
+
+    override suspend fun getObrasByUserId(): List<ObraDto> {
+        TODO("Not yet implemented")
+    }
+
+
 }

@@ -80,7 +80,8 @@ class UserFirestoreDataSourceImpl @Inject constructor(
         val seguidoresRef = userRef.collection("seguidores")
         val seguidoresSnapshot = seguidoresRef.get().await()
         return seguidoresSnapshot.documents.map { doc ->
-            val artista = doc.toObject(ArtistaDto::class.java)
+            val artist = db.collection("users").document(doc.id).get().await()
+            val artista = artist.toObject(ArtistaDto::class.java)
             artista?.copy(id = doc.id) ?: throw Exception("seguidor no encontrado")
         }
     }
@@ -91,7 +92,8 @@ class UserFirestoreDataSourceImpl @Inject constructor(
         val seguidoresRef = userRef.collection("seguidos")
         val seguidoresSnapshot = seguidoresRef.get().await()
         return seguidoresSnapshot.documents.map { doc ->
-            val artista = doc.toObject(ArtistaDto::class.java)
+            val artist = db.collection("users").document(doc.id).get().await()
+            val artista = artist.toObject(ArtistaDto::class.java)
             artista?.copy(id = doc.id) ?: throw Exception("seguido no encontrado")
         }
     }

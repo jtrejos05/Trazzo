@@ -16,7 +16,9 @@ object NavegationLogic {
         Rutas.Buscar.ruta,
         Rutas.Perfil.ruta,
         Rutas.EditarPerfil.ruta,
-        Rutas.CrearComment.ruta
+        Rutas.CrearComment.ruta,
+        Rutas.Seguidos.ruta,
+        Rutas.Seguidores.ruta
     )
     //funciones para saber si poner o no las barras
     fun shouldShowBottomBar(currentRoute: String?): Boolean {

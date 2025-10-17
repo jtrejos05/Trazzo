@@ -1,5 +1,6 @@
 package com.example.myapplication.data.datasource
 
+import com.example.myapplication.data.Obra
 import com.example.myapplication.data.dtos.CreateObraDto
 import com.example.myapplication.data.dtos.ObraDto
 import kotlinx.coroutines.flow.Flow
@@ -14,4 +15,6 @@ interface ObraRemoteDataSource {
     suspend fun SendorDeleteLike(obraId: String,userId:String): Unit
 
     suspend fun listenAllObras(): Flow<List<ObraDto>>
+
+    suspend fun getObrasByUserId(): List<ObraDto>
 }
