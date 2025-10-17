@@ -64,7 +64,7 @@ class ComentarioRepository @Inject constructor(
     suspend fun getComentarioByObraId(id: String): Result<List<Comentario>>{
         return try {
             Log.d("COMENTS", "SALIO AL DATA")
-            val comentarios = DataSource.getAllComentariosByObraId(id)
+            val comentarios = DataSource.getAllComentariosByObraId(id,authDataSource.currentUser?.uid ?: "")
             Log.d("COMENTS", "LLEGO ALGO DEL DATA")
             val comentario = comentarios.map { it.toComentario() }
             Log.d("COMENTS","SE MAPEO")
@@ -82,7 +82,7 @@ class ComentarioRepository @Inject constructor(
     suspend fun createComentario(comentario: String, calificacion: Double, artistaId: String, obraId: String, parentCommentId: String?, commentId: String?): Result<Unit>{
         return try {
             Log.d("Users", "Repo: User")
-            val user = UserDataSource.getUserById(artistaId)
+            val user = UserDataSource.getUserById(artistaId, authDataSource.currentUser?.uid ?: "")
             Log.d("Users", "Repo: photo")
             val photoUrl = authDataSource.currentUser?.photoUrl?.toString()
             Log.d("Users", "Repo: Dto User: ${user.nombre}  Photo: ${photoUrl}")
@@ -121,5 +121,12 @@ class ComentarioRepository @Inject constructor(
             Result.failure(e)
         }
     }
-
+    suspend fun sendOrDeleteLike(commentId: String, userId: String): Result<Unit>{
+        return try {
+            DataSource.sendOrDeleteLike(commentId = commentId, userId=userId)
+            Result.success(Unit)
+        }catch (e: Exception){
+            Result.failure(e)
+        }
+    }
 }

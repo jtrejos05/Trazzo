@@ -15,5 +15,6 @@ data class Artista(
     val siguiendo: Int,
     val likes: Int,
     var obras: List<Obra>,
-    val interses: List<String>
+    val interses: List<String>,
+    var seSiguen: Boolean = false
 )

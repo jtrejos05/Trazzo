@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.data.Obra
 import com.example.myapplication.data.local.ProveedorObras
+import com.example.myapplication.data.repository.AuthRepository
 import com.example.myapplication.data.repository.ComentarioRepository
 import com.example.myapplication.data.repository.ObraRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class VistaObrasViewModel @Inject constructor(
     private val ObrasRepo: ObraRepository,
-    private val CommentRepo : ComentarioRepository
+    private val CommentRepo : ComentarioRepository,
+    private val authRepository: AuthRepository
 ): ViewModel() {
     private val _uiState = MutableStateFlow(VistaObrasState())
     var uiState: MutableStateFlow<VistaObrasState> = _uiState
@@ -24,7 +26,7 @@ class VistaObrasViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
             try {
-                val result=ObrasRepo.getObra(id)
+                val result=ObrasRepo.getObra(id,authRepository.currentUser?.uid ?: "")
                 if (result.isSuccess){
                     _uiState.update { it.copy(obra = result.getOrNull()) }
                 }else{
@@ -39,9 +41,6 @@ class VistaObrasViewModel @Inject constructor(
                     _uiState.update { it.copy(isLoading = false) }
                     getReviews()
                 }
-
-
-
             } catch (e: Exception) {
                 // Si ocurre un error, actualiza el estado con el mensaje de error.
                 _uiState.update { it.copy(
@@ -78,5 +77,39 @@ class VistaObrasViewModel @Inject constructor(
         _uiState.update { it.copy(obra=obra) }
     }
 
+    fun sendOrDeleteLike(obraId: String, userId: String){
+        viewModelScope.launch {
+            val result = ObrasRepo.sendOrDeleteLike(obraId = obraId, userId = userId)
+            if (result.isSuccess){
+
+                _uiState.update { it.copy(
+                    obra = it.obra?.copy(
+                        liked = !it.obra!!.liked,
+                        likes = if (it.obra!!.liked) (it.obra!!.likes.toInt()-1).toString() else (it.obra!!.likes.toInt()+1).toString()
+                    )
+                ) }
+
+            }
+        }
+
+    }
+    fun sendOrDeleteLikeComment(commentId:String,userId: String){
+        viewModelScope.launch {
+            val result = CommentRepo.sendOrDeleteLike(commentId = commentId, userId = userId)
+            if (result.isSuccess){
+                _uiState.update { it.copy(reviews = it.reviews.map { c-> if (c.id==commentId){
+                        c.copy(
+                            liked = !c.liked,
+                            likes = if(c.liked)(c.likes.toInt()-1).toString() else (c.likes.toInt()+1).toString()
+                        )
+                    }else c
+                }) }
+            }
+        }
+    }
+
+    init {
+        _uiState.update { it.copy(currentUser = authRepository.currentUser?.uid ?: "") }
+    }
 
 }

@@ -6,6 +6,9 @@ data class RegisterUserDto(
     val profesion:String,
     val biografia: String,
     var id: String,
-    var fotousuario: String?
+    var fotousuario: String?,
+    val numSeguidores: Int = 0,
+    val numSeguidos: Int = 0,
+    val FCMToken: String? = null
 
 )

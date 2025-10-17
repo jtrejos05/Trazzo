@@ -87,6 +87,10 @@ dependencies {
     //Firestore
     implementation("com.google.firebase:firebase-firestore")
 
+    //mensajes
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-messaging")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

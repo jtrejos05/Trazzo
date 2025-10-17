@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.StarHalf
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.material.icons.filled.StarHalf
@@ -80,8 +81,11 @@ fun Comment(
     likes: String,
     idPerfil: String,
     calificacion: Double,
-    respoderClicked: ()-> Unit
+    respoderClicked: ()-> Unit,
+    likeClicked: ()-> Unit,
+    liked: Boolean
 ){
+    var like = liked
     Row(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.Top,
@@ -107,14 +111,20 @@ fun Comment(
             Text(
                 comentario,
                 modifier = Modifier.padding(bottom = 10.dp)
+
             )
             Row(
                 verticalAlignment = Alignment.CenterVertically,
+
             ){
                 Icon(
-                    imageVector = Icons.Default.Favorite,
+                    imageVector = if (like){Icons.Default.Favorite} else Icons.Default.FavoriteBorder,
                     contentDescription = "Like Icon",
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.clickable(
+                        onClick = likeClicked
+
+                    )
                 )
                 Text(
                     text = likes,

@@ -34,6 +34,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Comment
 import androidx.compose.material.icons.filled.BookmarkBorder
+import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material.icons.filled.ThumbUpOffAlt
 import androidx.compose.material.icons.filled.TurnLeft
 import androidx.compose.material.icons.filled.TurnRight
@@ -70,7 +71,9 @@ fun VistaObrasScreen(
                 obra = state.obra!!,
                 reviews = state.reviews,
                 onclick = onComentario,
-                responderClicked = onResponse
+                responderClicked = onResponse,
+                likeClicked = { viewmodel.sendOrDeleteLike(state.obra!!.obraId, state.currentUser) },
+                likedComment = { id->viewmodel.sendOrDeleteLikeComment(commentId = id, userId = state.currentUser) }
             )
         }
     }
@@ -161,6 +164,7 @@ fun ImagenPrincipal(
 fun Reacciones(
     obra: Obra,
     onClick: (String) -> Unit = {},
+    onLike: () -> Unit={},
     modifier: Modifier = Modifier
 ){
     Row(
@@ -168,7 +172,7 @@ fun Reacciones(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier
     ) {
-        ReactionItem(imagen = Icons.Default.ThumbUpOffAlt, descripcion = "like", count = obra.likes,{})
+        ReactionItem(imagen = if (obra.liked){Icons.Default.ThumbUp}else Icons.Default.ThumbUpOffAlt , descripcion = "like", count = obra.likes,onLike)
         ReactionItem(imagen = Icons.AutoMirrored.Filled.Comment, descripcion = "comentarios", count = obra.comentarios,{onClick(obra.obraId)}  )
         ReactionItem(imagen = Icons.Default.TurnRight, descripcion = "compartidos", count = obra.compartidos,{})
         Icon(
@@ -184,6 +188,8 @@ fun PostCard(
     obra: Obra,
     onclick: (String) -> Unit = {},
     responderClicked: ()-> Unit = {},
+    likeClicked: ()-> Unit ={},
+    likedComment: (String)->Unit = {},
     reviews: List<Comentario>
 ) {
     LazyColumn(
@@ -196,7 +202,7 @@ fun PostCard(
             TituloyDescripcion(obra)
             Etiquetas(obra)
             ImagenPrincipal(obra)
-            Reacciones(obra, {onclick(obra.obraId)})
+            Reacciones(obra, {onclick(obra.obraId)}, onLike = likeClicked)
             Text(
                 text = stringResource(R.string.reviews),
                 fontWeight = FontWeight.Bold,
@@ -217,7 +223,9 @@ fun PostCard(
                     likes = reviews[it].likes.toString(),
                     idPerfil = reviews[it].fotous,
                     calificacion = reviews[it].calificacion,
-                    respoderClicked = { responderClicked() }
+                    respoderClicked = { responderClicked() },
+                    likeClicked = { likedComment(reviews[it].id) },
+                    liked = reviews[it].liked
                 )
 
 

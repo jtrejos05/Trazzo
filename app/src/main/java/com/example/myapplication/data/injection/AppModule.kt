@@ -21,7 +21,7 @@ object AppModule {
     @Provides
     fun providesRetrofit(): Retrofit{
         return Retrofit.Builder()
-            .baseUrl("http://192.168.0.8:3000/")
+            .baseUrl("http://10.151.22.217:3000/")
             .addConverterFactory(GsonConverterFactory.create())
             .addConverterFactory(ScalarsConverterFactory.create())
             .build()

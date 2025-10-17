@@ -8,7 +8,8 @@ data class Comentario(
     val usuario: String,
     val hora: String,
     val comentario: String,
-    val likes: Int,
+    val likes: String,
     val calificacion: Double,
-    val obraId: String
+    val obraId: String,
+    val liked: Boolean = false
 )

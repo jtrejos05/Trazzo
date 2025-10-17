@@ -16,7 +16,8 @@ data class Obra(
         val compartidos: String,
         val vistas: String = "0",
         val obraId: String,
-        val artistaId: String
+        val artistaId: String,
+        val liked: Boolean = false
 )
 
 

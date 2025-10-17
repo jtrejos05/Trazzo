@@ -11,7 +11,7 @@ import javax.inject.Inject
 class UserRetrofitDataSourceImpl @Inject constructor(
     val service: UserRetrofitService
 ): UserRemoteDataSource {
-    override suspend fun getUserById(id:String): ArtistaDto {
+    override suspend fun getUserById(id:String, userId: String): ArtistaDto {
         try {
             val usuario = service.getUsuarioById(id.toInt())
             return usuario
@@ -49,6 +49,18 @@ class UserRetrofitDataSourceImpl @Inject constructor(
         registerUserDto: RegisterUserDto,
         userId: String
     ) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun followOrUnfollowUser(userId: String, target: String) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getSeguidores(id: String): List<ArtistaDto> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getSeguidos(id: String): List<ArtistaDto> {
         TODO("Not yet implemented")
     }
 }

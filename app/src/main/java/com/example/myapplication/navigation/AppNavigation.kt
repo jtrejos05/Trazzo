@@ -68,6 +68,7 @@ import com.example.myapplication.ui.Trending.TrendingViewModel
 import com.example.myapplication.ui.VistasObras.VistaObrasScreen
 import com.example.myapplication.ui.VistasObras.VistaObrasViewModel
 import com.example.myapplication.ui.utils.LogoTrazzo
+import com.google.firebase.auth.FirebaseAuth
 import javax.inject.Inject
 
 //Sealed Class con las rutas a las pantallas
@@ -287,7 +288,7 @@ fun BottomNavigationBar (
                 selected = false,
                 onClick = {
                     if (item.route == Rutas.Perfil.ruta){
-                        navController.navigateSingleTopTo(Rutas.Perfil.createPRoute("jLNuY4U1zoNpJRoofnsbti8UOop2"))
+                        navController.navigateSingleTopTo(Rutas.Perfil.createPRoute(FirebaseAuth.getInstance().currentUser?.uid ?: ""))
                     }else {
                         navController.navigateSingleTopTo(item.route)
                     }

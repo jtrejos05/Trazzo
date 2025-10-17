@@ -22,7 +22,7 @@ data class InteresesDto(
     val interes:String
 )
 data class ArtistaDto(
-    val id: String ,
+    val id: String,
     val nombre: String,
     val correo: String,
     val fotousuario: String?,
@@ -30,13 +30,14 @@ data class ArtistaDto(
     val edad: String,
     val profesion: String,
     val biografia: String?,
-    val seguidores: Int,
-    val seguidos: Int,
+    val numSeguidores: Int,
+    val numSeguidos: Int,
     val likes: Int,
     val createdAt: String,
     val updatedAt: String,
     val obras: List<ObrasArtistaDto>,
-    val intereses: List<InteresesDto>
+    val intereses: List<InteresesDto>,
+    var seSiguen: Boolean = false
 ){
     constructor(): this("0","","","","","0","","",0,0,0,"","",emptyList(),emptyList())
 }
@@ -79,11 +80,12 @@ fun ArtistaDto.toArtista(): Artista {
         edad = this.edad.toInt(),
         profesion = this.profesion,
         biografia = this.biografia ?: "No hay biografia",
-        seguidores = this.seguidores,
-        siguiendo = this.seguidos,
+        seguidores = this.numSeguidores,
+        siguiendo = this.numSeguidos,
         likes = likes,
         obras=  obras,
-        interses = intereses
+        interses = intereses,
+        seSiguen = this.seSiguen
 
 
     )

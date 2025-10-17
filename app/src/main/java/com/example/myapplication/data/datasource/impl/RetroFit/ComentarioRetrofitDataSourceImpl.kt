@@ -10,7 +10,7 @@ import javax.inject.Inject
 class ComentarioRetrofitDataSourceImpl @Inject constructor(
     val service: ComentarioRetrofitService
 ): ComentarioRemoteDataSource {
-    override suspend fun getAllComentariosByObraId(id: String): List<ComentarioDto> {
+    override suspend fun getAllComentariosByObraId(id: String, userId: String): List<ComentarioDto> {
         return service.getAllComentariosByObraId(id.toInt())
     }
 
@@ -37,6 +37,10 @@ class ComentarioRetrofitDataSourceImpl @Inject constructor(
 
     override suspend fun deleteComentario(id: String): Response<Unit> {
         return service.deleteComentario(id.toInt())
+    }
+
+    override suspend fun sendOrDeleteLike(commentId: String, userId: String) {
+        TODO("Not yet implemented")
     }
 
 }

@@ -15,4 +15,6 @@ data class PerfilState(
     var isLoading: Boolean = false,
     var ObraReview: Obra = Obra("","","","","", listOf(),"", "", "", "", "0", "",""),
     var cargandoObra: Boolean = false,
+    var seguir: Boolean=false,
+    var currentUser: String = ""
 )

@@ -50,7 +50,7 @@ class PerfilViewModel @Inject constructor(
     }
     fun getUsuario(id: String){
         viewModelScope.launch {
-            Log.d("User", "Se busca el user ${id}")
+            Log.d("Seguir", "Se busca el user ${id}")
             _uiState.update { it.copy(isLoading = true, errormsg = null) }
             val result=userRepo.getUserById(id)
             if (result.isSuccess){
@@ -68,7 +68,7 @@ class PerfilViewModel @Inject constructor(
             if (_uiState.value.usuario.obras.isEmpty()){
                 getObraByArtista()
             }
-
+            Log.d("SEGUIR 4", "seSIguen: ${_uiState.value.usuario.seSiguen}")
         }
 
 
@@ -76,7 +76,7 @@ class PerfilViewModel @Inject constructor(
    fun getObraByReviewId(id:String): Obra{
         viewModelScope.launch {
             _uiState.update { it.copy(cargandoObra = true) }
-            val result = obraRepo.getObra(id)
+            val result = obraRepo.getObra(id,authRepository.currentUser?.uid ?: "")
             if (result.isSuccess){
                 _uiState.update { it.copy(ObraReview = result.getOrNull() ?: Obra("","","","","", listOf(),"", "", "", "", "0", "","")) }
                 _uiState.update { it.copy(cargandoObra = false) }
@@ -130,7 +130,28 @@ class PerfilViewModel @Inject constructor(
             }
         }
     }
+    fun followOrUnfollowUser(target: String){
+        val currentUser = _uiState.value.currentUser
+        viewModelScope.launch {
+            Log.d("SEGUIR 2", "USERID: ${currentUser}")
+            Log.d("SEGUIR 2", "TARGETID: ${target}")
+            Log.d("SEGUIR 2", "seSIguen: ${_uiState.value.usuario.seSiguen}")
+            val result = userRepo.followOrUnfollowUser(currentUser,target)
+            if (result.isSuccess){
+                _uiState.value = _uiState.value.copy(
+                    usuario = _uiState.value.usuario.copy(
+                        seSiguen = !_uiState.value.usuario.seSiguen
+                    ),
+                    seguir = !_uiState.value.usuario.seSiguen
+
+                )
+            }
+            Log.d("SEGUIR 3", "seSIguen: ${_uiState.value.usuario.seSiguen}")
+
+        }
+    }
     init {
+        _uiState.update { it.copy(currentUser = authRepository.currentUser?.uid ?: "") }
         getNotificaciones()
 
     }

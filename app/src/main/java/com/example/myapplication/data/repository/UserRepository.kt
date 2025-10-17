@@ -16,15 +16,20 @@ import com.example.myapplication.data.dtos.toComentario
 import com.example.myapplication.data.dtos.toObra
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.auth.User
+import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(
-    private val UserRemoteDataSource: UserFirestoreDataSourceImpl
+    private val UserRemoteDataSource: UserFirestoreDataSourceImpl,
+    private val authRepository: AuthRepository
 ) {
     suspend fun getUserById(id: String): Result<Artista>{
+        val currentUser = authRepository.currentUser?.uid ?: ""
+        Log.d("Seguir", "USERID: ${currentUser}")
         return try {
             Log.d("User", "busca")
-            val artistaDto = UserRemoteDataSource.getUserById(id)
+            val artistaDto = UserRemoteDataSource.getUserById(id,currentUser)
             Log.d("User", "DTO")
             val usuario= artistaDto.toArtista()
             Log.d("User", usuario.biografia)
@@ -46,7 +51,9 @@ class UserRepository @Inject constructor(
         userId: String
     ): Result<Unit> {
         return try{
-            val registerUserDto= RegisterUserDto(nombre = usuario,edad = edad, profesion = profesion, biografia = bio, id = userId, fotousuario = "")
+            val fcmToken = FirebaseMessaging.getInstance().token.await()
+            Log.d("MENSAJE", fcmToken)
+            val registerUserDto= RegisterUserDto(nombre = usuario,edad = edad, profesion = profesion, biografia = bio, id = userId, fotousuario = "", FCMToken = fcmToken)
             UserRemoteDataSource.registerUser(registerUserDto,userId)
             Log.d("USER", "Se guardo")
             Result.success(Unit)
@@ -79,15 +86,29 @@ class UserRepository @Inject constructor(
                                profesion:String,
                                bio:String,
                                fotous:String,
-                               userId: String): Result<Unit>{
+                               userId: String,
+                               numSeguidores: Int,
+                               numSeguidos: Int): Result<Unit>{
         return try{
-            val registerUserDto= RegisterUserDto(nombre = usuario,edad = edad, profesion = profesion, biografia = bio, id = userId, fotousuario = fotous)
+            val fcmToken = FirebaseMessaging.getInstance().token.await()
+            val registerUserDto= RegisterUserDto(nombre = usuario,edad = edad, profesion = profesion, biografia = bio, id = userId, fotousuario = fotous, FCMToken =fcmToken)
             UserRemoteDataSource.registerUser(registerUserDto,userId)
             Log.d("USER", "Se guardo")
             Result.success(Unit)
         }catch(e: Exception){
             Log.d("TAB","getUserById: $(e.message)")
             Result.failure(e)
+        }
+    }
+
+    suspend fun followOrUnfollowUser(userId: String, target: String): Result<Unit>{
+        return try {
+            UserRemoteDataSource.followOrUnfollowUser(userId,target)
+            Result.success(Unit)
+        }catch (e: Exception){
+            Log.d("follow", "getUSerbyId: ${e.message}")
+            Result.failure(e)
+
         }
     }
 }

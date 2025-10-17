@@ -8,7 +8,7 @@ import retrofit2.Response
 interface ComentarioRemoteDataSource {
     suspend fun getAllCommentarios():List<ComentarioDto>
     suspend fun getComentarioById(id: String): ComentarioDto
-    suspend fun getAllComentariosByObraId(id: String): List<ComentarioDto>
+    suspend fun getAllComentariosByObraId(id: String,userId: String = ""): List<ComentarioDto>
     suspend fun getAllComentariosByArtistaId(id: String): List<ComentarioDto>
 
     suspend fun createCommentario(comment: CreateCommentDto): Unit
@@ -16,4 +16,6 @@ interface ComentarioRemoteDataSource {
     suspend fun updateCommentario(id: String, comentario: CreateCommentDto): Unit
 
     suspend fun deleteComentario(id: String): Response<Unit>
+
+    suspend fun sendOrDeleteLike(commentId: String, userId: String): Unit
 }

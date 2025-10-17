@@ -8,6 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,6 +32,7 @@ import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -55,6 +57,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -68,6 +71,7 @@ import com.example.myapplication.ui.utils.obraAssyncImage
 import com.example.myapplication.ui.utils.profileAssyncImage
 import kotlin.Int
 import kotlin.String
+import kotlin.contracts.contract
 
 
 //TopBar unico de pantalla de Perfil
@@ -461,7 +465,9 @@ fun ReviewTabContent(reviews: List<Comentario>,
                         idPerfil = review.fotous,
                         calificacion = review.calificacion,
                         respoderClicked = {},
-                        modifier = Modifier.padding(start = 11.dp)
+                        modifier = Modifier.padding(start = 11.dp),
+                        likeClicked = {},
+                        liked = review.liked
                     )
                     Row() {
                         Spacer(modifier = Modifier.width(50.dp))
@@ -665,7 +671,7 @@ fun PerfilScreen(id: String,
                     Text(state.errormsg!!)
                 }else {
                     Log.d("User", "ID:  ${state.usuario.id}")
-                    if (state.usuario.id.equals("jLNuY4U1zoNpJRoofnsbti8UOop2")){
+                    if (state.usuario.id.equals(state.currentUser)){
                         // Barra superior
                         TopBarProfile(
                             username = state.usuario.usuario,
@@ -695,7 +701,17 @@ fun PerfilScreen(id: String,
                         }
                     }else{
                         ProfileHeader(state.usuario, { guardadoPressed() })
-
+                        Spacer(modifier= Modifier.height(8.dp))
+                        Button(
+                            onClick = {viewmodel.followOrUnfollowUser(state.usuario.id)},
+                            modifier = Modifier.padding(horizontal = 20.dp).height(30.dp),
+                            contentPadding = PaddingValues(vertical = 2.dp, horizontal = 7.dp)
+                        ) {
+                            Text(
+                                text = if (!state.usuario.seSiguen){"Seguir"}else{"Dejar de seguir"}
+                            )
+                        }
+                        Spacer(modifier= Modifier.height(4.dp))
                         // Tabs con íconos
                         TabsSection(
                             selectedTab = state.selectedTab,
