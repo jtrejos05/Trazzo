@@ -86,7 +86,7 @@ class EditarPerfilViewModel @Inject constructor(
 
     fun updateUser(){
         viewModelScope.launch {
-            userRepo.updateArtista(usuario = _uiState.value.usuario, edad = _uiState.value.artista!!.edad.toString(), profesion = _uiState.value.profesion, bio = _uiState.value.bio, fotous = _uiState.value.profileImgUrl!!, userId =_uiState.value.artista!!.id )
+            userRepo.updateArtista(usuario = _uiState.value.usuario, edad = _uiState.value.artista!!.edad.toString(), profesion = _uiState.value.profesion, bio = _uiState.value.bio, fotous = _uiState.value.profileImgUrl!!, userId =_uiState.value.artista!!.id, numSeguidos = _uiState.value.artista!!.siguiendo, numSeguidores = _uiState.value.artista!!.seguidores )
             _uiState.update { it.copy(navegar = true) }
         }
     }

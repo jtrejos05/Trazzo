@@ -136,9 +136,14 @@ fun PreviewTopBarProfile() {
 //Para mostrar los numeros del Perfil
 @Composable
 fun PerfilStat(valor: Int, label: String,
-               modifier: Modifier = Modifier){
+               action: ()->Unit={},
+               modifier: Modifier = Modifier ){
     Row(
-    modifier = modifier,
+    modifier = modifier.clickable{
+        action()
+    }
+
+    ,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
@@ -194,6 +199,8 @@ fun Tags(artista: Artista,guardadoPressed: () -> Unit = {},
 fun ProfileHeader(
     artista: Artista,
     guardadoPressed: () -> Unit = {},
+    seguidoresPressed: ()->Unit = {},
+    seguidosPressed: ()->Unit={},
     modifier: Modifier = Modifier
 ) {
     Column {
@@ -210,9 +217,9 @@ fun ProfileHeader(
             Column {
 
                 Row {
-                    PerfilStat(artista.obras.size, "Posts")
-                    PerfilStat(artista.seguidores, "Seguidores")
-                    PerfilStat(artista.siguiendo, "Seguidos")
+                    PerfilStat(artista.obras.size, "Posts",{})
+                    PerfilStat(artista.seguidores, "Seguidores",  {seguidoresPressed()}  )
+                    PerfilStat(artista.siguiendo, "Seguidos", {seguidosPressed()})
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
@@ -635,6 +642,8 @@ fun PerfilScreen(id: String,
                  EditarPressed: () -> Unit = {},
                  LogOutPressed:()-> Unit = {},
                  EditarRPressed: (String) -> Unit ={},
+                 SeguidoresPresed: (String)-> Unit ={},
+                 SeguidosPresed: (String)-> Unit = {},
                  modifier: Modifier = Modifier) {
 
     val state by viewmodel.uiState.collectAsState()
@@ -681,7 +690,9 @@ fun PerfilScreen(id: String,
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         // Cabecera
-                        ProfileHeader(state.usuario, { guardadoPressed() })
+                        ProfileHeader(state.usuario, { guardadoPressed() },
+                            {SeguidoresPresed(state.usuario.id)},
+                            {SeguidosPresed(state.usuario.id)})
 
                         // Tabs con íconos
                         TabsSection(
@@ -700,7 +711,8 @@ fun PerfilScreen(id: String,
                             3 -> StatsTabContent(state.usuario) // Tab "Stats"
                         }
                     }else{
-                        ProfileHeader(state.usuario, { guardadoPressed() })
+                        ProfileHeader(state.usuario, { guardadoPressed() },{SeguidoresPresed(state.usuario.id)},
+                            {SeguidosPresed(state.usuario.id)})
                         Spacer(modifier= Modifier.height(8.dp))
                         Button(
                             onClick = {viewmodel.followOrUnfollowUser(state.usuario.id)},

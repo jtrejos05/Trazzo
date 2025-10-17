@@ -1,6 +1,7 @@
 package com.example.myapplication.data.datasource.impl.Firestore
 
 import android.util.Log
+import com.example.myapplication.data.Artista
 import com.example.myapplication.data.datasource.UserRemoteDataSource
 import com.example.myapplication.data.dtos.ArtistaDto
 import com.example.myapplication.data.dtos.ComentarioDto
@@ -79,11 +80,19 @@ class UserFirestoreDataSourceImpl @Inject constructor(
         val seguidoresRef = userRef.collection("seguidores")
         val seguidoresSnapshot = seguidoresRef.get().await()
         return seguidoresSnapshot.documents.map { doc ->
-            
+            val artista = doc.toObject(ArtistaDto::class.java)
+            artista?.copy(id = doc.id) ?: throw Exception("seguidor no encontrado")
         }
     }
 
     override suspend fun getSeguidos(id: String): List<ArtistaDto> {
-        TODO("Not yet implemented")
+        val userRef = db.collection("users").document(id)
+        val userSnap = userRef.get().await()
+        val seguidoresRef = userRef.collection("seguidos")
+        val seguidoresSnapshot = seguidoresRef.get().await()
+        return seguidoresSnapshot.documents.map { doc ->
+            val artista = doc.toObject(ArtistaDto::class.java)
+            artista?.copy(id = doc.id) ?: throw Exception("seguido no encontrado")
+        }
     }
 }

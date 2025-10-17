@@ -111,6 +111,23 @@ class UserRepository @Inject constructor(
 
         }
     }
+
+    suspend fun getSeguidosOrSeguidores(seguidos: Boolean, id: String): Result<List<Artista>>{
+        return try {
+            var users: List<ArtistaDto>
+            if (seguidos){
+                users = UserRemoteDataSource.getSeguidos(id)
+            }else{
+               users = UserRemoteDataSource.getSeguidores(id)
+            }
+            val artistas =users.map { artista ->
+                artista.toArtista()
+            }
+            return Result.success(artistas)
+        }catch (e: Exception){
+            Result.failure(e)
+        }
+    }
 }
 
 

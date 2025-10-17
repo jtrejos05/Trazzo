@@ -59,6 +59,8 @@ import com.example.myapplication.ui.PublicacionesGuardadas.PublicacionesGuardada
 import com.example.myapplication.ui.PublicacionesGuardadas.PublicacionesGuardadasViewModel
 import com.example.myapplication.ui.Register.RegisterScreen
 import com.example.myapplication.ui.Register.RegisterViewModel
+import com.example.myapplication.ui.SeguidoresoSeguidosScreen.SeguidoresoSeguidosScreen
+import com.example.myapplication.ui.SeguidoresoSeguidosScreen.SeguidoresoSeguidosViewModel
 import com.example.myapplication.ui.Splash.SplashScreen
 import com.example.myapplication.ui.Splash.SplashViewModel
 import com.example.myapplication.ui.SubirObra.SubirObraScreen
@@ -75,6 +77,17 @@ import javax.inject.Inject
 sealed class Rutas(
     val ruta: String
     ) {
+    object Seguidores: Rutas("seguidores/{perfilId}"){
+        fun createSRoute(perfilId: String): String{
+            return "seguidores/$perfilId"
+        }
+    }
+    object Seguidos:Rutas("seguidos/{perfilId}"){
+        fun createSRoute(perfilId: String): String{
+            return "seguidos/$perfilId"
+        }
+    }
+
     object Home : Rutas("home")
     object Splash : Rutas("splash")
     object Login : Rutas("login")
@@ -171,6 +184,16 @@ fun AppNavigation(navControler: NavHostController,
                 VistaObrasScreen(obraId,{obraId->navControler.navigate(Rutas.CrearComment.createCRoute(obraId))},{},viewmodel)
             }
         }
+        composable(Rutas.Seguidores.ruta, arguments = listOf(navArgument("perfilId"){type = NavType.StringType})){
+            val UsuarioId=it.arguments?.getString("perfilId") ?:""
+            val viewmodel: SeguidoresoSeguidosViewModel = hiltViewModel()
+            SeguidoresoSeguidosScreen(viewmodel, UsuarioId, false)
+        }
+        composable(Rutas.Seguidos.ruta, arguments = listOf(navArgument("perfilId"){type = NavType.StringType})){
+            val UsuarioId=it.arguments?.getString("perfilId") ?:""
+            val viewmodel: SeguidoresoSeguidosViewModel = hiltViewModel()
+            SeguidoresoSeguidosScreen(viewmodel,UsuarioId,true)
+        }
         composable(Rutas.CrearComment.ruta, arguments = listOf(navArgument("obraId"){type = NavType.StringType})){
             val obraId = it.arguments?.getString("obraId") ?: ""
             val viewModel: CrearEditarCommentViewModel = hiltViewModel()
@@ -209,7 +232,8 @@ fun AppNavigation(navControler: NavHostController,
                 {commentId->
 
                     navControler.navigate(Rutas.EditarComment.createMRoute(commentId))
-                })
+                }, {userId->navControler.navigate(Rutas.Seguidores.createSRoute(userId))}, {userId->navControler.navigate(
+                    Rutas.Seguidos.createSRoute(userId))})
         }
 
         // Navegacion pantalla buscar
