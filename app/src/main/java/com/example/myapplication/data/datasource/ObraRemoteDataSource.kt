@@ -11,10 +11,7 @@ interface ObraRemoteDataSource {
     suspend fun createObra(obra: CreateObraDto): Unit
     suspend fun deleteObra(id: String): Unit
     suspend fun updateObra(id:String, obra: CreateObraDto): Unit
-
     suspend fun SendorDeleteLike(obraId: String,userId:String): Unit
-
     suspend fun listenAllObras(): Flow<List<ObraDto>>
-
-    suspend fun getObrasByUserId(): List<ObraDto>
+    suspend fun getObrasByUserId(userId: String): List<ObraDto>
 }

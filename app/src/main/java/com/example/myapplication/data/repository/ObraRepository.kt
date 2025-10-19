@@ -56,10 +56,9 @@ class ObraRepository @Inject constructor(
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    suspend fun getTrendingObras(): Result<List<Obra>> {
+    suspend fun getObrasById(userId: String): Result<List<Obra>> {
         return try{
-            var obras= ObraRemoteDataSource.getObras()
-            obras = obras.sortedByDescending { it.numLikes }
+            var obras= ObraRemoteDataSource.getObrasByUserId(userId)
             val obrasInfo=obras.map {it.toObra()}
             Result.success(obrasInfo)
         }catch (e: HttpException){

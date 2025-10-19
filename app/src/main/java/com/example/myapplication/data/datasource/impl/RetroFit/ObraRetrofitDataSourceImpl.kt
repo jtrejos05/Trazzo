@@ -37,7 +37,7 @@ class ObraRetrofitDataSourceImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getObrasByUserId(): List<ObraDto> {
+    override suspend fun getObrasByUserId(userId: String): List<ObraDto> {
         TODO("Not yet implemented")
     }
 }

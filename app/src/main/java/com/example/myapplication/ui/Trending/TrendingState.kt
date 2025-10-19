@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.Trending
 
+import com.example.myapplication.data.Artista
 import com.example.myapplication.data.Obra
 
 data class TrendingState(

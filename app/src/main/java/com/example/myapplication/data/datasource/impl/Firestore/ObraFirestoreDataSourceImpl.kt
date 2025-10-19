@@ -90,9 +90,14 @@ class ObraFirestoreDataSourceImpl @Inject constructor(
         awaitClose { listener.remove() }
     }
 
-    override suspend fun getObrasByUserId(): List<ObraDto> {
-        TODO("Not yet implemented")
+    override suspend fun getObrasByUserId(userId: String): List<ObraDto> {
+        val snapshot = db.collection("obras")
+            .whereEqualTo("artistaId", userId)
+            .get()
+            .await()
+        return snapshot.documents.map { doc ->
+            val obra = doc.toObject(ObraDto::class.java)
+            obra?.copy(id = doc.id) ?: throw Exception("Obra no encontrada")
+        }
     }
-
-
 }
