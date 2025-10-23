@@ -85,7 +85,9 @@ class ComentarioRepository @Inject constructor(
             val user = UserDataSource.getUserById(artistaId, authDataSource.currentUser?.uid ?: "")
             Log.d("Users", "Repo: photo")
             val photoUrl = authDataSource.currentUser?.photoUrl?.toString()
-            Log.d("Users", "Repo: Dto User: ${user.nombre}  Photo: ${photoUrl}")
+            if (user == null){
+                return Result.failure(Exception("User not found"))
+            }
             val createCommentUserDto = CreateCommentUserDto(
                 nombre = user.nombre,
                 fotousuario = photoUrl

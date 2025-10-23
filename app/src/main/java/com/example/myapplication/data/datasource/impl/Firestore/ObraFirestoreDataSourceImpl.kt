@@ -24,7 +24,7 @@ class ObraFirestoreDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun getObraById(id: String, currentUserId: String): ObraDto {
+    override suspend fun getObraById(id: String, currentUserId: String): ObraDto? {
         val obraRef = db.collection("obras").document(id)
         val obrasnapshot = obraRef.get().await()
         val obra = obrasnapshot.toObject(ObraDto::class.java) ?: throw Exception("Obra no encontrada")

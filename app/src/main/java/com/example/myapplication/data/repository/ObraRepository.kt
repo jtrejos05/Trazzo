@@ -44,6 +44,9 @@ class ObraRepository @Inject constructor(
     suspend fun getObra(id: String, userId: String): Result<Obra>{
         return try {
             val obraDto = ObraRemoteDataSource.getObraById(id,userId)
+            if(obraDto==null){
+                return Result.failure(Exception("Usuario no encontrado"))
+            }
             val obra= obraDto.toObra()
             Result.success(obra)
         }catch (e: HttpException){

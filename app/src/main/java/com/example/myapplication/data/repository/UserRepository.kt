@@ -31,6 +31,9 @@ class UserRepository @Inject constructor(
             Log.d("User", "busca")
             val artistaDto = UserRemoteDataSource.getUserById(id,currentUser)
             Log.d("User", "DTO")
+            if (artistaDto == null){
+                return Result.failure(Exception("Usuario no encontrado"))
+            }
             val usuario= artistaDto.toArtista()
             Log.d("User", usuario.biografia)
             Result.success(usuario)

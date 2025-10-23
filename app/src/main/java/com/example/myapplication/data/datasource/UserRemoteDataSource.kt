@@ -6,7 +6,7 @@ import com.example.myapplication.data.dtos.ObraDto
 import com.example.myapplication.data.dtos.RegisterUserDto
 
 interface UserRemoteDataSource {
-    suspend fun getUserById(id: String, userId: String): ArtistaDto
+    suspend fun getUserById(id: String, userId: String): ArtistaDto?
 
     suspend fun registerUser(registerUserDto: RegisterUserDto, userId: String): Unit
 
