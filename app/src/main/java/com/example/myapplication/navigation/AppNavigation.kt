@@ -157,7 +157,7 @@ fun AppNavigation(navControler: NavHostController,
                 navControler.navigateSingleTopTo(Rutas.Principal.ruta)
                 viewmodel.resetFlag()
             }
-            InicioSesionScreen(viewmodel, { navControler.navigate(Rutas.Register.ruta) })
+            InicioSesionScreen(viewmodel, { navControler.navigate(Rutas.Register.ruta) },navControler)
         }
         //Navegacion Registro
         composable(Rutas.Register.ruta) {

@@ -37,43 +37,69 @@ import com.example.myapplication.ui.utils.BotonIcono
 import com.example.myapplication.ui.utils.BotonInteres
 import com.example.myapplication.ui.utils.Form
 import com.example.myapplication.ui.utils.LogoTrazzo
+import com.example.myapplication.ui.InicioSesion.AuthGoogle
+
+import android.app.Activity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavController
+import com.example.myapplication.navigation.Rutas
+import com.example.myapplication.navigation.navigateSingleTopTo
 
 
 @Composable
 @Preview(showBackground = true)
-fun LogoAppPreview(){
-    LogoTrazzo(modifier=Modifier.height(70.dp))
+fun LogoAppPreview() {
+    LogoTrazzo(modifier = Modifier.height(70.dp))
 }
+
 @Composable
 @Preview(showBackground = true)
-fun BienvenidaIniPreview(){
+fun BienvenidaIniPreview() {
     Bienvenida(R.string.iniciar_sesion, R.string.accede_a_tu_mundo_creativo)
 }
-//Formulario con los datos de inicio de sesion
-@Composable
-fun InfoInicio(correo: String, contraseña: String,
-               onCorreoChange: (String) -> Unit,
-               onContraseñaChange: (String) -> Unit,
-               modifier: Modifier = Modifier) {
-    Column(modifier = modifier) {
-        Form(Icons.Default.MailOutline, stringResource(R.string.icono_correo),stringResource(R.string.correo),stringResource(R.string.tu_email_com),
-            correo,
-            onCorreoChange)
-        Form(Icons.Outlined.Lock, stringResource(R.string.icono_contrase_a),stringResource(R.string.contra),stringResource(R.string.minimo_6_caracteres),
-             contraseña,
-             onContraseñaChange,op=2)
 
+@Composable
+fun InfoInicio(
+    correo: String,
+    contraseña: String,
+    onCorreoChange: (String) -> Unit,
+    onContraseñaChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier) {
+        Form(
+            Icons.Default.MailOutline,
+            stringResource(R.string.icono_correo),
+            stringResource(R.string.correo),
+            stringResource(R.string.tu_email_com),
+            correo,
+            onCorreoChange
+        )
+        Form(
+            Icons.Outlined.Lock,
+            stringResource(R.string.icono_contrase_a),
+            stringResource(R.string.contra),
+            stringResource(R.string.minimo_6_caracteres),
+            contraseña,
+            onContraseñaChange,
+            op = 2
+        )
     }
 }
+
 @Composable
 @Preview(showBackground = true)
-fun InfoInicioPreview(){
-    InfoInicio(correo = "",
-               contraseña = "",
-               onCorreoChange = {},
-               onContraseñaChange = {})
+fun InfoInicioPreview() {
+    InfoInicio(
+        correo = "",
+        contraseña = "",
+        onCorreoChange = {},
+        onContraseñaChange = {}
+    )
 }
-//Linea con recordarme y olvidaste tu contraseña
+
 @Composable
 fun PieDeInicio(
     recordarme: Boolean,
@@ -92,14 +118,10 @@ fun PieDeInicio(
                 checked = recordarme,
                 onCheckedChange = onRecordarmeChanged
             )
-            Text(
-                text = stringResource(R.string.recordarme)
-            )
+            Text(text = stringResource(R.string.recordarme))
         }
 
-        Text(
-            text = stringResource(R.string.olvidaste_tu_contrase_a),
-        )
+        Text(text = stringResource(R.string.olvidaste_tu_contrase_a))
     }
 }
 
@@ -115,25 +137,30 @@ fun PieDeInicioPreview() {
         )
     }
 }
-//funcin que crea los botones de inicio de sesion y registrarse
+
 @Composable
-fun Botones(loginButtonPressed: () -> Unit = {},
-            registerButtonPressed: () -> Unit = {},
-            modifier: Modifier = Modifier){
+fun Botones(
+    loginButtonPressed: () -> Unit = {},
+    registerButtonPressed: () -> Unit = {},
+    modifier: Modifier = Modifier
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-        BotonInteres(stringResource(R.string.iniciar_sesion), MaterialTheme.colorScheme.primaryContainer,MaterialTheme.colorScheme.onSecondaryContainer,loginButtonPressed ,modifier
-            .width(370.dp)
-            .height(60.dp))
+        BotonInteres(
+            stringResource(R.string.iniciar_sesion),
+            MaterialTheme.colorScheme.primaryContainer,
+            MaterialTheme.colorScheme.onSecondaryContainer,
+            loginButtonPressed,
+            modifier
+                .width(370.dp)
+                .height(60.dp)
+        )
         Spacer(Modifier.height(10.dp))
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
             HorizontalDivider(Modifier, DividerDefaults.Thickness, color = Color.LightGray)
-            Box(
-                modifier = Modifier
-                    .padding(horizontal = 8.dp)
-            ) {
+            Box(modifier = Modifier.padding(horizontal = 8.dp)) {
                 Text(
                     text = "o",
                     style = MaterialTheme.typography.bodySmall,
@@ -141,52 +168,105 @@ fun Botones(loginButtonPressed: () -> Unit = {},
                 )
             }
         }
-        Spacer(modifier.height(10.dp))
-        BotonIcono(Icons.Default.PersonAddAlt, stringResource(R.string.icono_nueva_cuenta),
-            stringResource(R.string.crear_cuenta_nueva),R.color.GrisClaro,R.color.GrisOscuro,registerButtonPressed,modifier
+        Spacer(Modifier.height(10.dp))
+        BotonIcono(
+            Icons.Default.PersonAddAlt,
+            stringResource(R.string.icono_nueva_cuenta),
+            stringResource(R.string.crear_cuenta_nueva),
+            R.color.GrisClaro,
+            R.color.GrisOscuro,
+            registerButtonPressed,
+            modifier
                 .width(370.dp)
-                .height(60.dp))
+                .height(60.dp)
+        )
     }
 }
 
-//Pantalla final Inicio de sesion
 @Composable
-fun InicioSesionScreen(viewmodel: InicioSesionViewModel,
-                       registerButtonPressed: () -> Unit = {}
-                       , modifier: Modifier = Modifier){
-
+fun InicioSesionScreen(
+    viewmodel: InicioSesionViewModel,
+    registerButtonPressed: () -> Unit = {},
+    navController: NavController,
+    modifier: Modifier = Modifier
+) {
     val state by viewmodel.uiState.collectAsState()
 
-
     Column(modifier = modifier) {
+        // Logo y bienvenida
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = modifier.fillMaxWidth()
         ) {
             Spacer(modifier = Modifier.height(150.dp))
-            LogoTrazzo(modifier=Modifier.height(70.dp))
+            LogoTrazzo(modifier = Modifier.height(70.dp))
             Bienvenida(R.string.iniciar_sesion, R.string.accede_a_tu_mundo_creativo)
             Spacer(modifier = Modifier.height(40.dp))
         }
+
+        // Formulario
         Column {
-            InfoInicio(state.correo,state.contraseña,
-                onCorreoChange = {viewmodel.updateCorreo(it)},
-                onContraseñaChange = {viewmodel.updateContraseña(it)})
-            PieDeInicio(recordarme = state.recordarme,
-                onRecordarmeChanged = { viewmodel.updateRecordarme(it) })
+            InfoInicio(
+                state.correo,
+                state.contraseña,
+                onCorreoChange = { viewmodel.updateCorreo(it) },
+                onContraseñaChange = { viewmodel.updateContraseña(it) }
+            )
+            PieDeInicio(
+                recordarme = state.recordarme,
+                onRecordarmeChanged = { viewmodel.updateRecordarme(it) }
+            )
         }
-        Spacer(modifier.height(15.dp))
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            if (state.mostrarError){
+
+        Spacer(Modifier.height(15.dp))
+
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            if (state.mostrarError) {
                 Text(state.error)
             }
+
             Botones(
                 { viewmodel.loginButtonPressed() },
-                { registerButtonPressed() })
-            Spacer(modifier.height(140.dp))
-            Text(stringResource(R.string.al_iniciar_sesion_aceptas_nuestros_terminos_de_servicio_y_politica_de_privacidad))
+                { registerButtonPressed() }
+            )
+
+            Spacer(Modifier.height(10.dp))
+
+            val context = LocalContext.current
+            val activity = context as Activity
+            val launcher = rememberLauncherForActivityResult(
+                contract = ActivityResultContracts.StartActivityForResult()
+            ) { result ->
+                AuthGoogle.handleResult(
+                    result.data,
+                    onSuccess = {
+                        println("Inicio de sesión con Google exitoso")
+                        navController.navigateSingleTopTo(Rutas.Principal.ruta)
+                    },
+                    onError = { error ->
+                        println("Error Google Sign-In: $error")
+                    }
+
+                )
+            }
+
+            BotonIcono(
+                Icons.Default.MailOutline,
+                "Icono Google",
+                "Iniciar sesión con Google",
+                R.color.GrisClaro,
+                R.color.GrisOscuro,
+                { AuthGoogle.signIn(activity, launcher) },
+                modifier
+                    .width(370.dp)
+                    .height(60.dp)
+            )
+
+            Spacer(Modifier.height(140.dp))
+
+            Text(
+                stringResource(R.string.al_iniciar_sesion_aceptas_nuestros_terminos_de_servicio_y_politica_de_privacidad)
+            )
         }
     }
 }
