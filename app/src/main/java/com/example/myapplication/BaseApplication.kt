@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import android.app.Application
 import android.util.Log
+import com.google.firebase.BuildConfig
 
 import com.google.firebase.Firebase
 import com.google.firebase.FirebaseApp
