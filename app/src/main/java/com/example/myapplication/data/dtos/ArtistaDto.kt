@@ -70,7 +70,6 @@ fun ArtistaDto.toArtista(): Artista {
     var obras = this.obras.map { it.toObra(this.fotousuario ?: "", this.nombre, this.id.toInt()) }
     var intereses = this.intereses.map { it.interes }
 
-
     return Artista(
         id=this.id.toString(),
         img = this.fotousuario ?: "",

@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.DataSource
 
 import com.example.myapplication.data.datasource.impl.Firestore.UserFirestoreDataSourceImpl
 import com.example.myapplication.data.dtos.RegisterUserDto
@@ -10,21 +10,20 @@ import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import kotlin.String
 
 class FirebaseUserDataSourceTest {
 
     private val db = Firebase.firestore
 
     private fun generateUser(i: Int): RegisterUserDto = RegisterUserDto(
-        nombre= "Usuario, $i",
+        nombre = "Usuario, $i",
         edad = "20",
         profesion = "Artista$i",
-        biografia= "Biografia del usuario $i",
-        id= "user_$i",
+        biografia = "Biografia del usuario $i",
+        id = "user_$i",
         fotousuario = "https://picsum.photos/200/200?random=$i",
         numSeguidores = i,
-        numSeguidos= i+2
+        numSeguidos = i + 2
     )
 
     private lateinit var dataSource: UserFirestoreDataSourceImpl
@@ -32,7 +31,7 @@ class FirebaseUserDataSourceTest {
     fun setUp() = runTest {
         try {
             db.useEmulator("10.0.2.2", 8080)
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             // Emulator already in use
         }
 
@@ -43,9 +42,10 @@ class FirebaseUserDataSourceTest {
         //autonomas
 
         val batch = db.batch()
-        repeat(10){
-                i -> val user = generateUser(i)
-            batch.set(db.collection("users").document(user.id), user
+        repeat(10) { i ->
+            val user = generateUser(i)
+            batch.set(
+                db.collection("users").document(user.id), user
             )
         }
         batch.commit().await()
@@ -61,7 +61,7 @@ class FirebaseUserDataSourceTest {
         val validId = "user_5"
         val name = "Usuario, 5"
         //Act
-        val result = dataSource.getUserById(validId,"")
+        val result = dataSource.getUserById(validId, "")
         //Assert
         Truth.assertThat(result).isNotNull()
         Truth.assertThat(result!!.nombre).isEqualTo(name)
@@ -69,7 +69,7 @@ class FirebaseUserDataSourceTest {
 
         //delete
 
-        }
+    }
 
 
 
@@ -81,10 +81,9 @@ class FirebaseUserDataSourceTest {
         //Arrange
         val invalidId = "user_11"
         //Act
-        val result = dataSource.getUserById(invalidId,"")
+        val result = dataSource.getUserById(invalidId, "")
         //Assert
         Truth.assertThat(result).isNull()
-
 
 
     }

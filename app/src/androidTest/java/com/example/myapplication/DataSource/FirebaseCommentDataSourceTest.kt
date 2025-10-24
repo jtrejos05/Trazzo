@@ -1,10 +1,8 @@
-package com.example.myapplication
+package com.example.myapplication.DataSource
 
 import com.example.myapplication.data.datasource.impl.Firestore.ComentarioFirestoreDataSourceImpl
-import com.example.myapplication.data.datasource.impl.Firestore.UserFirestoreDataSourceImpl
 import com.example.myapplication.data.dtos.CreateCommentDto
 import com.example.myapplication.data.dtos.CreateCommentUserDto
-import com.example.myapplication.data.dtos.RegisterUserDto
 import com.google.common.truth.Truth
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
@@ -26,7 +24,7 @@ class FirebaseCommentDataSourceTest {
         calificacion = 5.0,
         comentario = "Comentario de prueba $i",
         artistaId = "artista_$i",
-    obraId = "obra_$i",
+        obraId = "obra_$i",
         parentComentarioId = null,
         id = "comentario_$i",
         artista = generateUser(i)
@@ -37,7 +35,7 @@ class FirebaseCommentDataSourceTest {
     fun setUp() = runTest {
         try {
             db.useEmulator("10.0.2.2", 8080)
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             // Emulator already in use
         }
 
@@ -48,9 +46,10 @@ class FirebaseCommentDataSourceTest {
         //autonomas
 
         val batch = db.batch()
-        repeat(10){
-                i -> val comment = generateComment(i)
-            batch.set(db.collection("comments").document(comment.id ?: "idNOENCOntrado$i"), comment
+        repeat(10) { i ->
+            val comment = generateComment(i)
+            batch.set(
+                db.collection("comments").document(comment.id ?: "idNOENCOntrado$i"), comment
             )
         }
         batch.commit().await()
@@ -62,9 +61,9 @@ class FirebaseCommentDataSourceTest {
 
         //AAA
         //Arrange
-        val comentario1 =  "Comentario de prueba 1"
-        val comentario5 =  "Comentario de prueba 5"
-        val comentario9 =  "Comentario de prueba 9"
+        val comentario1 = "Comentario de prueba 1"
+        val comentario5 = "Comentario de prueba 5"
+        val comentario9 = "Comentario de prueba 9"
         //Act
         val result = dataSource.getAllCommentarios()
         //Assert
@@ -74,13 +73,12 @@ class FirebaseCommentDataSourceTest {
         Truth.assertThat(result[8].comentario).isEqualTo(comentario9)
 
 
-
     }
 
     @Test
     fun getComment_validId_correctComment() = runTest {
         val validId = "comentario_3"
-        val comentario3 =  "Comentario de prueba 3"
+        val comentario3 = "Comentario de prueba 3"
 
         val result = dataSource.getComentarioById(validId)
 

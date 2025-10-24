@@ -1,11 +1,8 @@
-package com.example.myapplication
+package com.example.myapplication.DataSource
 
-import androidx.compose.material3.OutlinedTextField
 import com.example.myapplication.data.datasource.impl.Firestore.ObraFirestoreDataSourceImpl
-import com.example.myapplication.data.datasource.impl.Firestore.UserFirestoreDataSourceImpl
 import com.example.myapplication.data.dtos.ArtistaObraDto
 import com.example.myapplication.data.dtos.ObraDto
-import com.example.myapplication.data.dtos.RegisterUserDto
 import com.example.myapplication.data.dtos.TagDto
 import com.google.common.truth.Truth
 import com.google.firebase.Firebase
@@ -15,7 +12,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import kotlin.String
 
 class FirebaseObraDataSourceTest {
 
@@ -24,8 +20,8 @@ class FirebaseObraDataSourceTest {
     private lateinit var dataSource: ObraFirestoreDataSourceImpl
 
     private fun generateUser(i:Int): ArtistaObraDto = ArtistaObraDto(
-        nombre= "Artista $i",
-        fotousuario = "https://picsum.photos/200/200?random=${i+12}"
+        nombre = "Artista $i",
+        fotousuario = "https://picsum.photos/200/200?random=${i + 12}"
     )
     private fun generateTag(i: Int): TagDto = TagDto(
         tag = "Tag Nombre $i"
@@ -35,23 +31,23 @@ class FirebaseObraDataSourceTest {
         id = "obra_$i",
         artistaId = "artista_$i",
         titulo = "Obra Titulo $i",
-        descripcion="Descripcion de la obra $i",
-        obraIMG= "https://picsum.photos/200/200?random=$i",
-        numComentarios= i,
-        numLikes= i+2,
-        compartidos = i+3,
-        vistas = i+4,
-        createdAt= "2023-10-01T12:00:00Z",
-        updatedAt= "2023-10-01T12:00:00Z",
+        descripcion = "Descripcion de la obra $i",
+        obraIMG = "https://picsum.photos/200/200?random=$i",
+        numComentarios = i,
+        numLikes = i + 2,
+        compartidos = i + 3,
+        vistas = i + 4,
+        createdAt = "2023-10-01T12:00:00Z",
+        updatedAt = "2023-10-01T12:00:00Z",
         artista = generateUser(i),
-        tags= listOf(generateTag(i)),
+        tags = listOf(generateTag(i)),
         liked = false
     )
     @Before
     fun setUp() = runTest {
         try {
             db.useEmulator("10.0.2.2", 8080)
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             // Emulator already in use
         }
 
@@ -62,9 +58,10 @@ class FirebaseObraDataSourceTest {
         //autonomas
 
         val batch = db.batch()
-        repeat(10){
-                i -> val obra = generateObra(i)
-            batch.set(db.collection("obras").document(obra.id), obra
+        repeat(10) { i ->
+            val obra = generateObra(i)
+            batch.set(
+                db.collection("obras").document(obra.id), obra
             )
         }
         batch.commit().await()
@@ -75,9 +72,9 @@ class FirebaseObraDataSourceTest {
 
         //AAA
         //Arrange
-        val nombre1 =  "Obra Titulo 1"
-        val nombre5 =  "Obra Titulo 5"
-        val nombre9 =  "Obra Titulo 9"
+        val nombre1 = "Obra Titulo 1"
+        val nombre5 = "Obra Titulo 5"
+        val nombre9 = "Obra Titulo 9"
         //Act
         val result = dataSource.getObras()
         //Assert
@@ -85,7 +82,6 @@ class FirebaseObraDataSourceTest {
         Truth.assertThat(result[0].titulo).isEqualTo(nombre1)
         Truth.assertThat(result[4].titulo).isEqualTo(nombre5)
         Truth.assertThat(result[8].titulo).isEqualTo(nombre9)
-
 
 
     }

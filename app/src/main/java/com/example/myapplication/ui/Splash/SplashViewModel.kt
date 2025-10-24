@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.Splash
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.myapplication.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,6 +18,7 @@ class SplashViewModel @Inject constructor(
 
     private fun checkUser(){
         if (authRepository.currentUser != null){
+            Log.d("Splash", "${authRepository.currentUser}")
             _uiState.update { it.copy(navegar = true) }
         }else{
             _uiState.update { it.copy(navegar = false) }
