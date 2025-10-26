@@ -42,7 +42,15 @@ import com.example.myapplication.ui.InicioSesion.AuthGoogle
 import android.app.Activity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.myapplication.navigation.Rutas
 import com.example.myapplication.navigation.navigateSingleTopTo
@@ -250,16 +258,11 @@ fun InicioSesionScreen(
                 )
             }
 
-            BotonIcono(
-                Icons.Default.MailOutline,
-                "Icono Google",
-                "Iniciar sesión con Google",
-                R.color.GrisClaro,
-                R.color.GrisOscuro,
-                { AuthGoogle.signIn(activity, launcher) },
-                modifier
-                    .width(370.dp)
-                    .height(60.dp)
+            BotonGoogle(
+                onClick = { AuthGoogle.signIn(activity, launcher) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
             )
 
             Spacer(Modifier.height(140.dp))
@@ -268,5 +271,35 @@ fun InicioSesionScreen(
                 stringResource(R.string.al_iniciar_sesion_aceptas_nuestros_terminos_de_servicio_y_politica_de_privacidad)
             )
         }
+    }
+}
+
+@Composable
+fun BotonGoogle(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp)
+            .height(60.dp)
+            .background(Color.White, RoundedCornerShape(12.dp))
+            .clickable { onClick() },
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.google_logo),
+            contentDescription = "Logo de Google",
+            modifier = Modifier.size(24.dp)
+        )
+        Spacer(modifier = Modifier.width(12.dp))
+        Text(
+            text = "Continuar con Google",
+            color = Color.Black,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Medium
+        )
     }
 }

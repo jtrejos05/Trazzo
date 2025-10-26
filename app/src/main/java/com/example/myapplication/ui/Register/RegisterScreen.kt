@@ -2,6 +2,14 @@ package com.example.myapplication.ui.Register
 
 
 
+import android.app.Activity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -11,8 +19,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarToday
@@ -21,6 +31,8 @@ import androidx.compose.material.icons.outlined.Cases
 import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material3.DividerDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,13 +40,22 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.R
+import com.example.myapplication.navigation.Rutas
+import com.example.myapplication.navigation.navigateSingleTopTo
+import com.example.myapplication.ui.InicioSesion.AuthGoogle
+import com.example.myapplication.ui.InicioSesion.BotonGoogle
 import com.example.myapplication.ui.Register.RegisterViewModel
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.utils.Bienvenida
@@ -211,6 +232,17 @@ fun BotonCrear(registerButtonPressed: () -> Unit = {},modifier: Modifier = Modif
         MaterialTheme.colorScheme.onSecondaryContainer ,registerButtonPressed,modifier
         .width(370.dp)
         .height(60.dp))
+
+    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+        HorizontalDivider(Modifier, DividerDefaults.Thickness, color = Color.LightGray)
+        Box(modifier = Modifier.padding(horizontal = 8.dp)) {
+            Text(
+                text = "o",
+                style = MaterialTheme.typography.bodySmall,
+                color = Color.Gray
+            )
+        }
+    }
 }
 @Composable
 @Preview
@@ -236,7 +268,8 @@ fun BodyCrearCuenta(mensajeError: String,
     onProfesionChange: (String) -> Unit,
     onBioChange: (String) -> Unit,
     registerButtonPressed: () -> Unit = {},
-    modifier: Modifier = Modifier){
+    modifier: Modifier = Modifier,
+                    navController: NavController){
     Column(
         modifier = modifier
     ) {
@@ -270,6 +303,29 @@ fun BodyCrearCuenta(mensajeError: String,
             }
             BotonCrear(registerButtonPressed)
             Spacer(modifier = Modifier.height(8.dp))
+            val context = LocalContext.current
+            val activity = context as Activity
+            val launcher = rememberLauncherForActivityResult(
+                contract = ActivityResultContracts.StartActivityForResult()
+            ) { result ->
+                AuthGoogle.handleResult(
+                    result.data,
+                    onSuccess = {
+                        println("Inicio de sesión con Google exitoso")
+                        navController.navigateSingleTopTo(Rutas.Principal.ruta)
+                    },
+                    onError = { error ->
+                        println("Error Google Sign-In: $error")
+                    }
+
+                )
+            }
+            BotonGoogle(
+                onClick = { AuthGoogle.signIn(activity, launcher) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            )
             Text(
                 stringResource(R.string.anuncio),
                 modifier = Modifier.padding(horizontal = 25.dp, vertical = 6.dp),
@@ -297,9 +353,39 @@ fun RegisterScreen(viewModel: RegisterViewModel,
             onUsuarioChange = {viewModel.updateUsuario(it)},
             onEdadChange = {viewModel.updateEdad(it)},
             onProfesionChange = {viewModel.updateProfesion(it)},
-            onBioChange = {viewModel.updateBio(it)},{viewModel.registerButtonPressed()})
+            onBioChange = {viewModel.updateBio(it)},{viewModel.registerButtonPressed()},
+            navController = rememberNavController()
+        )
 
         Spacer(modifier = Modifier.height(30.dp))
     }
 }
-
+@Composable
+fun BotonGoogle(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp)
+            .height(60.dp)
+            .background(Color.White, RoundedCornerShape(12.dp))
+            .clickable { onClick() },
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.google_logo),
+            contentDescription = "Logo de Google",
+            modifier = Modifier.size(24.dp)
+        )
+        Spacer(modifier = Modifier.width(12.dp))
+        Text(
+            text = "Continuar con Google",
+            color = Color.Black,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Medium
+        )
+    }
+}

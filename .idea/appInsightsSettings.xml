@@ -10,9 +10,9 @@
               <option name="connection">
                 <ConnectionSetting>
                   <option name="appId" value="com.example.myapplication" />
-                  <option name="mobileSdkAppId" value="1:832635860787:android:2c7bf19e6ad43e69c5b046" />
-                  <option name="projectId" value="trazzo-b8109" />
-                  <option name="projectNumber" value="832635860787" />
+                  <option name="mobileSdkAppId" value="1:242022315495:android:43cb2c95730f472fba7942" />
+                  <option name="projectId" value="trazzo-f1120" />
+                  <option name="projectNumber" value="242022315495" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
