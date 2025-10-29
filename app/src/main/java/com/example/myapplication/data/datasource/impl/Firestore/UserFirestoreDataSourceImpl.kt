@@ -18,12 +18,12 @@ class UserFirestoreDataSourceImpl @Inject constructor(
     override suspend fun getUserById(id: String, userId:String): ArtistaDto? {
         val docRef = db.collection("users").document(id)
         val snapshot = docRef.get().await()
-        if (!snapshot.exists()) error("Usuario no existe")
         val user = snapshot.toObject(ArtistaDto::class.java) ?: return null
-
-        val seguidoresDoc= docRef.collection("seguidores").document(userId).get().await()
-        val exist = seguidoresDoc.exists()
-        user.seSiguen = exist
+        if (userId != ""){
+            val seguidoresDoc= docRef.collection("seguidores").document(userId).get().await()
+            val exist = seguidoresDoc.exists()
+            user.seSiguen = exist
+        }
         return user
 
     }

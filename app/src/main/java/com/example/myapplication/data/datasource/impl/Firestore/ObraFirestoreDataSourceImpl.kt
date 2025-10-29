@@ -27,13 +27,13 @@ class ObraFirestoreDataSourceImpl @Inject constructor(
     override suspend fun getObraById(id: String, currentUserId: String): ObraDto? {
         val obraRef = db.collection("obras").document(id)
         val obrasnapshot = obraRef.get().await()
-        val obra = obrasnapshot.toObject(ObraDto::class.java) ?: throw Exception("Obra no encontrada")
+        val obra = obrasnapshot.toObject(ObraDto::class.java) ?: null
 
         if (currentUserId.isNotEmpty()){
             val likesnapshot = obraRef.collection("likes").document(currentUserId).get().await()
             val hasLiked = likesnapshot.exists()
             if (hasLiked){
-                obra.liked = true
+                obra!!.liked = true
             }
         }
         return obra

@@ -17,11 +17,11 @@ class ComentarioFirestoreDataSourceImpl @Inject constructor(
     private val db: FirebaseFirestore
 ): ComentarioRemoteDataSource {
     override suspend fun getAllCommentarios(): List<ComentarioDto> {
-        return emptyList()
+        return db.collection("comments").get().await().toObjects(ComentarioDto::class.java)
     }
 
-    override suspend fun getComentarioById(id: String): ComentarioDto {
-        TODO("Not yet implemented")
+    override suspend fun getComentarioById(id: String): ComentarioDto? {
+        return db.collection("comments").document(id).get().await().toObject(ComentarioDto::class.java) ?: null
     }
 
     override suspend fun getAllComentariosByObraId(id: String, userId: String): List<ComentarioDto> {
