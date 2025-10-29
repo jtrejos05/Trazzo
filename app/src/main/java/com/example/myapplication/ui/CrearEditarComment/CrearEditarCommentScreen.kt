@@ -65,6 +65,9 @@ fun CrearEditarScreen(
             steps = 9,
             modifier = Modifier.width(350.dp)
         )
+        if (state.error != ""){
+            Text(state.error!!, color = MaterialTheme.colorScheme.error)
+        }
         Spacer(modifier= Modifier.height(20.dp))
         Row {
             BotonInteres("Cancelar", MaterialTheme.colorScheme.errorContainer, MaterialTheme.colorScheme.onSecondaryContainer, {},modifier

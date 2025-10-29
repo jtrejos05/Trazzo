@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.myapplication.R
 import com.example.myapplication.data.Artista
 import com.example.myapplication.data.Obra
+import com.example.myapplication.data.injection.IoDispatcher
 import com.example.myapplication.data.local.ProveedorActividad
 import com.example.myapplication.data.local.ProveedorNotificaciones
 import com.example.myapplication.data.local.ProveedorObras
@@ -14,6 +15,8 @@ import com.example.myapplication.data.repository.ComentarioRepository
 import com.example.myapplication.data.repository.ObraRepository
 import com.example.myapplication.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -26,7 +29,8 @@ class PerfilViewModel @Inject constructor(
     private  val authRepository: AuthRepository,
     private val comentarioRepo: ComentarioRepository,
     private val userRepo: UserRepository,
-    private val obraRepo: ObraRepository
+    private val obraRepo: ObraRepository,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow(PerfilState())
@@ -132,10 +136,7 @@ class PerfilViewModel @Inject constructor(
     }
     fun followOrUnfollowUser(target: String){
         val currentUser = _uiState.value.currentUser
-        viewModelScope.launch {
-            Log.d("SEGUIR 2", "USERID: ${currentUser}")
-            Log.d("SEGUIR 2", "TARGETID: ${target}")
-            Log.d("SEGUIR 2", "seSIguen: ${_uiState.value.usuario.seSiguen}")
+        viewModelScope.launch(ioDispatcher) {
             val result = userRepo.followOrUnfollowUser(currentUser,target)
             if (result.isSuccess){
                 _uiState.value = _uiState.value.copy(
@@ -146,7 +147,7 @@ class PerfilViewModel @Inject constructor(
 
                 )
             }
-            Log.d("SEGUIR 3", "seSIguen: ${_uiState.value.usuario.seSiguen}")
+
 
         }
     }

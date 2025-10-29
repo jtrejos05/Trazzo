@@ -32,12 +32,11 @@ class CrearEditarCommentViewModel @Inject constructor(
     fun createComment(obraId: String,parentComment: String? = null, id: String? = null){
         val userId = authRepository.currentUser?.uid
         if (userId != null) {
+            if (_uiState.value.comment.isEmpty()){
+                _uiState.update { it.copy(error = "Por favor, escriba un comentario") }
+                return
+            }
             viewModelScope.launch {
-                Log.d("Users", "Comment: ${_uiState.value.comment}")
-                Log.d("Users", "Comment: ${_uiState.value.calificacion}")
-                Log.d("Users", "Comment: ${userId}")
-                Log.d("Users", "Comment: ${obraId}")
-                Log.d("Users", "Comment: ${id}")
                 val result = commentRepo.createComentario(
                     _uiState.value.comment,
                     _uiState.value.calificacion,

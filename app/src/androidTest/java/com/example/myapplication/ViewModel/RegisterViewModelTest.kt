@@ -13,6 +13,8 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.runTest
@@ -51,8 +53,8 @@ class RegisterViewModelTest {
         viewModel.updateProfesion("pintor")
         viewModel.updateBio("apasionado de la pintura")
 
-        viewModel.registerUserOnline()
-
+        viewModel.registerButtonPressed()
+        val navigate = viewModel.uiState.map { it.navegar }.first { it }
         val state = viewModel.uiState.value
         assertThat(state.navegar).isTrue()
         assertThat(state.mensajeError).isEmpty()
@@ -62,7 +64,7 @@ class RegisterViewModelTest {
 
 
     @Test
-    fun Register_ErrorContraseñaCorta_CreateUser_UpdateUI() = runTest {
+    fun Register_ErrorContraseñaCorta_ShowError() = runTest {
 
         viewModel.updateCorreo("juan@gmail.com")
         viewModel.updateContraseña("jjj")
