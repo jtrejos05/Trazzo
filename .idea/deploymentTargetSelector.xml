@@ -25,6 +25,9 @@
       <SelectionState runConfigName="RegisterViewModelTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
+      <SelectionState runConfigName="Register_Succes_CreateUser_UpdateUI()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
     </selectionStates>
   </component>
 </project>

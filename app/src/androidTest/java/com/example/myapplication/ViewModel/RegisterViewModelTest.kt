@@ -60,6 +60,27 @@ class RegisterViewModelTest {
 
     }
 
+
+    @Test
+    fun Register_ErrorContraseñaCorta_CreateUser_UpdateUI() = runTest {
+
+        viewModel.updateCorreo("juan@gmail.com")
+        viewModel.updateContraseña("jjj")
+        viewModel.updateUsuario("Juan")
+        viewModel.updateEdad("16")
+        viewModel.updateProfesion("pintor")
+        viewModel.updateBio("apasionado de la pintura")
+
+        viewModel.registerUserOnline()
+
+        val state = viewModel.uiState.value
+        Log.d("UAUAUA", state.mensajeError)
+        assertThat(state.navegar).isFalse()
+        assertThat(state.mensajeError).isEqualTo("La contraseña debe tener al menos 6 caracteres ")
+        assertThat(state.mostrarMensajeError).isTrue()
+
+    }
+
     @After
     fun tearUp() = runTest {
         val user = Firebase.auth.currentUser
