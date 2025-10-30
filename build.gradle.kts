@@ -8,4 +8,5 @@ plugins {
     alias(libs.plugins.firebase.crashlytics) apply false
     //mensajes
     alias(libs.plugins.google.services) apply false
+
 }

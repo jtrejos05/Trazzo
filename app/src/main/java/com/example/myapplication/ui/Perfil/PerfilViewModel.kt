@@ -48,30 +48,47 @@ class PerfilViewModel @Inject constructor(
     fun updateArtista(artista: Artista){
         _uiState.update { it.copy(usuario = artista) }
     }
+    // ✅ FUNCIÓN CORREGIDA
     fun getUsuario(id: String){
         viewModelScope.launch {
             Log.d("Seguir", "Se busca el user ${id}")
             _uiState.update { it.copy(isLoading = true, errormsg = null) }
-            val result=userRepo.getUserById(id)
+
+            val result = userRepo.getUserById(id)
+
             if (result.isSuccess){
-                _uiState.update { it.copy(usuario = result.getOrDefault(Artista("","","","","",0,"","",0,0,0,listOf(),listOf("")))) }
-               Log.d("USER", uiState.value.usuario.usuario)
-                _uiState.update { it.copy(isLoading = false, errormsg = null) }
-            }else{
-                _uiState.update { it.copy(errormsg = result.exceptionOrNull()?.message, isLoading = false) }
-                Log.e("PerfilViewModel", "Error al obtener usuario")
+                val usuario = result.getOrNull()
 
+                // ✅ Verificar si el usuario realmente existe
+                if (usuario != null && usuario.id.isNotEmpty()) {
+                    // Usuario encontrado exitosamente
+                    _uiState.update { it.copy(usuario = usuario, isLoading = false, errormsg = null) }
+                    Log.d("USER", usuario.usuario)
+
+                    // Cargar reviews y obras
+                    getReviews()
+                    if (usuario.obras.isEmpty()){
+                        getObraByArtista()
+                    }
+
+                    Log.d("SEGUIR 4", "seSiguen: ${usuario.seSiguen}")
+                } else {
+                    // El usuario no existe o está vacío
+                    _uiState.update {
+                        it.copy(
+                            errormsg = "El usuario no existe o no está disponible",
+                            isLoading = false
+                        )
+                    }
+                    Log.e("PerfilViewModel", "Usuario no encontrado o ID vacío")
+                }
+            } else {
+                // Error al obtener el usuario
+                val errorMsg = result.exceptionOrNull()?.message ?: "Error al obtener usuario"
+                _uiState.update { it.copy(errormsg = errorMsg, isLoading = false) }
+                Log.e("PerfilViewModel", "Error al obtener usuario: $errorMsg")
             }
-            if (_uiState.value.usuario.id != ""){
-                getReviews()
-            }
-            if (_uiState.value.usuario.obras.isEmpty()){
-                getObraByArtista()
-            }
-            Log.d("SEGUIR 4", "seSIguen: ${_uiState.value.usuario.seSiguen}")
         }
-
-
     }
    fun getObraByReviewId(id:String): Obra{
         viewModelScope.launch {
