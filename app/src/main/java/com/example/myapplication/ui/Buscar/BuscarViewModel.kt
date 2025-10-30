@@ -11,6 +11,13 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.FlowPreview
+import kotlin.text.lowercase
+
 @HiltViewModel
 class BuscarViewModel @Inject constructor(): ViewModel() {
 
@@ -31,6 +38,21 @@ class BuscarViewModel @Inject constructor(): ViewModel() {
             recientes = listOf("Fotografía", "Pintura", "Acuarela"),
             explora = listOf("Dibujo", "Origami", "Moda", "Escultura")
         )
+
+
+        viewModelScope.launch {
+            uiState
+                .map { it.texto }
+                .debounce(500L)
+                .distinctUntilChanged()
+                .collect { query ->
+                    if (query.isBlank()) {
+                        _uiState.update { it.copy(resultadosBusqueda = emptyList(), mensajeSinResultados = null) }
+                    } else {
+                        realizarBusqueda(query)
+                    }
+                }
+        }
     }
 
     fun updateTexto(nuevoTexto: String) {
@@ -93,8 +115,32 @@ class BuscarViewModel @Inject constructor(): ViewModel() {
     }
 
 
-    private fun simularBusqueda(query: String): List<Obra> {
+    /*private fun simularBusqueda(query: String): List<Obra> {
         return ProveedorObras.obras
+    }*/
+
+    private fun simularBusqueda(query: String): List<Obra> {
+        val queryMinusculas = query.lowercase().trim()
+        if (queryMinusculas.isBlank()) {
+            return emptyList()
+        }
+
+        return ProveedorObras.obras.filter { obra ->
+            // 1. En el título de la obra
+            val enTitulo = obra.titulo.lowercase().contains(queryMinusculas)
+            // 2. En el nombre de usuario
+            val enUsuario = obra.usuario.lowercase().contains(queryMinusculas)
+            // 3. En la descripción
+            val enDescripcion = obra.descripcion.lowercase().contains(queryMinusculas)
+            // 4. En el ID del artista
+            val enArtistaId = obra.artistaId.lowercase().contains(queryMinusculas)
+            // 5. En alguna de las etiquetas (Tags)
+            val enTags = obra.Tags.any { tag ->
+                tag.lowercase().contains(queryMinusculas)
+            }
+            // La obra se incluye si cualquiera de las condiciones anteriores es verdadera
+            enTitulo || enUsuario || enDescripcion || enArtistaId || enTags
+        }
     }
 }
 
