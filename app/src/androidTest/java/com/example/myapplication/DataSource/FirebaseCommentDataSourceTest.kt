@@ -68,9 +68,9 @@ class FirebaseCommentDataSourceTest {
         val result = dataSource.getAllCommentarios()
         //Assert
         Truth.assertThat(result).isNotNull()
-        Truth.assertThat(result[0].comentario).isEqualTo(comentario1)
-        Truth.assertThat(result[4].comentario).isEqualTo(comentario5)
-        Truth.assertThat(result[8].comentario).isEqualTo(comentario9)
+        Truth.assertThat(result[1].comentario).isEqualTo(comentario1)
+        Truth.assertThat(result[5].comentario).isEqualTo(comentario5)
+        Truth.assertThat(result[9].comentario).isEqualTo(comentario9)
 
 
     }

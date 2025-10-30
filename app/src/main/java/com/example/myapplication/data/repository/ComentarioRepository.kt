@@ -36,6 +36,9 @@ class ComentarioRepository @Inject constructor(
     suspend fun getComenarioById(id: String): Result<Comentario>{
         return try {
             val comentarioDto = DataSource.getComentarioById(id)
+            if (comentarioDto == null){
+                return Result.failure(Exception("Comentario not found"))
+            }
             val comentario= comentarioDto.toComentario()
             Result.success(comentario)
         }catch (e: HttpException){

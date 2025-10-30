@@ -7,7 +7,7 @@ import retrofit2.Response
 
 interface ComentarioRemoteDataSource {
     suspend fun getAllCommentarios():List<ComentarioDto>
-    suspend fun getComentarioById(id: String): ComentarioDto
+    suspend fun getComentarioById(id: String): ComentarioDto?
     suspend fun getAllComentariosByObraId(id: String,userId: String = ""): List<ComentarioDto>
     suspend fun getAllComentariosByArtistaId(id: String): List<ComentarioDto>
 

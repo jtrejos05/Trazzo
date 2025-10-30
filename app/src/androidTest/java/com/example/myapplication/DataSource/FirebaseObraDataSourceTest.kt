@@ -79,9 +79,9 @@ class FirebaseObraDataSourceTest {
         val result = dataSource.getObras()
         //Assert
         Truth.assertThat(result).isNotNull()
-        Truth.assertThat(result[0].titulo).isEqualTo(nombre1)
-        Truth.assertThat(result[4].titulo).isEqualTo(nombre5)
-        Truth.assertThat(result[8].titulo).isEqualTo(nombre9)
+        Truth.assertThat(result[1].titulo).isEqualTo(nombre1)
+        Truth.assertThat(result[5].titulo).isEqualTo(nombre5)
+        Truth.assertThat(result[9].titulo).isEqualTo(nombre9)
 
 
     }
