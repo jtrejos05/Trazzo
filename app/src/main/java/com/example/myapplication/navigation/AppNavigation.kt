@@ -61,7 +61,9 @@ import com.example.myapplication.ui.Trending.TrendingViewModel
 import com.example.myapplication.ui.VistasObras.VistaObrasScreen
 import com.example.myapplication.ui.VistasObras.VistaObrasViewModel
 import com.example.myapplication.ui.utils.LogoTrazzo
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 
 //Sealed Class con las rutas a las pantallas
 sealed class Rutas(
@@ -82,7 +84,11 @@ sealed class Rutas(
     object Splash : Rutas("splash")
     object Login : Rutas("login")
     object Register : Rutas("register")
-    object Subir : Rutas("subir")
+    object Subir : Rutas("subir/{currentUserId}"){
+        fun createRoute(currentUserId: String): String {
+            return "detalle/$currentUserId"
+        }
+    }
     object Detalle : Rutas("detalle/{obraId}"){
         fun createRoute(obraId: String): String {
             return "detalle/$obraId"
@@ -308,7 +314,9 @@ fun BottomNavigationBar (
                 onClick = {
                     if (item.route == Rutas.Perfil.ruta){
                         navController.navigateSingleTopTo(Rutas.Perfil.createPRoute(FirebaseAuth.getInstance().currentUser?.uid ?: ""))
-                    }else {
+                    }else if(item.route == Rutas.Subir.ruta){
+                        navController.navigateSingleTopTo(Rutas.Subir.createRoute(FirebaseAuth.getInstance().currentUser?.uid ?: ""))
+                    } else{
                         navController.navigateSingleTopTo(item.route)
                     }
                 }

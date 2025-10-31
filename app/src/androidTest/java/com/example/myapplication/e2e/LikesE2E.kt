@@ -41,8 +41,8 @@ class LikesE2E {
     fun setUp(){
         hiltRule.inject()
         try {
-            Firebase.auth.useEmulator("10.0.2.2", 9099)
-            Firebase.firestore.useEmulator("10.0.2.2", 8080)
+            //Firebase.auth.useEmulator("10.0.2.2", 9099)
+            //Firebase.firestore.useEmulator("10.0.2.2", 8080)
         }catch (e: Exception){
 
         }
@@ -53,8 +53,9 @@ class LikesE2E {
         authRepository = AuthRepository(authRemoteDataSource)
         userRepository = UserRepository(userRemoteDataSource, authRepository, FirebaseMessaging.getInstance())
 
+        /*
         runBlocking {
-            authRepository.signIn("prueba@prueba.com", "123456")
+            authRepository.signUp("prueba@prueba.com", "123456")
             authRepository.signIn("prueba@prueba.com", "123456")
 
             val userId = authRepository.currentUser?.uid?: return@runBlocking
@@ -67,11 +68,13 @@ class LikesE2E {
                 userId = userId
             )
         }
+         */
     }
 
     @Test
     fun verifyLikesModification_CountNumberOfLikes(){
-        composeRule.onNodeWithTag("Register_button")
+        composeRule.onNodeWithTag("Register_button").performClick()
+        composeRule.onNodeWithTag("FormCorreoElectronico").performClick()
         composeRule.onNodeWithTag("FormCorreoElectronico").performTextInput("nuevoAdmin@gmail.com")
         composeRule.onNodeWithTag("FormContraseña").performTextInput("1234")
         composeRule.onNodeWithTag("FormNombreUsuario").performTextInput("pruebae2e")

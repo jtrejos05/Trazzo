@@ -18,5 +18,7 @@ data class BuscarState(
     val errorMessage: String? = null,
     val isLoading: Boolean = false,
 
-    val mensajeSinResultados: String? = null
+    val mensajeSinResultados: String? = null,
+
+    var obras: List<Obra> = emptyList(),
 )

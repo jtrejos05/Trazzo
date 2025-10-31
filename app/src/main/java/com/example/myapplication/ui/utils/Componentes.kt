@@ -37,6 +37,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -145,7 +146,8 @@ fun Form(icon : ImageVector = Icons.Default.DoNotDisturbOnTotalSilence,
          dato: String,
          onChange: (String) -> Unit = {},
          modifier: Modifier = Modifier,
-         op: Int = 0
+         op: Int = 0,
+         tag: String = ""
 ){
     Column {
         Row(
@@ -176,7 +178,7 @@ fun Form(icon : ImageVector = Icons.Default.DoNotDisturbOnTotalSilence,
             }else {
                 Text(
                     texto,
-                    modifier = Modifier.padding(3.dp)
+                    modifier = modifier.padding(3.dp)
                 )
             }
         }
@@ -187,7 +189,7 @@ fun Form(icon : ImageVector = Icons.Default.DoNotDisturbOnTotalSilence,
                 label = {Text(name)},
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 12.dp, vertical = 6.dp),
+                    .padding(horizontal = 12.dp, vertical = 6.dp).testTag(tag),
                 shape = RoundedCornerShape(60.dp),
                 colors = TextFieldDefaults.colors(
                     focusedIndicatorColor = Color.Transparent,
@@ -205,7 +207,7 @@ fun Form(icon : ImageVector = Icons.Default.DoNotDisturbOnTotalSilence,
                 label = {Text(name)},
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 12.dp, vertical = 6.dp),
+                    .padding(horizontal = 12.dp, vertical = 6.dp).testTag(tag),
                 shape = RoundedCornerShape(60.dp),
                 colors = TextFieldDefaults.colors(
                     focusedIndicatorColor = Color.Transparent,

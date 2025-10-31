@@ -20,15 +20,15 @@ class SplashViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(SplashState())
     var uiState: MutableStateFlow<SplashState> = _uiState
 
-
-    /*private fun checkUser(){
+    private fun checkUser(){
         if (authRepository.currentUser != null){
             Log.d("Splash", "${authRepository.currentUser}")
             _uiState.update { it.copy(navegar = true) }
         }else{
             _uiState.update { it.copy(navegar = false) }
         }
-    }*/
+    }
+    /*
     private fun checkUser(){
         val currentUser = authRepository.currentUser
 
@@ -71,9 +71,13 @@ class SplashViewModel @Inject constructor(
             _uiState.update { it.copy(navegar = false) }
         }
     }
+
+     */
     fun resetFlag(){
         _uiState.update { it.copy(navegar = false) }
     }
+
+
     init {
         checkUser()
     }

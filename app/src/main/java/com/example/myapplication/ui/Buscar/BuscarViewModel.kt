@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.data.Obra
 import com.example.myapplication.data.local.ProveedorObras
+import com.example.myapplication.data.repository.ObraRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,14 +17,30 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.catch
 import kotlin.text.lowercase
 
 @HiltViewModel
-class BuscarViewModel @Inject constructor(): ViewModel() {
+class BuscarViewModel @Inject constructor(
+    private val ObrasRepo: ObraRepository
+): ViewModel() {
 
     private val _uiState = MutableStateFlow(BuscarState())
     val uiState: StateFlow<BuscarState> = _uiState
+
+    fun getObras(){
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true, errorMessage = null) }
+            ObrasRepo.listeAllObras().catch { e-> _uiState.update { it.copy(errorMessage = e.message, isLoading = false) } }
+                .collect { obras ->
+                    _uiState.update { it.copy(obras= obras,isLoading = false, errorMessage = null) }
+                }
+        }
+    }
+
     init {
+        getObras()
+
         // listas inicializadas
         _uiState.value = BuscarState(
             categoriasTop = listOf("Inicio", "Diseño digital", "Fotografía", "Pintura"),
@@ -125,7 +142,7 @@ class BuscarViewModel @Inject constructor(): ViewModel() {
             return emptyList()
         }
 
-        return ProveedorObras.obras.filter { obra ->
+        return  _uiState.value.obras.filter { obra ->
             // 1. En el título de la obra
             val enTitulo = obra.titulo.lowercase().contains(queryMinusculas)
             // 2. En el nombre de usuario

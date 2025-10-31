@@ -1,5 +1,6 @@
 package com.example.myapplication.Repository
 
+import android.util.Log
 import com.example.myapplication.data.datasource.impl.Firestore.UserFirestoreDataSourceImpl
 import com.example.myapplication.data.dtos.ArtistaDto
 import com.example.myapplication.data.dtos.RegisterUserDto
@@ -15,7 +16,7 @@ import io.mockk.mockk
 import io.mockk.runs
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
-import kotlin.test.Test
+import org.junit.Test
 
 class UserRepositoryUnitTest {
 
@@ -113,7 +114,7 @@ class UserRepositoryUnitTest {
             FCMToken = fcmToken)
 
         // Arrange
-        every { mockFirebaseMessaging.token } returns Tasks.forResult(fcmToken)
+        coEvery { mockFirebaseMessaging.token } returns Tasks.forResult(fcmToken)
         coEvery { mockDataSource.registerUser(registerUserDto,artista.id) } just runs
         coEvery { mockFirebaseMessaging.token.await() } returns fcmToken
 

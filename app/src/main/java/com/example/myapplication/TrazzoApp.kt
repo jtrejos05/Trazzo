@@ -72,8 +72,8 @@ fun TrazzoApp() {
                 TopNavigationBar(navController)
             } }
         ) {
+            Log.d("Inicio","Se va a abrir el navigate")
             AppNavigation(navController, Modifier.padding(it))
-
         }
 
 }

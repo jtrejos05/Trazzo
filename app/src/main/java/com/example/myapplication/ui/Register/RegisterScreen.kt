@@ -98,14 +98,14 @@ fun InfoBasica(correo: String, contraseña: String, usuario: String, edad: Strin
             stringResource(R.string.icono_correo),
             stringResource(R.string.correo),
             stringResource(R.string.tu_email_com),correo,onCorreoChange,
-            modifier = Modifier.testTag("FormCorreoElectronico")
+            tag = "FormCorreoElectronico"
         )
         Form(Icons.Outlined.Lock,
             stringResource(R.string.icono_contrase_a),
             stringResource(R.string.contra),
             stringResource(R.string.minimo_6_caracteres),
             contraseña,onContraseñaChange,op=2,
-            modifier = Modifier.testTag("FormContraseña"))
+            tag = "FormContraseña")
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(
                 modifier.width(230.dp)
@@ -115,7 +115,7 @@ fun InfoBasica(correo: String, contraseña: String, usuario: String, edad: Strin
                     stringResource(R.string.usuario),
                     stringResource(R.string.nombre_artista),
                     usuario,onUsuarioChange,
-                    modifier = Modifier.testTag("FormNombreUsuario"))
+                    tag = "FormNombreUsuario")
             }
             Column {
                 Form(Icons.Default.CalendarToday,
@@ -123,7 +123,7 @@ fun InfoBasica(correo: String, contraseña: String, usuario: String, edad: Strin
                     stringResource(R.string.edad),
                     stringResource(R.string._18),
                     edad,onEdadChange,
-                    modifier = Modifier.testTag("FormEdad"))
+                    tag = "FormEdad")
             }
 
         }
@@ -189,7 +189,8 @@ fun PerfilArtistico(profesion: String,
             stringResource(R.string.selecciona_tu_profesion),
             profesion,
             onProfesionChange,
-            modifier.height(30.dp).testTag("FormProfesion"))
+            modifier.height(30.dp),
+            tag = "FormProfesion")
 
         Form(Icons.Outlined.Description,
             stringResource(R.string.icono_biografia),
@@ -197,7 +198,7 @@ fun PerfilArtistico(profesion: String,
             stringResource(R.string.cuentanos_sobre_ti_tu_estilo_artistico_experiencia_y_lo_que_te_apasina_del_arte),
             bio,
             onBioChange,
-            modifier = Modifier.testTag("FormBio"))
+            tag = "FormBio")
     }
 
 }
