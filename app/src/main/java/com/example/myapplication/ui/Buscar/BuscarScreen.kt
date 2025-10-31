@@ -17,6 +17,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.myapplication.R
 import com.example.myapplication.ui.Buscar.BuscarViewModel
 import com.example.myapplication.ui.TarjetaPublicacion
+
+
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+
 @Composable
 fun BuscarScreen(
     viewmodel: BuscarViewModel = hiltViewModel(),
@@ -26,13 +32,17 @@ fun BuscarScreen(
 ) {
     val state by viewmodel.uiState.collectAsState()
 
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
+
+
     Column(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
         // Search bar
-        TextField(
+        /*TextField(
             value = state.texto,
             onValueChange = { nuevoTexto ->
                 viewmodel.updateTexto(nuevoTexto)
@@ -40,6 +50,23 @@ fun BuscarScreen(
             placeholder = { Text(stringResource(R.string.buscar_inspiraci_n_art_stica)) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
+        )*/
+
+        TextField(
+            value = state.texto,
+            onValueChange = { nuevoTexto ->
+                viewmodel.updateTexto(nuevoTexto)
+            },
+            placeholder = { Text(stringResource(R.string.buscar_inspiraci_n_art_stica)) },
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true,
+            keyboardActions = KeyboardActions(
+                onSearch = {
+                    viewmodel.realizarBusqueda(state.texto)
+                    keyboardController?.hide()
+                    focusManager.clearFocus()
+                }
+            )
         )
 
         Spacer(modifier = Modifier.height(16.dp))

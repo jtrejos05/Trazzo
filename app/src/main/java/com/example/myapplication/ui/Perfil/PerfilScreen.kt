@@ -649,12 +649,12 @@ fun PerfilScreen(id: String,
     val state by viewmodel.uiState.collectAsState()
     LaunchedEffect(Unit) {
         viewmodel.getUsuario(id)
-        Log.d("User","Se encontro user")
-        if (state.usuario.id.equals("")){
+      //  Log.d("User","Se encontro user")
+       // if (state.usuario.id.equals("")){
 
-                viewmodel.updateError("El usuario no existe o no esta disponible")
+         //       viewmodel.updateError("El usuario no existe o no esta disponible")
 
-        }
+        //}
 
 
     }

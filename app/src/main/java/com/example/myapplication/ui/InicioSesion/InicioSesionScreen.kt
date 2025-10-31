@@ -40,6 +40,7 @@ import com.example.myapplication.ui.utils.LogoTrazzo
 import com.example.myapplication.ui.InicioSesion.AuthGoogle
 
 import android.app.Activity
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -245,6 +246,7 @@ fun InicioSesionScreen(
             val launcher = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.StartActivityForResult()
             ) { result ->
+                Log.d("AuthGoogle", "Recibido resultado del intent de Google: ${result.resultCode}")
                 AuthGoogle.handleResult(
                     result.data,
                     onSuccess = {

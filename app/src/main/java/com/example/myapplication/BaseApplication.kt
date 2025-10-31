@@ -10,7 +10,9 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class BaseApplication: Application() {
+
     override fun onCreate() {
+
         super.onCreate()
 
         Log.d("SIMULADOR", "ONCREATE")
@@ -21,4 +23,6 @@ class BaseApplication: Application() {
         }
         Log.d("SIMULADOR", "FIN ONCREATE")
     }
+
+
 }
