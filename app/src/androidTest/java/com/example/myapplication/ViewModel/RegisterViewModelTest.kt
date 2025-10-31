@@ -3,7 +3,6 @@ package com.example.myapplication.ViewModel
 
 import android.util.Log
 import com.example.myapplication.data.datasource.AuthRemoteDataSource
-import com.example.myapplication.data.datasource.UserRemoteDataSource
 import com.example.myapplication.data.datasource.impl.Firestore.UserFirestoreDataSourceImpl
 import com.example.myapplication.data.repository.AuthRepository
 import com.example.myapplication.data.repository.UserRepository
@@ -12,6 +11,7 @@ import com.google.common.truth.Truth.assertThat
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -35,12 +35,14 @@ class RegisterViewModelTest {
 
         }
         val authRepo = AuthRepository(AuthRemoteDataSource(Firebase.auth))
-        val userRepo = UserRepository(UserFirestoreDataSourceImpl(Firebase.firestore), AuthRepository(AuthRemoteDataSource(Firebase.auth)))
+        val userRepo = UserRepository(
+            UserFirestoreDataSourceImpl(Firebase.firestore),
+            AuthRepository(AuthRemoteDataSource(Firebase.auth)),
+            FirebaseMessaging.getInstance())
         val scheduler = TestCoroutineScheduler()
         val dispatcher = StandardTestDispatcher(scheduler)
         Dispatchers.setMain(dispatcher)
         viewModel = RegisterViewModel(authRepo,userRepo, dispatcher)
-
     }
 
     @Test

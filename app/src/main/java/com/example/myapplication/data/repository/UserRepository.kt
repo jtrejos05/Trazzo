@@ -3,39 +3,33 @@ package com.example.myapplication.data.repository
 import android.util.Log
 import coil.network.HttpException
 import com.example.myapplication.data.Artista
-import com.example.myapplication.data.Comentario
 import com.example.myapplication.data.Obra
-import com.example.myapplication.data.datasource.UserRemoteDataSource
 import com.example.myapplication.data.datasource.impl.Firestore.UserFirestoreDataSourceImpl
-import com.example.myapplication.data.datasource.impl.Firestore.UserFirestoreDataSourceImpl_Factory
-import com.example.myapplication.data.datasource.impl.RetroFit.UserRetrofitDataSourceImpl
 import com.example.myapplication.data.dtos.ArtistaDto
 import com.example.myapplication.data.dtos.RegisterUserDto
 import com.example.myapplication.data.dtos.toArtista
-import com.example.myapplication.data.dtos.toComentario
 import com.example.myapplication.data.dtos.toObra
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.auth.User
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(
     private val UserRemoteDataSource: UserFirestoreDataSourceImpl,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val firebaseMessaging: FirebaseMessaging
 ) {
     suspend fun getUserById(id: String): Result<Artista>{
         val currentUser = authRepository.currentUser?.uid ?: ""
-        Log.d("Seguir", "USERID: ${currentUser}")
+        //Log.d("Seguir", "USERID: ${currentUser}")
         return try {
-            Log.d("User", "busca")
+            //Log.d("User", "busca")
             val artistaDto = UserRemoteDataSource.getUserById(id,currentUser)
-            Log.d("User", "DTO")
+            //Log.d("User", "DTO")
             if (artistaDto == null){
                 return Result.failure(Exception("Usuario no encontrado"))
             }
             val usuario= artistaDto.toArtista()
-            Log.d("User", usuario.biografia)
+            //Log.d("User", usuario.biografia)
             Result.success(usuario)
         }catch (e: HttpException){
             e.response.code
@@ -54,14 +48,14 @@ class UserRepository @Inject constructor(
         userId: String
     ): Result<Unit> {
         return try{
-            val fcmToken = FirebaseMessaging.getInstance().token.await()
-            Log.d("MENSAJE", fcmToken)
+            val fcmToken = firebaseMessaging.token.await()
+            //Log.d("MENSAJE", fcmToken)
             val registerUserDto= RegisterUserDto(nombre = usuario,edad = edad, profesion = profesion, biografia = bio, id = userId, fotousuario = "", FCMToken = fcmToken)
             UserRemoteDataSource.registerUser(registerUserDto,userId)
-            Log.d("USER", "Se guardo")
+            //Log.d("USER", "Se guardo")
             Result.success(Unit)
         }catch(e: Exception){
-            Log.d("TAB","getUserById: $(e.message)")
+            //Log.d("TAB","getUserById: $(e.message)")
             Result.failure(e)
         }
     }

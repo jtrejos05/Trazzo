@@ -170,11 +170,16 @@ fun AppNavigation(navControler: NavHostController,
             RegisterScreen(viewmodel)
         }
         //Navegacion pantalla Subir Obra
-        composable(Rutas.Subir.ruta) {
+        composable(Rutas.Subir.ruta, arguments = listOf(navArgument("currentUserId"){type = NavType.StringType})) {
+            val currentUserId = it.arguments?.getString("currentUserId") ?: ""
             val viewmodel: SubirObraViewModel = hiltViewModel()
             val state by viewmodel.uiState.collectAsState()
-            SubirObraScreen(viewmodel,{ navControler.navigate(Rutas.Perfil.ruta) })
+            if (currentUserId != "") {
+                SubirObraScreen(viewmodel,
+                    { navControler.navigate(Rutas.Perfil.createPRoute(currentUserId))})
+            }
         }
+
         //Navegacion Detalles de las obras
         composable("detalle/{obraId}", arguments = listOf(navArgument("obraId"){type = NavType.StringType})) {
             val obraId = it.arguments?.getString("obraId") ?: ""

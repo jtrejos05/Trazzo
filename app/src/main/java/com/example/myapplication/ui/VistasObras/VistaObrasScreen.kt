@@ -96,7 +96,6 @@ fun Encabezado(
             Text(obra.usuario, fontWeight = FontWeight.Bold, fontSize = 14.sp)
             Text(obra.hora, fontSize = 12.sp)
         }
-
         Spacer(Modifier.weight(1f))
     }
     Spacer(Modifier.height(12.dp))

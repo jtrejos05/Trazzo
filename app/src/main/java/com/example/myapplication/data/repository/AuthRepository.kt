@@ -34,14 +34,14 @@ class AuthRepository @Inject constructor(
             Result.failure(Exception("El usuario no existe"))
         }
         catch (e: Exception){
-            Result.failure(Exception("Error al Iniciar Sesion"))
+            Result.failure(e)
         }
 
     }
     suspend fun signUp(email: String,password: String): Result<Unit>{
         return try {
             authRemoteDataSource.signUp(email, password)
-            Log.d("USER","UID  ${currentUser?.uid ?: "NULL"}")
+            //Log.d("USER","UID  ${currentUser?.uid ?: "NULL"}")
             Result.success(Unit)
         }catch(e: FirebaseAuthWeakPasswordException){
             Result.failure(Exception("La contraseña es debil"))

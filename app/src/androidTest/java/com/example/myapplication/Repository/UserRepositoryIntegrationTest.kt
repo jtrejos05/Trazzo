@@ -10,6 +10,7 @@ import com.google.common.truth.Truth
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -42,7 +43,11 @@ class UserRepositoryIntegrationTest{
             // Emulator already in use
         }
 
-        userRepository = UserRepository(UserFirestoreDataSourceImpl(db), AuthRepository(AuthRemoteDataSource(auth)))
+        userRepository = UserRepository(
+            UserFirestoreDataSourceImpl(db),
+            AuthRepository(AuthRemoteDataSource(auth)),
+            FirebaseMessaging.getInstance()
+        )
 
         val batch = db.batch()
         repeat(10) { i ->
