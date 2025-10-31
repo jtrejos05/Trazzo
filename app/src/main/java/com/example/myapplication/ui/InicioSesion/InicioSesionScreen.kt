@@ -48,6 +48,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
@@ -201,6 +202,11 @@ fun InicioSesionScreen(
     modifier: Modifier = Modifier.testTag("InicioSesionScreen")
 ) {
     val state by viewmodel.uiState.collectAsState()
+    val ctx = LocalContext.current
+    LaunchedEffect(Unit) {
+        Log.d("AuthGoogle", "Impresion")
+        logAppSigningInfo(ctx)
+    }
 
     Column(modifier = modifier) {
         // Logo y bienvenida
@@ -243,30 +249,42 @@ fun InicioSesionScreen(
             Spacer(Modifier.height(10.dp))
 
             val context = LocalContext.current
-            val activity = context as Activity
+            val activity = context as? Activity   // <- cast seguro (puede ser null)
+
             val launcher = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.StartActivityForResult()
             ) { result ->
-                Log.d("AuthGoogle", "Recibido resultado del intent de Google: ${result.resultCode}")
-                AuthGoogle.handleResult(
-                    result.data,
-                    onSuccess = {
-                        println("Inicio de sesión con Google exitoso")
-                        navController.navigateSingleTopTo(Rutas.Principal.ruta)
-                    },
-                    onError = { error ->
-                        println("Error Google Sign-In: $error")
-                    }
-
-                )
+                Log.d("AuthGoogle", "↩️ onActivityResult: resultCode=${result.resultCode}")
+                if (result.resultCode == Activity.RESULT_OK) {
+                    AuthGoogle.handleResult(
+                        data = result.data,
+                        onSuccess = {
+                            Log.d("AuthGoogle", "✅ Google Sign-In OK → navegando")
+                            navController.navigateSingleTopTo(Rutas.Principal.ruta)
+                        },
+                        onError = { error ->
+                            Log.e("AuthGoogle", "❌ Google Sign-In error: $error")
+                        }
+                    )
+                } else {
+                    Log.w("AuthGoogle", "⚠️ Sign-In cancelado o fallido antes de devolver datos.")
+                }
             }
 
             BotonGoogle(
-                onClick = { AuthGoogle.signIn(activity, launcher) },
+                onClick = {
+                    activity?.let {               // <- evita “Type mismatch: Activity?” y NPE
+                        Log.d("AuthGoogle", "▶️ Lanzando Google Sign-In")
+                        AuthGoogle.signIn(it, launcher)
+                    } ?: run {
+                        Log.e("AuthGoogle", "Activity es null; no puedo lanzar Sign-In")
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
             )
+
 
             Spacer(Modifier.height(140.dp))
 
@@ -306,3 +324,4 @@ fun BotonGoogle(
         )
     }
 }
+
