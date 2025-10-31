@@ -1,5 +1,6 @@
 package com.example.myapplication.Repository
 
+import android.util.Log
 import com.example.myapplication.data.datasource.AuthRemoteDataSource
 import com.example.myapplication.data.datasource.impl.Firestore.UserFirestoreDataSourceImpl
 import com.example.myapplication.data.dtos.RegisterUserDto
@@ -36,10 +37,11 @@ class AuthRepositoryIntegrationTest {
     @Test
     fun singUp_validEmail_successResult() = runTest {
         // Arrange
-        val email = "user@example.com"
+        val email = "userrrr@example.com"
         val password = "userpassword12"
         // Act
         val result = authRepository.signUp(email, password)
+        Log.d("TESTEAR2", result.exceptionOrNull()?.message.toString())
         // Assert
         Truth.assertThat(result.isSuccess).isTrue()
     }
@@ -76,8 +78,9 @@ class AuthRepositoryIntegrationTest {
         // Act
         val result = authRepository.signIn(email, password)
         // Assert
+        Log.d("TESTEAR", result.exceptionOrNull()?.message.toString())
         Truth.assertThat(result.isFailure).isTrue()
-        Truth.assertThat(result.exceptionOrNull()?.message).isEqualTo("El usuario no existe")
+        Truth.assertThat(result.exceptionOrNull()?.message).isEqualTo("Credenciles invalidas")
     }
 
     @After

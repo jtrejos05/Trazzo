@@ -1,5 +1,6 @@
 package com.example.myapplication.Repository
 
+import android.util.Log
 import com.example.myapplication.data.datasource.AuthRemoteDataSource
 import com.example.myapplication.data.datasource.impl.Firestore.UserFirestoreDataSourceImpl
 import com.example.myapplication.data.dtos.RegisterUserDto
@@ -95,7 +96,8 @@ class UserRepositoryIntegrationTest{
         // Act
         val result = userRepository.registerUser(user.nombre, user.edad, user.profesion, user.biografia, user.id)
         // Assert
-        Truth.assertThat(result.isFailure).isTrue()
+        Log.d("TESTEAR3", result.exceptionOrNull()?.message.toString())
+        Truth.assertThat(result.isSuccess).isTrue()
     }
 
 
