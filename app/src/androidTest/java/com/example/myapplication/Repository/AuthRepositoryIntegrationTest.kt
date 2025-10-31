@@ -2,10 +2,7 @@ package com.example.myapplication.Repository
 
 import android.util.Log
 import com.example.myapplication.data.datasource.AuthRemoteDataSource
-import com.example.myapplication.data.datasource.impl.Firestore.UserFirestoreDataSourceImpl
-import com.example.myapplication.data.dtos.RegisterUserDto
 import com.example.myapplication.data.repository.AuthRepository
-import com.example.myapplication.data.repository.UserRepository
 import com.google.common.truth.Truth
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth

@@ -42,6 +42,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -96,12 +97,15 @@ fun InfoBasica(correo: String, contraseña: String, usuario: String, edad: Strin
         Form(Icons.Default.MailOutline,
             stringResource(R.string.icono_correo),
             stringResource(R.string.correo),
-            stringResource(R.string.tu_email_com),correo,onCorreoChange)
+            stringResource(R.string.tu_email_com),correo,onCorreoChange,
+            modifier = Modifier.testTag("FormCorreoElectronico")
+        )
         Form(Icons.Outlined.Lock,
             stringResource(R.string.icono_contrase_a),
             stringResource(R.string.contra),
             stringResource(R.string.minimo_6_caracteres),
-            contraseña,onContraseñaChange,op=2)
+            contraseña,onContraseñaChange,op=2,
+            modifier = Modifier.testTag("FormContraseña"))
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(
                 modifier.width(230.dp)
@@ -110,14 +114,16 @@ fun InfoBasica(correo: String, contraseña: String, usuario: String, edad: Strin
                     stringResource(R.string.icono_usuario),
                     stringResource(R.string.usuario),
                     stringResource(R.string.nombre_artista),
-                    usuario,onUsuarioChange)
+                    usuario,onUsuarioChange,
+                    modifier = Modifier.testTag("FormNombreUsuario"))
             }
             Column {
                 Form(Icons.Default.CalendarToday,
                     stringResource(R.string.icono_edad),
                     stringResource(R.string.edad),
                     stringResource(R.string._18),
-                    edad,onEdadChange)
+                    edad,onEdadChange,
+                    modifier = Modifier.testTag("FormEdad"))
             }
 
         }
@@ -156,7 +162,8 @@ fun Intereses(modifier: Modifier = Modifier){
             MaterialTheme.colorScheme.onPrimaryContainer,
             {},Modifier
                 .height(36.dp)
-                .padding(horizontal = 6.dp)) }
+                .padding(horizontal = 6.dp)
+                .testTag("BotonInteres$interes"))}
     }
 }
 //Formulario de los gustos artisticos del usuario
@@ -182,14 +189,15 @@ fun PerfilArtistico(profesion: String,
             stringResource(R.string.selecciona_tu_profesion),
             profesion,
             onProfesionChange,
-            modifier.height(30.dp))
+            modifier.height(30.dp).testTag("FormProfesion"))
 
         Form(Icons.Outlined.Description,
             stringResource(R.string.icono_biografia),
             stringResource(R.string.biografia),
             stringResource(R.string.cuentanos_sobre_ti_tu_estilo_artistico_experiencia_y_lo_que_te_apasina_del_arte),
             bio,
-            onBioChange)
+            onBioChange,
+            modifier = Modifier.testTag("FormBio"))
     }
 
 }
@@ -231,7 +239,8 @@ fun BotonCrear(registerButtonPressed: () -> Unit = {},modifier: Modifier = Modif
     BotonInteres(stringResource(R.string.crear), MaterialTheme.colorScheme.primaryContainer,
         MaterialTheme.colorScheme.onSecondaryContainer ,registerButtonPressed,modifier
         .width(370.dp)
-        .height(60.dp))
+        .height(60.dp)
+        .testTag("BotonCrearCuenta"))
 
     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
         HorizontalDivider(Modifier, DividerDefaults.Thickness, color = Color.LightGray)
@@ -299,7 +308,7 @@ fun BodyCrearCuenta(mensajeError: String,
         ) {
             Spacer(modifier = Modifier.height(8.dp))
             if (mostrarMensajeError){
-                Text(mensajeError)
+                Text(mensajeError,Modifier.testTag("MensajeError"))
             }
             BotonCrear(registerButtonPressed)
             Spacer(modifier = Modifier.height(8.dp))
@@ -340,7 +349,7 @@ fun BodyCrearCuenta(mensajeError: String,
 //La pantalla de registro final
 @Composable
 fun RegisterScreen(viewModel: RegisterViewModel,
-                   modifier: Modifier = Modifier){
+                   modifier: Modifier = Modifier.testTag("RegisterScreen")){
     val state by viewModel.uiState.collectAsState()
     Column(
         modifier = modifier
@@ -363,7 +372,7 @@ fun RegisterScreen(viewModel: RegisterViewModel,
 @Composable
 fun BotonGoogle(
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier.testTag("BotonGoogle")
 ) {
     Row(
         modifier = modifier

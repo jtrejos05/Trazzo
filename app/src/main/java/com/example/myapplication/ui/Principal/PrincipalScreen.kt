@@ -16,13 +16,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.testTag
 import com.example.myapplication.ui.TarjetaPublicacion
 
 @Composable
 fun PrincipalScreen( obraPressed: (String) -> Unit = {},
                      perfilPressed: (String)-> Unit = {},
     viewmodel: PrincipalViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier.testTag("PrincipalScreen")
 ) {
     val state by viewmodel.uiState.collectAsState()
 

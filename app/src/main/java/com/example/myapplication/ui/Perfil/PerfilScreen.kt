@@ -54,6 +54,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
@@ -114,7 +115,7 @@ fun TopBarProfile(
         )
 
         // Botón editar
-        IconButton(onClick = onEditClick) {
+        IconButton(onClick = onEditClick, modifier = Modifier.testTag("BotonEditarPerfil")) {
             Icon(
                 imageVector = Icons.Default.Edit,
                 contentDescription = "Editar Perfil",
@@ -225,7 +226,8 @@ fun ProfileHeader(
                 Text(
                     text = artista.usuario,
                     style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.testTag("TextNombre")
                 )
                 Text(
                     text = artista.profesion,
@@ -644,7 +646,8 @@ fun PerfilScreen(id: String,
                  EditarRPressed: (String) -> Unit ={},
                  SeguidoresPresed: (String)-> Unit ={},
                  SeguidosPresed: (String)-> Unit = {},
-                 modifier: Modifier = Modifier) {
+                 modifier: Modifier = Modifier.testTag("PerfilScreen")
+) {
 
     val state by viewmodel.uiState.collectAsState()
     LaunchedEffect(Unit) {

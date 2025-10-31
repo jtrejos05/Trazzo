@@ -1,12 +1,10 @@
-package com.example.myapplication.ui.Editar
+package com.example.myapplication.ui.EditarPerfil
 
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myapplication.R
 import com.example.myapplication.data.Artista
-import com.example.myapplication.data.local.ProveedorObras
 import com.example.myapplication.data.repository.AuthRepository
 import com.example.myapplication.data.repository.StorageRepository
 import com.example.myapplication.data.repository.UserRepository

@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -73,12 +74,12 @@ fun BodyHomeScreen(
         AddButton(
             stringResource(R.string.iniciar_sesion),
             onClick = {loginButtonPressed()},
-            modifier = Modifier.width(200.dp)
+            modifier = Modifier.width(200.dp).testTag("Login_button")
         )
         AddButton(
             stringResource(R.string.registrarse),
             onClick = {registerButtonPressed()},
-            modifier = Modifier.width(200.dp),
+            modifier = Modifier.width(200.dp).testTag("Register_button"),
         )
 
         Row {

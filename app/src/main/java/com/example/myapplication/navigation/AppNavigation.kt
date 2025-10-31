@@ -1,6 +1,5 @@
 package com.example.myapplication.navigation
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -23,11 +22,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.PathSegment
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavArgument
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -35,18 +31,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
-import com.example.myapplication.R
-import com.example.myapplication.data.Artista
-import com.example.myapplication.data.local.ProveedorActividad
 import com.example.myapplication.data.local.ProveedorBotonesDeNavegacion
-import com.example.myapplication.data.local.ProveedorNotificaciones
-import com.example.myapplication.data.local.ProveedorObras
 import com.example.myapplication.ui.Buscar.BuscarScreen
 import com.example.myapplication.ui.Buscar.BuscarViewModel
 import com.example.myapplication.ui.CrearEditarComment.CrearEditarCommentViewModel
 import com.example.myapplication.ui.CrearEditarComment.CrearEditarScreen
-import com.example.myapplication.ui.Editar.EditarPerfilScreen
-import com.example.myapplication.ui.Editar.EditarPerfilViewModel
+import com.example.myapplication.ui.EditarPerfil.EditarPerfilScreen
+import com.example.myapplication.ui.EditarPerfil.EditarPerfilViewModel
 import com.example.myapplication.ui.Home.HomeScreen
 import com.example.myapplication.ui.Home.HomeViewModel
 import com.example.myapplication.ui.InicioSesion.InicioSesionScreen
@@ -71,7 +62,6 @@ import com.example.myapplication.ui.VistasObras.VistaObrasScreen
 import com.example.myapplication.ui.VistasObras.VistaObrasViewModel
 import com.example.myapplication.ui.utils.LogoTrazzo
 import com.google.firebase.auth.FirebaseAuth
-import javax.inject.Inject
 
 //Sealed Class con las rutas a las pantallas
 sealed class Rutas(
@@ -311,7 +301,7 @@ fun BottomNavigationBar (
                 icon ={
                     Icon(
                         imageVector = if(isSelected) item.icon else item.icon2,
-                        contentDescription =  item.route
+                        contentDescription = item.route
                     )
                 } ,
                 selected = false,

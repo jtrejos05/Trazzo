@@ -2,6 +2,7 @@ package com.example.myapplication.data.datasource
 
 import android.net.Uri
 import android.util.Log
+import com.example.myapplication.data.repository.AuthRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest

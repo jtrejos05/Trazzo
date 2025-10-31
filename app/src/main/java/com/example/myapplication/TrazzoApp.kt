@@ -47,6 +47,7 @@ fun TrazzoApp() {
         }
     )
 
+    /*
     LaunchedEffect(Unit) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
             if (ContextCompat.checkSelfPermission(
@@ -58,6 +59,7 @@ fun TrazzoApp() {
             }
         }
     }
+     */
 
 
     Scaffold(

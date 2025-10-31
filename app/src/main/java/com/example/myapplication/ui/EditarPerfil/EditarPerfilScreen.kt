@@ -1,7 +1,6 @@
-package com.example.myapplication.ui.Editar
+package com.example.myapplication.ui.EditarPerfil
 
 import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,13 +8,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ImageNotSupported
-import androidx.compose.material.icons.filled.Loop
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -25,22 +19,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import com.example.myapplication.R
-import com.example.myapplication.ui.Editar.EditarPerfilViewModel
 import com.example.myapplication.ui.utils.BotonInteres
 import com.example.myapplication.ui.utils.Form
 import com.example.myapplication.ui.utils.LogoTrazzo
 import com.example.myapplication.ui.utils.PickImageButton
 import com.example.myapplication.ui.utils.profileAssyncImage
-import kotlin.contracts.contract
-
 
 
 //Pantalla para editar perfil
@@ -89,15 +75,19 @@ fun EditarPerfilScreen(id: String,viewmodel: EditarPerfilViewModel, modifier: Mo
                         texto = "Tu nombre de Usuario",
                         name = "Con que nombre quieres ser conocido",
                         dato = state.usuario,
-                        onChange = { viewmodel.updateUsuario(it) })
+                        onChange = { viewmodel.updateUsuario(it) },
+                        modifier = Modifier.testTag("FormCambiarNombre")
+                    )
                     Form(
                         texto = "Tu Profesion",
                         name = "cuentanos a que te dedicas",
                         dato = state.profesion,
-                        onChange = { viewmodel.updateProfesion(it) })
+                        onChange = { viewmodel.updateProfesion(it) },
+                        modifier = Modifier.testTag("FormCambiarProfesion"))
                     Form(
                         texto = "Tu Bio", name = "Actualiza tu bio, que tienes para contarnos", dato = state.bio,
-                        onChange = { viewmodel.updateBio(it) })
+                        onChange = { viewmodel.updateBio(it) },
+                        modifier = Modifier.testTag("FormCambiarBio"))
                     Spacer(modifier = Modifier.height(30.dp))
 
                     BotonInteres(
@@ -109,6 +99,7 @@ fun EditarPerfilScreen(id: String,viewmodel: EditarPerfilViewModel, modifier: Mo
                             .fillMaxWidth()
                             .height(50.dp)
                             .padding(horizontal = 16.dp)
+                            .testTag("BotonGuardar")
                     )
                 }
         }

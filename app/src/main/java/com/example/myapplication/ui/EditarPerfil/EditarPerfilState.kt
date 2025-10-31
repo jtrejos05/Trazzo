@@ -1,6 +1,5 @@
-package com.example.myapplication.ui.Editar
+package com.example.myapplication.ui.EditarPerfil
 
-import android.R
 import com.example.myapplication.data.Artista
 
 data class EditarPerfilState(

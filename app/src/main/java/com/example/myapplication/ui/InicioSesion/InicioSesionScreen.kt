@@ -49,6 +49,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
@@ -197,7 +198,7 @@ fun InicioSesionScreen(
     viewmodel: InicioSesionViewModel,
     registerButtonPressed: () -> Unit = {},
     navController: NavController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier.testTag("InicioSesionScreen")
 ) {
     val state by viewmodel.uiState.collectAsState()
 

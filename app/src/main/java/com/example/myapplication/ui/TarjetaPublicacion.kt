@@ -46,7 +46,8 @@ fun TarjetaPublicacion(
         modifier = modifier
             .padding(horizontal = 16.dp),
         shape = RoundedCornerShape(10.dp),
-        elevation = CardDefaults.cardElevation(4.dp)
+        elevation = CardDefaults.cardElevation(4.dp),
+
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
 
