@@ -215,7 +215,7 @@ fun InicioSesionScreen(
         // Logo y bienvenida
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         ) {
             Spacer(modifier = Modifier.height(150.dp))
             LogoTrazzo(modifier = Modifier.height(70.dp))

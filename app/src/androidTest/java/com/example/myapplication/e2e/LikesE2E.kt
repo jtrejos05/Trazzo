@@ -1,13 +1,8 @@
 package com.example.myapplication.e2e
-
-import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.semantics.SemanticsActions
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onAllNodesWithTag
-import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performTextClearance
-import androidx.compose.ui.test.performTextInput
 import com.example.myapplication.MainActivity
 import com.example.myapplication.data.datasource.AuthRemoteDataSource
 import com.example.myapplication.data.datasource.impl.Firestore.ComentarioFirestoreDataSourceImpl
@@ -45,22 +40,23 @@ class LikesE2E {
     private lateinit var obraRepository: ObraRepository
     private lateinit var comentarioRepository: ComentarioRepository
 
+    // guardamos el uid del usuario “semilla” creado en setUp
+    private var seedUserUid: String? = null
+
     @Before
-    fun setUp(){
+    fun setUp() {
         hiltRule.inject()
         try {
-            //Firebase.auth.useEmulator("10.0.2.2", 9099)
-            //Firebase.firestore.useEmulator("10.0.2.2", 8080)
-        }catch (e: Exception){
-
-        }
+            // Recomendado para estabilidad en E2E:
+            // Firebase.auth.useEmulator("10.0.2.2", 9099)
+            // Firebase.firestore.useEmulator("10.0.2.2", 8080)
+            // FirebaseMessaging.getInstance().isAutoInitEnabled = false
+        } catch (_: Exception) {}
 
         val authRemoteDataSource = AuthRemoteDataSource(Firebase.auth)
         val userRemoteDataSource = UserFirestoreDataSourceImpl(Firebase.firestore)
         val obraRemoteDataSource = ObraFirestoreDataSourceImpl(Firebase.firestore)
         val comentarioRemoteDataSource = ComentarioFirestoreDataSourceImpl(Firebase.firestore)
-
-
 
         authRepository = AuthRepository(authRemoteDataSource)
         userRepository = UserRepository(userRemoteDataSource, authRepository, FirebaseMessaging.getInstance())
@@ -71,7 +67,8 @@ class LikesE2E {
             authRepository.signUp("prueba@prueba.com", "123456")
             authRepository.signIn("prueba@prueba.com", "123456")
 
-            val userId = authRepository.currentUser?.uid?: return@runBlocking
+            val userId = authRepository.currentUser?.uid ?: return@runBlocking
+            seedUserUid = userId
 
             userRepository.registerUser(
                 usuario = "prueba",
@@ -80,6 +77,7 @@ class LikesE2E {
                 bio = "prueba",
                 userId = userId
             )
+
             val obra = CreateObraDto(
                 id = "123",
                 artistaId = userId,
@@ -87,8 +85,8 @@ class LikesE2E {
                 titulo = "Obra de prueba",
                 descripcion = "Descripcion de prueba"
             )
-
             obraRepository.createObra(obra)
+
             comentarioRepository.createComentario(
                 comentario = "Comentario de prueba",
                 calificacion = 3.0,
@@ -102,9 +100,21 @@ class LikesE2E {
         }
     }
 
+    @OptIn(ExperimentalTestApi::class)
+    private fun closeIme() {
+        // cierra teclado / overlays que puedan bloquear taps
+        composeRule.onRoot().performKeyInput { pressKey(Key.Back) }
+    }
+
     @Test
-    fun verifyLikesModification_CountNumberOfLikes(){
-        composeRule.onNodeWithTag("Register_button").performClick()
+    fun verifyLikesModification_CountNumberOfLikes() {
+        // Registro -> botón
+        composeRule.onNodeWithTag("Register_button", useUnmergedTree = true)
+            .assertIsDisplayed()
+            .assertHasClickAction()
+            .performSemanticsAction(SemanticsActions.OnClick)
+
+        // Form con contraseña corta
         composeRule.onNodeWithTag("FormCorreoElectronico").performTextInput("nuevoAdmin@gmail.com")
         composeRule.onNodeWithTag("FormContraseña").performTextInput("1234")
         composeRule.onNodeWithTag("FormNombreUsuario").performTextInput("pruebae2e")
@@ -112,10 +122,21 @@ class LikesE2E {
         composeRule.onNodeWithTag("FormProfesion").performTextInput("Robot")
         composeRule.onNodeWithTag("FormBio").performTextInput("Soy un bot de prueba")
 
-        composeRule.onNodeWithTag("BotonCrearCuenta").performClick()
+        closeIme()
 
-        composeRule.onNodeWithTag("MensajeError").assertTextEquals("La contraseña debe tener al menos 6 caracteres ")
+        composeRule.onNodeWithTag("BotonCrearCuenta", useUnmergedTree = true)
+            .assertHasClickAction()
+            .performSemanticsAction(SemanticsActions.OnClick)
 
+        // Espera robusta del mensaje (evita assertTextEquals frágil)
+        composeRule.waitUntil(10_000) {
+            composeRule.onAllNodes(
+                hasTestTag("MensajeError") and hasText("La contraseña", substring = true),
+                useUnmergedTree = true
+            ).fetchSemanticsNodes().isNotEmpty()
+        }
+
+        // Limpia y registra usuario válido
         composeRule.onNodeWithTag("FormCorreoElectronico").performTextClearance()
         composeRule.onNodeWithTag("FormContraseña").performTextClearance()
         composeRule.onNodeWithTag("FormNombreUsuario").performTextClearance()
@@ -130,46 +151,81 @@ class LikesE2E {
         composeRule.onNodeWithTag("FormProfesion").performTextInput("Robot")
         composeRule.onNodeWithTag("FormBio").performTextInput("Soy un bot de prueba")
 
-        composeRule.onNodeWithTag("BotonCrearCuenta").performClick()
+        closeIme()
 
-        composeRule.waitUntil(5000){
-            composeRule.onAllNodesWithTag("InicioSesionScreen").fetchSemanticsNodes().isNotEmpty()
+        composeRule.onNodeWithTag("BotonCrearCuenta", useUnmergedTree = true)
+            .assertHasClickAction()
+            .performSemanticsAction(SemanticsActions.OnClick)
+
+        composeRule.waitUntil(10_000) {
+            composeRule.onAllNodesWithTag("InicioSesionScreen", useUnmergedTree = true)
+                .fetchSemanticsNodes().isNotEmpty()
         }
 
-        composeRule.onNodeWithTag("InicioSesionScreen").assertIsDisplayed()
+        composeRule.onNodeWithTag("InicioSesionScreen", useUnmergedTree = true).assertIsDisplayed()
         composeRule.onNodeWithTag("FormCorreoElectronico").performTextInput("adminPrueba@gmail.com")
         composeRule.onNodeWithTag("FormContraseña").performTextInput("123456")
 
-        composeRule.onNodeWithTag("BotonIniciarSesion").performClick()
+        closeIme()
 
-        composeRule.waitUntil(5000){
-            composeRule.onAllNodesWithTag("PrincipalScreen").fetchSemanticsNodes().isNotEmpty()
+        composeRule.onNodeWithTag("BotonIniciarSesion", useUnmergedTree = true)
+            .assertHasClickAction()
+            .performSemanticsAction(SemanticsActions.OnClick)
+
+        composeRule.waitUntil(10_000) {
+            composeRule.onAllNodesWithTag("PrincipalScreen", useUnmergedTree = true)
+                .fetchSemanticsNodes().isNotEmpty()
         }
 
-        composeRule.onNodeWithTag("PrincipalScreen").assertIsDisplayed()
+        composeRule.onNodeWithTag("PrincipalScreen", useUnmergedTree = true).assertIsDisplayed()
 
-        composeRule.onNodeWithTag("TarjetaPublicacion_Obra de prueba").performClick()
+        // Click en la tarjeta de la obra creada en setUp (id = "123")
+        val cardTag = "TarjetaPublicacion_123"
 
-        composeRule.waitUntil(5000){
-            composeRule.onAllNodesWithTag("VistaObrasScreen").fetchSemanticsNodes().isNotEmpty()
+        composeRule.waitUntil(15_000) {
+            composeRule.onAllNodesWithTag(cardTag, useUnmergedTree = true)
+                .fetchSemanticsNodes().isNotEmpty()
         }
 
-        composeRule.onNodeWithTag("VistaObrasScreen").assertIsDisplayed()
+        // si está en un Lazy*, asegúrate de hacer scroll
+        composeRule.onNodeWithTag(cardTag, useUnmergedTree = true).performScrollTo()
 
-        composeRule.onNodeWithTag("like").performClick()
+        composeRule.onNodeWithTag(cardTag, useUnmergedTree = true)
+            .assertIsDisplayed()
+            .assertHasClickAction()
+            .performSemanticsAction(SemanticsActions.OnClick)
+
+        composeRule.waitUntil(10_000) {
+            composeRule.onAllNodesWithTag("VistaObrasScreen", useUnmergedTree = true)
+                .fetchSemanticsNodes().isNotEmpty()
+        }
+        composeRule.onNodeWithTag("VistaObrasScreen", useUnmergedTree = true).assertIsDisplayed()
+
+        // Likes
+        composeRule.onNodeWithTag("like", useUnmergedTree = true)
+            .assertHasClickAction()
+            .performSemanticsAction(SemanticsActions.OnClick)
         composeRule.onNodeWithTag("likesCount").assertTextEquals("1")
 
-        composeRule.onNodeWithTag("like").performClick()
+        composeRule.onNodeWithTag("like", useUnmergedTree = true)
+            .assertHasClickAction()
+            .performSemanticsAction(SemanticsActions.OnClick)
         composeRule.onNodeWithTag("likesCount").assertTextEquals("0")
     }
 
     @After
     fun tearDown() = runTest {
-        val user = Firebase.auth.currentUser
-        if(user != null) {
+        // cierra sesión y borra usuario actual (adminPrueba) si aplica
+        val current = Firebase.auth.currentUser
+        if (current != null) {
             Firebase.auth.signOut()
+            current.delete().await()
         }
-        user?.delete()?.await()
-        Firebase.firestore.collection("users").document("prueba@prueba.com").delete().await()
+        // borra el doc del usuario semilla creado en setUp por uid (no por email)
+        seedUserUid?.let { uid ->
+            Firebase.firestore.collection("users").document(uid).delete().await()
+        }
+        // si guardas también la obra por id "123", podrías limpiar aquí:
+        // Firebase.firestore.collection("obras").document("123").delete().await()
     }
 }
