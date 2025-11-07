@@ -87,7 +87,8 @@ fun PrincipalScreen( obraPressed: (String) -> Unit = {},
                                 obra,
                                 { obraPressed(obra.obraId) },
                                 {perfilPressed(obra.artistaId)},
-                                tag = "TarjetaPublicacion_${obra.titulo}"
+                                cardTag = "TarjetaPublicacion_${obra.titulo}",
+                                perfilTag = "Perfil_${obra.usuario}"
                             )
                         }
                     }

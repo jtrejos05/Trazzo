@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.testTag
 import com.example.myapplication.data.Obra
 import com.example.myapplication.ui.TarjetaPublicacion
 import com.example.myapplication.ui.Trending.TrendingViewModel
@@ -21,7 +22,7 @@ import com.example.myapplication.ui.Trending.TrendingViewModel
 fun TrendingScreen(viewmodel: TrendingViewModel,
                    obraPressed: (String) -> Unit = {},
                    perfilPressed: (String)-> Unit = {},
-                   modifier: Modifier = Modifier
+                   modifier: Modifier = Modifier.testTag("TrendingScreen")
 ) {
     val state by viewmodel.uiState.collectAsState()
 
@@ -64,7 +65,12 @@ fun TrendingScreen(viewmodel: TrendingViewModel,
                         modifier = Modifier.padding(horizontal = 16.dp)
                     ) {
                         items(state.obras) { obra ->
-                            TarjetaPublicacion(obra, { obraPressed(obra.obraId) }, {perfilPressed(obra.artistaId)})
+                            TarjetaPublicacion(
+                                obra,
+                                { obraPressed(obra.obraId) },
+                                {perfilPressed(obra.artistaId)},
+                                perfilTag = "TarjetaPublicacion_${obra.titulo}"
+                            )
                         }
                     }
                 }

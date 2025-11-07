@@ -138,7 +138,9 @@ fun PreviewTopBarProfile() {
 @Composable
 fun PerfilStat(valor: Int, label: String,
                action: ()->Unit={},
-               modifier: Modifier = Modifier ){
+               modifier: Modifier = Modifier,
+               tag: String = ""
+){
     Row(
     modifier = modifier.clickable{
         action()
@@ -149,7 +151,7 @@ fun PerfilStat(valor: Int, label: String,
         horizontalArrangement = Arrangement.Center
     ) {
         Text(valor.toString(), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-        Spacer(modifier = Modifier.width(5.dp))
+        Spacer(modifier = Modifier.width(5.dp).testTag(tag))
         Text(label, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
         Spacer(modifier = Modifier.width(10.dp))
     }
@@ -157,8 +159,10 @@ fun PerfilStat(valor: Int, label: String,
 }
 //Para mostrar los tags de profesion, y intereses artisticos
 @Composable
-fun Tags(artista: Artista,guardadoPressed: () -> Unit = {},
-         modifier: Modifier = Modifier) {
+fun Tags(artista: Artista,
+         guardadoPressed: () -> Unit = {},
+         modifier: Modifier = Modifier
+) {
     Column(modifier = modifier.padding(start = 15.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start) {
@@ -219,7 +223,7 @@ fun ProfileHeader(
 
                 Row {
                     PerfilStat(artista.obras.size, "Posts",{})
-                    PerfilStat(artista.seguidores, "Seguidores",  {seguidoresPressed()}  )
+                    PerfilStat(artista.seguidores, "Seguidores",  {seguidoresPressed()}, tag = "Seguidores")
                     PerfilStat(artista.siguiendo, "Seguidos", {seguidosPressed()})
                 }
                 Spacer(modifier = Modifier.height(8.dp))
@@ -232,14 +236,15 @@ fun ProfileHeader(
                 Text(
                     text = artista.profesion,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.testTag("TextProfesion")
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = artista.biografia,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth().testTag("TextBiografia")
                 )
             }
 
@@ -719,7 +724,7 @@ fun PerfilScreen(id: String,
                         Spacer(modifier= Modifier.height(8.dp))
                         Button(
                             onClick = {viewmodel.followOrUnfollowUser(state.usuario.id)},
-                            modifier = Modifier.padding(horizontal = 20.dp).height(30.dp),
+                            modifier = Modifier.padding(horizontal = 20.dp).height(30.dp).testTag("BotonSeguir"),
                             contentPadding = PaddingValues(vertical = 2.dp, horizontal = 7.dp)
                         ) {
                             Text(

@@ -41,12 +41,13 @@ fun TarjetaPublicacion(
     obraClicked: (String) -> Unit = {},
     perfilClicked: (String) -> Unit = {},
     modifier: Modifier = Modifier,
-    tag: String = ""
+    perfilTag: String = "",
+    cardTag: String = ""
 ) {
     Card(
         onClick = { obraClicked(publicacion.obraId) },
         modifier = modifier
-            .padding(horizontal = 16.dp).testTag(tag),
+            .padding(horizontal = 16.dp).testTag(cardTag),
         shape = RoundedCornerShape(10.dp),
         elevation = CardDefaults.cardElevation(4.dp),
 
@@ -55,7 +56,7 @@ fun TarjetaPublicacion(
 
             // Perfil y nombre
             Row(verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.clickable{
+                modifier = Modifier.testTag(perfilTag).clickable{
                     perfilClicked(publicacion.artistaId)
                 }) {
                 profileAssyncImage(publicacion.fotous,36)

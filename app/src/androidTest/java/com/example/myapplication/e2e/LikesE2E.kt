@@ -114,7 +114,7 @@ class LikesE2E {
 
         composeRule.onNodeWithTag("BotonCrearCuenta").performClick()
 
-        composeRule.onNodeWithTag("MensajeError").assertTextEquals("La contraseña debe tener al menos 6 caracteres")
+        composeRule.onNodeWithTag("MensajeError").assertTextEquals("La contraseña debe tener al menos 6 caracteres ")
 
         composeRule.onNodeWithTag("FormCorreoElectronico").performTextClearance()
         composeRule.onNodeWithTag("FormContraseña").performTextClearance()
@@ -148,7 +148,7 @@ class LikesE2E {
 
         composeRule.onNodeWithTag("PrincipalScreen").assertIsDisplayed()
 
-        composeRule.onNodeWithTag("TarjetaPublicacion_ajjajajaja").performClick()
+        composeRule.onNodeWithTag("TarjetaPublicacion_Obra de prueba").performClick()
 
         composeRule.waitUntil(5000){
             composeRule.onAllNodesWithTag("VistaObrasScreen").fetchSemanticsNodes().isNotEmpty()
