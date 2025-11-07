@@ -86,7 +86,8 @@ fun InfoInicio(
             stringResource(R.string.correo),
             stringResource(R.string.tu_email_com),
             correo,
-            onCorreoChange
+            onCorreoChange,
+            tag = "FormCorreoElectronico"
         )
         Form(
             Icons.Outlined.Lock,
@@ -95,7 +96,8 @@ fun InfoInicio(
             stringResource(R.string.minimo_6_caracteres),
             contraseña,
             onContraseñaChange,
-            op = 2
+            op = 2,
+            tag = "FormContraseña"
         )
     }
 }
@@ -164,7 +166,8 @@ fun Botones(
             MaterialTheme.colorScheme.primaryContainer,
             MaterialTheme.colorScheme.onSecondaryContainer,
             loginButtonPressed,
-            modifier
+            tag = "BotonIniciarSesion",
+            modifier = modifier
                 .width(370.dp)
                 .height(60.dp)
         )

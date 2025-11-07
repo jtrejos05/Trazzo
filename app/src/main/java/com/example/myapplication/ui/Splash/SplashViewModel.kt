@@ -3,10 +3,14 @@ package com.example.myapplication.ui.Splash
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.flow.map
 import com.example.myapplication.data.repository.AuthRepository
 import com.example.myapplication.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -76,7 +80,6 @@ class SplashViewModel @Inject constructor(
     fun resetFlag(){
         _uiState.update { it.copy(navegar = false) }
     }
-
 
     init {
         checkUser()

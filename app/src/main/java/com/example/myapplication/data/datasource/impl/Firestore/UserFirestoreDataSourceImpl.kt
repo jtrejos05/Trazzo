@@ -25,7 +25,6 @@ class UserFirestoreDataSourceImpl @Inject constructor(
             user.seSiguen = exist
         }
         return user
-
     }
 
 

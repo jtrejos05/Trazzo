@@ -91,7 +91,8 @@ fun BotonInteres(
     Color: Color,
     ColorL: Color,
     onClick: () -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    tag: String = ""
 ){
     Button(
         onClick = onClick,
@@ -99,7 +100,7 @@ fun BotonInteres(
         colors = ButtonDefaults.outlinedButtonColors(
             containerColor = Color
         ),
-        modifier = modifier.padding(vertical = 3.dp),
+        modifier = modifier.padding(vertical = 3.dp).testTag(tag),
         contentPadding = PaddingValues(horizontal = 12.dp, vertical = 2.dp)
     ) {
         Text(
@@ -241,17 +242,24 @@ fun AddButton(
 }
 
 @Composable
-fun ReactionItem(imagen: ImageVector, descripcion: String, count: String, onClick: () -> Unit) {
+fun ReactionItem(
+    imagen: ImageVector,
+    descripcion: String,
+    count: String,
+    onClick: () -> Unit,
+    actionTag: String = "",
+    countTag: String = ""
+) {
     Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.clickable{
         onClick()
-    }) {
+    }.testTag(actionTag)) {
         Icon(
             imageVector = imagen,
             contentDescription = descripcion,
-            tint = MaterialTheme.colorScheme.primary,
+            tint = MaterialTheme.colorScheme.primary
         )
         Spacer(Modifier.width(4.dp))
-        Text(count, fontSize = 12.sp)
+        Text(count, fontSize = 12.sp, modifier = Modifier.testTag(countTag))
     }
 }
 @Composable

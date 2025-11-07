@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -39,12 +40,13 @@ fun TarjetaPublicacion(
     publicacion: Obra,
     obraClicked: (String) -> Unit = {},
     perfilClicked: (String) -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    tag: String = ""
 ) {
     Card(
         onClick = { obraClicked(publicacion.obraId) },
         modifier = modifier
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 16.dp).testTag(tag),
         shape = RoundedCornerShape(10.dp),
         elevation = CardDefaults.cardElevation(4.dp),
 

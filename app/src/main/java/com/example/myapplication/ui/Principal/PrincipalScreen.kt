@@ -83,7 +83,12 @@ fun PrincipalScreen( obraPressed: (String) -> Unit = {},
                         modifier = Modifier.padding(horizontal = 16.dp)
                     ) {
                         items(state.obras) { obra ->
-                            TarjetaPublicacion(obra, { obraPressed(obra.obraId) }, {perfilPressed(obra.artistaId)})
+                            TarjetaPublicacion(
+                                obra,
+                                { obraPressed(obra.obraId) },
+                                {perfilPressed(obra.artistaId)},
+                                tag = "TarjetaPublicacion_${obra.titulo}"
+                            )
                         }
                     }
                 }

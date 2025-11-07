@@ -41,6 +41,7 @@ import androidx.compose.material.icons.filled.TurnRight
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import com.example.myapplication.R
 import com.example.myapplication.data.Comentario
@@ -55,7 +56,7 @@ fun VistaObrasScreen(
     onComentario: (String) -> Unit = {},
     onResponse: ()->Unit = {},
     viewmodel: VistaObrasViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier.testTag("VistaObrasScreen")
 ){
     val state by viewmodel.uiState.collectAsState()
 
@@ -171,7 +172,7 @@ fun Reacciones(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier
     ) {
-        ReactionItem(imagen = if (obra.liked){Icons.Default.ThumbUp}else Icons.Default.ThumbUpOffAlt , descripcion = "like", count = obra.likes,onLike)
+        ReactionItem(imagen = if (obra.liked){Icons.Default.ThumbUp}else Icons.Default.ThumbUpOffAlt , descripcion = "like", count = obra.likes,onLike, actionTag = "like", countTag = "likesCount")
         ReactionItem(imagen = Icons.AutoMirrored.Filled.Comment, descripcion = "comentarios", count = obra.comentarios,{onClick(obra.obraId)}  )
         ReactionItem(imagen = Icons.Default.TurnRight, descripcion = "compartidos", count = obra.compartidos,{})
         Icon(
@@ -189,7 +190,8 @@ fun PostCard(
     responderClicked: ()-> Unit = {},
     likeClicked: ()-> Unit ={},
     likedComment: (String)->Unit = {},
-    reviews: List<Comentario>
+    reviews: List<Comentario>,
+    tag: String = ""
 ) {
     LazyColumn(
         modifier = Modifier

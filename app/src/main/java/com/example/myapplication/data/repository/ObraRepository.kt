@@ -81,6 +81,15 @@ class ObraRepository @Inject constructor(
         }
     }
 
+    suspend fun createObra(obra: CreateObraDto): Result<Unit>{
+        return try {
+            ObraRemoteDataSource.createObra(obra)
+            Result.success(Unit)
+        } catch (e: Exception){
+            Result.failure(e)
+        }
+    }
+
     suspend fun listeAllObras(): Flow<List<Obra>> {
         return ObraRemoteDataSource.listenAllObras().map { obras->
             obras.map { it.toObra() }
