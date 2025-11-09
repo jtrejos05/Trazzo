@@ -136,7 +136,7 @@ class LikesE2E {
             .performSemanticsAction(SemanticsActions.OnClick)
 
         // Form con contraseña corta
-        composeRule.onNodeWithTag("FormCorreoElectronico").performTextInput("nuevoAdmin8@gmail.com")
+        composeRule.onNodeWithTag("FormCorreoElectronico").performTextInput("nuevoAdmin16@gmail.com")
         composeRule.onNodeWithTag("FormContraseña").performTextInput("1234")
         composeRule.onNodeWithTag("FormNombreUsuario").performTextInput("pruebae2e")
         composeRule.onNodeWithTag("FormEdad").performTextInput("30")
@@ -165,7 +165,7 @@ class LikesE2E {
         composeRule.onNodeWithTag("FormProfesion").performTextClearance()
         composeRule.onNodeWithTag("FormBio").performTextClearance()
 
-        composeRule.onNodeWithTag("FormCorreoElectronico").performTextInput("adminPrueba8@gmail.com")
+        composeRule.onNodeWithTag("FormCorreoElectronico").performTextInput("adminPrueba16@gmail.com")
         composeRule.onNodeWithTag("FormContraseña").performTextInput("123456")
         composeRule.onNodeWithTag("FormNombreUsuario").performTextInput("pruebae2e")
         composeRule.onNodeWithTag("FormEdad").performTextInput("30")
@@ -184,7 +184,7 @@ class LikesE2E {
         }
 
         composeRule.onNodeWithTag("InicioSesionScreen", useUnmergedTree = true).assertIsDisplayed()
-        composeRule.onNodeWithTag("FormCorreoElectronico").performTextInput("adminPrueba8@gmail.com")
+        composeRule.onNodeWithTag("FormCorreoElectronico").performTextInput("adminPrueba16@gmail.com")
         composeRule.onNodeWithTag("FormContraseña").performTextInput("123456")
 
         closeIme()
@@ -222,20 +222,20 @@ class LikesE2E {
         }
         composeRule.onNodeWithTag("VistaObrasScreen", useUnmergedTree = true).assertIsDisplayed().printToLog("VISTA_OBRAS_NODE")
 
-        // Imprime solo la lista
-        composeRule.onNodeWithTag("CommentsList", useUnmergedTree = true)
-            .printToLog("COMMENTS_LIST")
+
         // Likes
         // Dentro del test, cuando ya estás en VistaObrasScreen:
 
-        val commentLikeButtonTag = "CommentLikeButton_1"
+        val commentLikeButtonTag = "CommentLikeButton_0"
         composeRule.onRoot().printToLog("E2E_TREE")
-        val commentLikesCountTag = "CommentLikes_1"
+        val commentLikesCountTag = "CommentLikes_0"
         composeRule.onRoot().printToLog("E2E_TREE")
-
+/*
         composeRule
             .onNodeWithTag("CommentsList")
             .performScrollToIndex(0) // Asegura que el primero esté visible
+            */
+
 /*
         composeRule
             .onNodeWithText("Texto del primer elemento")
@@ -247,21 +247,33 @@ class LikesE2E {
             .performScrollToNode(hasTestTag(commentLikesCountTag))
         composeRule.onRoot().printToLog("E2E_TREE")
         */
+        Thread.sleep(10000)
+        // Imprime solo la lista
+
+        composeRule.onNodeWithTag("CommentsList", useUnmergedTree = true)
+            .printToLog("COMMENTS_LIST")
+
+
+
 // Espera a que aparezca el comentario
         composeRule.waitUntil(15_000) {
             composeRule.onAllNodesWithTag(commentLikesCountTag, useUnmergedTree = true)
                 .fetchSemanticsNodes().isNotEmpty()
         }
 
+        composeRule.onNodeWithTag(commentLikesCountTag, useUnmergedTree = true).performScrollTo()
 // (Opcional) comprueba valor inicial, ej. "1"
         composeRule.onNodeWithTag(commentLikesCountTag, useUnmergedTree = true)
             .assertTextEquals("1")   // si sabes que arranca en 1
             .printToLog("COMMENT_LIKES_BEFORE") // para ver qué valor tiene
 
+
 // Click en el corazón del comentario
         composeRule.onNodeWithTag(commentLikeButtonTag, useUnmergedTree = true)
             .assertHasClickAction()
             .performClick()
+        composeRule.onNodeWithTag(commentLikeButtonTag, useUnmergedTree = true)
+            .printToLog("COMMENTS_LIST1")
 
 // Espera a que el contador cambie a "2"
         composeRule.waitUntil(10_000) {
