@@ -1,6 +1,7 @@
 package com.example.myapplication.ui.VistasObras
 
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -197,6 +199,7 @@ fun PostCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(12.dp)
+            .testTag("CommentsList")
     ) {
         item {
             Encabezado(obra)
@@ -216,20 +219,21 @@ fun PostCard(
                 Text("No hay reviews que mostrar")
             }
         }else{
-            items(reviews.size) {
+            itemsIndexed(reviews) { index, review ->
                 Comment(
-                    hora = reviews[it].hora,
-                    comentario = reviews[it].comentario,
-                    username = reviews[it].usuario,
-                    likes = reviews[it].likes.toString(),
-                    idPerfil = reviews[it].fotous,
-                    calificacion = reviews[it].calificacion,
+                    hora = review.hora,
+                    comentario = review.comentario,
+                    username = review.usuario,
+                    likes = review.likes.toString(),
+                    idPerfil = review.fotous,
+                    calificacion = review.calificacion,
                     respoderClicked = { responderClicked() },
-                    likeClicked = { likedComment(reviews[it].id) },
-                    liked = reviews[it].liked
+                    likeClicked = { likedComment(review.id) },
+                    liked = review.liked,
+                    foto = review.imagenUrl,
+                    likesTag = "CommentLikes_$index",
+                    likeButtonTag = "CommentLikeButton_$index"
                 )
-
-
             }
         }
 

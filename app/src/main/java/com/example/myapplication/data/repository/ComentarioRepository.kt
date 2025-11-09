@@ -1,6 +1,8 @@
 package com.example.myapplication.data.repository
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import coil.network.HttpException
 import com.example.myapplication.data.Comentario
 import com.example.myapplication.data.datasource.AuthRemoteDataSource
@@ -18,6 +20,7 @@ class ComentarioRepository @Inject constructor(
     private val UserDataSource: UserFirestoreDataSourceImpl,
     private val authDataSource: AuthRemoteDataSource
 ) {
+    @RequiresApi(Build.VERSION_CODES.O)
     suspend fun getAllComentarios(): Result<List<Comentario>>{
         return try {
             val commentarios = DataSource.getAllCommentarios()
@@ -33,6 +36,7 @@ class ComentarioRepository @Inject constructor(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     suspend fun getComenarioById(id: String): Result<Comentario>{
         return try {
             val comentarioDto = DataSource.getComentarioById(id)
@@ -50,6 +54,7 @@ class ComentarioRepository @Inject constructor(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     suspend fun getComentarioByArtistaId(id: String): Result<List<Comentario>>{
         return try {
             val comentarios = DataSource.getAllComentariosByArtistaId(id)
@@ -64,6 +69,7 @@ class ComentarioRepository @Inject constructor(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     suspend fun getComentarioByObraId(id: String): Result<List<Comentario>>{
         return try {
             Log.d("COMENTS", "SALIO AL DATA")

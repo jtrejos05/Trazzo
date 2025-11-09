@@ -1,10 +1,12 @@
 package com.example.myapplication.ui.CrearEditarComment
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.data.repository.AuthRepository
 import com.example.myapplication.data.repository.ComentarioRepository
+import com.example.myapplication.data.repository.StorageRepository
 import com.example.myapplication.ui.Buscar.BuscarState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,10 +16,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.jvm.Throws
 
+
+
 @HiltViewModel
 class CrearEditarCommentViewModel @Inject constructor(
     private val commentRepo: ComentarioRepository,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val storageRepository: StorageRepository
 ): ViewModel() {
     private val _uiState = MutableStateFlow(CrearEditarCommentState())
     val uiState: StateFlow<CrearEditarCommentState> = _uiState
@@ -68,4 +73,35 @@ class CrearEditarCommentViewModel @Inject constructor(
     }
 
 
+    // NUEVO:
+    fun setImageUri(uri: Uri?) {
+        _uiState.update { it.copy(selectedImageUri = uri, uploadedImageUrl = null) }
+    }
+    // NUEVO: igual que en perfil, sube de una
+    fun uploadCommentImage(obraId: String) {
+        val uri = _uiState.value.selectedImageUri ?: return
+        viewModelScope.launch {
+            _uiState.update { it.copy(isUploadingImage = true) }
+            val url = storageRepository.uploadCommentImage(obraId, uri).getOrNull()
+            _uiState.update { it.copy(isUploadingImage = false, uploadedImageUrl = url) }
+        }
+    }
+/*
+    fun save() {
+        // ...
+        commentRepo.createComentario(
+            /* tus params existentes */,
+            imageUrl = _uiState.value.uploadedImageUrl // NUEVO
+        )
+        // ...
+    }
+    */
+fun uploadImageToFirebase(uri: Uri){
+    viewModelScope.launch {
+        val result = storageRepository.uploadCommentImage(obraId = _uiState.value.obraId,uri)
+        if (result.isSuccess){
+            _uiState.update { it.copy(uploadedImageUrl = result.getOrNull()) }
+        }
+    }
+}
 }

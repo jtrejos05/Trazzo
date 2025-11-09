@@ -11,5 +11,6 @@ data class Comentario(
     val likes: String,
     val calificacion: Double,
     val obraId: String,
-    val liked: Boolean = false
+    val liked: Boolean = false,
+    val imagenUrl:String? = null
 )

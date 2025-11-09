@@ -4,7 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-10-24T17:52:48.772684700Z">
+        <DropdownSelection timestamp="2025-11-09T03:20:13.338376100Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\ktron\.android\avd\Pixel_7.avd" />
@@ -13,16 +13,22 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="verifyLikesModification_CountNumberOfLikes()">
+      <SelectionState runConfigName="FollowUserE2E">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-11-07T04:37:58.922659100Z">
+      </SelectionState>
+      <SelectionState runConfigName="LikesE2E">
+        <option name="selectionMode" value="DROPDOWN" />
+        <DropdownSelection timestamp="2025-11-09T12:30:28.931256400Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="PhysicalDevice" identifier="serial=m755byzhtokbnbem" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\ktron\.android\avd\Pixel_7.avd" />
             </handle>
           </Target>
         </DropdownSelection>
         <DialogSelection />
+      </SelectionState>
+      <SelectionState runConfigName="LikesE2E (1)">
+        <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
   </component>

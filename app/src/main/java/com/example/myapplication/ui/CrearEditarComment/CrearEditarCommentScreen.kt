@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Comment
-import androidx.compose.material.icons.filled.Comment
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
@@ -21,9 +19,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.myapplication.ui.utils.BotonIcono
 import com.example.myapplication.ui.utils.BotonInteres
 import com.example.myapplication.ui.utils.Form
+import com.example.myapplication.ui.utils.PickImageButton
+import com.example.myapplication.ui.utils.obraAssyncImage
+import com.example.myapplication.ui.utils.profileAssyncImage
 import kotlin.math.roundToInt
 
 @Composable
@@ -86,7 +86,14 @@ fun CrearEditarScreen(
                 },modifier
                     .width(180.dp)
                     .height(50.dp) )
+
         }
+        obraAssyncImage(Image = state.uploadedImageUrl ?: "", size = 200)
+        PickImageButton(
+            action={
+                viewModel.uploadImageToFirebase(it)
+            }
+        )
 
 
 

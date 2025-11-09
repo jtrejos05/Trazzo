@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.utils
 
+import android.util.Log
 import android.widget.RatingBar
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -25,9 +26,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.example.myapplication.R
 
 @Composable
@@ -83,7 +86,10 @@ fun Comment(
     calificacion: Double,
     respoderClicked: ()-> Unit,
     likeClicked: ()-> Unit,
-    liked: Boolean
+    liked: Boolean,
+    foto:String? = null,
+    likesTag: String ="",
+    likeButtonTag:String=""
 ){
     var like = liked
     Row(
@@ -113,6 +119,9 @@ fun Comment(
                 modifier = Modifier.padding(bottom = 10.dp)
 
             )
+            if(foto != null || foto.equals("")){
+                obraAssyncImage(foto!!,150)
+            }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
 
@@ -123,12 +132,14 @@ fun Comment(
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.clickable(
                         onClick = likeClicked
-
                     )
+                        .testTag(likeButtonTag)
                 )
                 Text(
                     text = likes,
-                    modifier = Modifier.padding(end = 40.dp)
+                    modifier = Modifier
+                        .padding(end = 40.dp)
+                        .testTag(likesTag)
                 )
                 Icon(
                     imageVector = Icons.Default.TurnLeft,

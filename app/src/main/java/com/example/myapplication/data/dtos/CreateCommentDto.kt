@@ -11,5 +11,6 @@ data class CreateCommentDto(
     val obraId: String,
     val parentComentarioId: Int?,
     var id: String?,
-    var artista: CreateCommentUserDto? = null
+    var artista: CreateCommentUserDto? = null,
+    val imagenUrl: String? = null // NUEVO
 )

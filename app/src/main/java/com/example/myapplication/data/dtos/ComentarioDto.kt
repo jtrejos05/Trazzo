@@ -38,7 +38,8 @@ data class ComentarioDto(
     val updatedAt: String,
     val artista: ArtistaComentarioDto,
     val obra: ObraComentarioDto,
-    var liked: Boolean=false
+    var liked: Boolean=false,
+    val imagenUrl: String? = null // NUEVO
 ){
     constructor(): this("","","",0,"",0,0.0,"","", ArtistaComentarioDto("",""), ObraComentarioDto(""))
 }
@@ -89,6 +90,7 @@ object TimeHumanizer {
         ).toString()
     }
 }
+@RequiresApi(Build.VERSION_CODES.O)
 fun ComentarioDto.toComentario(): Comentario {
     var likesString = ""
     if (numLikes>1000) {
@@ -106,7 +108,7 @@ fun ComentarioDto.toComentario(): Comentario {
         likes = likesString,
         calificacion = this.calificacion.toDouble(),
         obraId = this.obraId,
-        liked = this.liked
-
+        liked = this.liked,
+        imagenUrl=this.imagenUrl?:""
     )
 }
