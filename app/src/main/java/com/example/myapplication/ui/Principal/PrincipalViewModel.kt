@@ -21,18 +21,43 @@ class PrincipalViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(PrincipalState())
     var uiState: MutableStateFlow<PrincipalState> = _uiState
 
-    //FUnción para cuando se selecciona una obra.
-    fun getObras(){
-        viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, errorMessage = null) }
-            ObrasRepo.listeAllObras().catch { e-> _uiState.update { it.copy(errorMessage = e.message, isLoading = false) } }
-                .collect { obras ->
-                    _uiState.update { it.copy(obras= obras,isLoading = false, errorMessage = null) }
-                }
-        }
-    }
+
+
+
     init {
-        getObras()
+        cargarSiguientes()
+    }
+
+    fun cargarSiguientes() {
+        if (_uiState.value.isLoading) return
+        _uiState.value.isLoading = true
+
+        viewModelScope.launch {
+            try {
+                _uiState.update { it.copy(isLoading = true) }
+                val result = ObrasRepo.getObrasPaginadas()
+                if (result.isSuccess) {
+                    val obras = result.getOrNull()?: emptyList()
+                    if (!obras.isEmpty()){
+                    _uiState.update {
+                        it.copy(
+                            obras = /*_uiState.value.obras +*/ obras,
+                            isLoading = false,
+                            errorMessage = null
+                        )
+                    }
+                    }else{
+                        _uiState.update { it.copy( final = true) }
+                    }
+                }else{
+                    _uiState.update { it.copy(isLoading = false, errorMessage = result.exceptionOrNull()?.message) }
+                }
+            } catch (e: Exception) {
+                _uiState.update { it.copy(isLoading = false, errorMessage = e.message) }
+            } finally {
+                _uiState.value.isLoading = false
+            }
+        }
     }
 }
 

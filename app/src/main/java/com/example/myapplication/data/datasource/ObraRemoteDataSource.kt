@@ -14,4 +14,6 @@ interface ObraRemoteDataSource {
     suspend fun SendorDeleteLike(obraId: String,userId:String): Unit
     suspend fun listenAllObras(): Flow<List<ObraDto>>
     suspend fun getObrasByUserId(userId: String): List<ObraDto>
+
+    suspend fun getObrasPaginadas(): List<ObraDto>
 }

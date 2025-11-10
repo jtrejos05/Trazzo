@@ -40,6 +40,18 @@ class ObraRepository @Inject constructor(
         }
     }
 
+    suspend fun getObrasPaginadas(): Result<List<Obra>> {
+        return try{
+            val obras = ObraRemoteDataSource.getObrasPaginadas()
+            val obrafinal = obras.map { it.toObra() }
+            Result.success(obrafinal)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+
+    }
+
+
     @RequiresApi(Build.VERSION_CODES.O)
     suspend fun getObra(id: String, userId: String): Result<Obra>{
         return try {

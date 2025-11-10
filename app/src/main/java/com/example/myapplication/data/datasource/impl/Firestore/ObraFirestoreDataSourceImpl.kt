@@ -4,6 +4,7 @@ package com.example.myapplication.data.datasource.impl.Firestore
 import com.example.myapplication.data.datasource.ObraRemoteDataSource
 import com.example.myapplication.data.dtos.CreateObraDto
 import com.example.myapplication.data.dtos.ObraDto
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.channels.awaitClose
@@ -23,6 +24,28 @@ class ObraFirestoreDataSourceImpl @Inject constructor(
             obra?.copy(id = doc.id) ?: throw Exception("Obra no encontrada")
         }
     }
+
+    private var ultimaObra: DocumentSnapshot? = null
+
+    override suspend fun getObrasPaginadas(): List<ObraDto> {
+        var query = db.collection("obras")
+            .limit(10)
+
+
+        ultimaObra?.let {
+            query = query.startAfter(it)
+        }
+
+        val snapshot = query.get().await()
+
+        ultimaObra = snapshot.documents.lastOrNull()
+
+        return snapshot.documents.map { doc ->
+            val obra = doc.toObject(ObraDto::class.java)
+            obra?.copy(id = doc.id) ?: throw Exception("Obra no encontrada")
+        }
+    }
+
 
     override suspend fun getObraById(id: String, currentUserId: String): ObraDto? {
         val obraRef = db.collection("obras").document(id)
