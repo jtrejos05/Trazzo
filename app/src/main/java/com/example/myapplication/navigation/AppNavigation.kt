@@ -245,7 +245,8 @@ fun AppNavigation(navControler: NavHostController,
             BuscarScreen(
                 viewmodel = viewmodel,
                 onCategoriaClick = { categoria -> viewmodel.seleccionarCategoria(categoria) },
-                onTrendingClick = { trending -> viewmodel.seleccionarTrending(trending) }
+                onTrendingClick = { trending -> viewmodel.seleccionarTrending(trending) },
+                {obraId->navControler.navigate(Rutas.Detalle.createRoute(obraId ))}
             )
         }
         //Navegacion Pantalla Guardados

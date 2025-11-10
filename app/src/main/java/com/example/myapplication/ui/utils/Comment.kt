@@ -119,7 +119,8 @@ fun Comment(
                 modifier = Modifier.padding(bottom = 10.dp)
 
             )
-            if(foto != null || foto.equals("")){
+            if(foto != null && !foto.equals("")){
+                Log.d("DEBUG", "foto: $foto")
                 obraAssyncImage(foto!!,150)
             }
             Row(

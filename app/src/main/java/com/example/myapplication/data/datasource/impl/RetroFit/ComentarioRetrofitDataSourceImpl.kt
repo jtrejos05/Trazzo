@@ -26,13 +26,15 @@ class ComentarioRetrofitDataSourceImpl @Inject constructor(
         return service.getComentarioById(id.toInt())
     }
 
-    override suspend fun createCommentario(comment: CreateCommentDto) {
+    override suspend fun createCommentario(comment: CreateCommentDto):String {
         comment.id = 1.toString()
-        return service.createComentario(comment)
+        service.createComentario(comment)
+        return "Success"
     }
 
-    override suspend fun updateCommentario(id: String, comentario: CreateCommentDto) {
-        return service.updateComentario(id.toInt(), comentario)
+    override suspend fun updateCommentario(id: String, comentario: CreateCommentDto):String {
+        service.updateComentario(id.toInt(), comentario)
+        return "success"
     }
 
     override suspend fun deleteComentario(id: String): Response<Unit> {

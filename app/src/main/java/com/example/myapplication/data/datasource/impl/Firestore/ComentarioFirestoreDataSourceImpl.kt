@@ -52,18 +52,23 @@ class ComentarioFirestoreDataSourceImpl @Inject constructor(
             ComentarioDto::class.java)
     }
 
-    override suspend fun createCommentario(comment: CreateCommentDto) {
+    override suspend fun createCommentario(comment: CreateCommentDto):String {
         val docRef=db.collection("comments").document()  // Se crea un documento
         val comentario = comment
         comentario.id=docRef.id
         docRef.set(comment).await()
+        return docRef.id
     }
 
     override suspend fun updateCommentario(
         id: String,
         comentario: CreateCommentDto
-    ) {
-        TODO("Not yet implemented")
+    ):String {
+        val docRef=db.collection("comments").document(id)
+        docRef.set(comentario).await()
+        return docRef.id
+
+
     }
 
     override suspend fun deleteComentario(id: String): Response<Unit> {

@@ -22,11 +22,9 @@ class StorageRepository @Inject constructor(
         }
     }
 
-    suspend fun uploadCommentImage(obraId: String, uri: Uri): Result<String> {
+    suspend fun uploadCommentImage(commentId: String, uri: Uri): Result<String> {
         return try {
-            val userId = auth.currentUser?.uid ?: return Result.failure(Exception("No user logged in"))
-            val fileName = "${System.currentTimeMillis()}.jpg"
-            val path = "commentImages/$obraId/$userId/$fileName"
+            val path = "commentImages/$commentId.jpg"
             val url = storage.uploadImage(path, uri)
             Result.success(url)
         } catch (e: Exception) {

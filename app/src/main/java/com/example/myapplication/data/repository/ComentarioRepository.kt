@@ -88,7 +88,7 @@ class ComentarioRepository @Inject constructor(
         }
     }
 
-    suspend fun createComentario(comentario: String, calificacion: Double, artistaId: String, obraId: String, parentCommentId: String?, commentId: String?): Result<Unit>{
+    suspend fun createComentario(comentario: String, calificacion: Double, artistaId: String, obraId: String, parentCommentId: String?, commentId: String?, img:String? = null): Result<String>{
         return try {
             Log.d("Users", "Repo: User")
             val user = UserDataSource.getUserById(artistaId, authDataSource.currentUser?.uid ?: "")
@@ -102,15 +102,16 @@ class ComentarioRepository @Inject constructor(
                 fotousuario = photoUrl
             )
             Log.d("Users", "Repo: create")
-            val createCommentDto = CreateCommentDto(calificacion,comentario,artistaId,obraId,parentCommentId?.toInt(), commentId ?: null,createCommentUserDto)
+            val createCommentDto = CreateCommentDto(calificacion,comentario,artistaId,obraId,parentCommentId?.toInt(), commentId ?: null,createCommentUserDto,img)
             Log.d("User", "CREANDO DTO")
+            val id: String
             if (commentId != null){
-                DataSource.updateCommentario(commentId,createCommentDto)
+                id =DataSource.updateCommentario(commentId,createCommentDto)
             }else{
                 Log.d("User", "CREando comment")
-                DataSource.createCommentario(createCommentDto)
+                id = DataSource.createCommentario(createCommentDto)
             }
-            Result.success(Unit)
+            Result.success(id)
         }catch (e: HttpException){
             e.response.code
             Result.failure(e)

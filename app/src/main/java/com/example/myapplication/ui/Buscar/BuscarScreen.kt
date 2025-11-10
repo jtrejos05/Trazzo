@@ -28,6 +28,7 @@ fun BuscarScreen(
     viewmodel: BuscarViewModel = hiltViewModel(),
     onCategoriaClick: (String) -> Unit,
     onTrendingClick: (String) -> Unit,
+    obraPressed: (String) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val state by viewmodel.uiState.collectAsState()
@@ -103,7 +104,7 @@ fun BuscarScreen(
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     items(state.resultadosBusqueda) { obra ->
-                        TarjetaPublicacion(obra)
+                        TarjetaPublicacion(obra,{ obraPressed(obra.obraId) })
                     }
                 }
             }
