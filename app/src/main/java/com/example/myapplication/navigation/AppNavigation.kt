@@ -87,7 +87,7 @@ sealed class Rutas(
     object Register : Rutas("register")
     object Subir : Rutas("subir/{currentUserId}"){
         fun createRoute(currentUserId: String): String {
-            return "detalle/$currentUserId"
+            return "subir/$currentUserId"
         }
     }
     object Detalle : Rutas("detalle/{obraId}"){

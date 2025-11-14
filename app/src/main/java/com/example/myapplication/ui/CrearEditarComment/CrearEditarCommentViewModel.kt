@@ -92,16 +92,6 @@ class CrearEditarCommentViewModel @Inject constructor(
             _uiState.update { it.copy(isUploadingImage = false, uploadedImageUrl = url) }
         }
     }
-/*
-    fun save() {
-        // ...
-        commentRepo.createComentario(
-            /* tus params existentes */,
-            imageUrl = _uiState.value.uploadedImageUrl // NUEVO
-        )
-        // ...
-    }
-    */
 fun updateImage(uri:Uri){
     _uiState.update { it.copy(uploadedImageUrl = uri.toString(), selectedImageUri = uri) }
 }

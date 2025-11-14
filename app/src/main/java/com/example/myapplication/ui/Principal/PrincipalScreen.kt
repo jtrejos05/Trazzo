@@ -118,7 +118,7 @@ fun PrincipalScreen( obraPressed: (String) -> Unit = {},
                                         )
                                         if (!state.final){
                                             viewmodel.cargarSiguientes()
-                                            // 1
+
                                             listState.scrollToItem(0)
                                         }
                                     }
