@@ -52,11 +52,6 @@ class CrearEditarCommentViewModel @Inject constructor(
                     _uiState.value.uploadedImageUrl
                 )
                 if (result.isSuccess) {
-                    val id = result.getOrNull() ?: ""
-
-                    if (_uiState.value.selectedImageUri != null) {
-                        uploadImageToFirebase(id,_uiState.value.selectedImageUri!!)
-                    }
                     _uiState.update { it.copy(navigateBack = true) }
                 } else {
                     Log.d("User", result.exceptionOrNull()?.message ?: "null")
@@ -95,9 +90,9 @@ class CrearEditarCommentViewModel @Inject constructor(
 fun updateImage(uri:Uri){
     _uiState.update { it.copy(uploadedImageUrl = uri.toString(), selectedImageUri = uri) }
 }
-fun uploadImageToFirebase(id: String,uri: Uri){
+    fun uploadImageToFirebase(uri: Uri){
     viewModelScope.launch {
-        val result = storageRepository.uploadCommentImage(commentId = id,uri)
+        val result = storageRepository.uploadCommentImage( authRepository.currentUser!!.uid,uri)
         if (result.isSuccess){
             _uiState.update { it.copy(uploadedImageUrl = result.getOrNull()) }
         }

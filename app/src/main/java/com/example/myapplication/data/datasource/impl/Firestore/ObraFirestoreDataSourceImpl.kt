@@ -1,6 +1,7 @@
 package com.example.myapplication.data.datasource.impl.Firestore
 
 
+import android.util.Log
 import com.example.myapplication.data.datasource.ObraRemoteDataSource
 import com.example.myapplication.data.dtos.CreateObraDto
 import com.example.myapplication.data.dtos.ObraDto
@@ -62,8 +63,13 @@ class ObraFirestoreDataSourceImpl @Inject constructor(
         return obra
     }
 
-    override suspend fun createObra(obra: CreateObraDto) {
-        db.collection("obras").add(obra).await()
+    override suspend fun createObra(obra: CreateObraDto): String {
+        Log.d("NuevaObra","DataSource")
+        val docRef=db.collection("obras").document()  // Se crea un documento
+        val obraS = obra
+        obraS.id=docRef.id
+        docRef.set(obra).await()
+        return docRef.id
     }
 
     override suspend fun deleteObra(id: String) {

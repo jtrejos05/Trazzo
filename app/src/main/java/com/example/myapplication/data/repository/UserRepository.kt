@@ -20,22 +20,26 @@ class UserRepository @Inject constructor(
 ) {
     suspend fun getUserById(id: String): Result<Artista>{
         val currentUser = authRepository.currentUser?.uid ?: ""
-        //Log.d("Seguir", "USERID: ${currentUser}")
+        Log.d("NuevaObra","getUser")
         return try {
-            //Log.d("User", "busca")
+            Log.d("NuevaObra","getUser")
             val artistaDto = UserRemoteDataSource.getUserById(id,currentUser)
-            //Log.d("User", "DTO")
+            Log.d("NuevaObra","getUser")
             if (artistaDto == null){
+                Log.d("NuevaObra","no encontrado")
                 return Result.failure(Exception("Usuario no encontrado"))
             }
             val usuario= artistaDto.toArtista()
+            Log.d("NuevaObra","DTO")
             //Log.d("User", usuario.biografia)
             Result.success(usuario)
         }catch (e: HttpException){
+            Log.d("NuevaObra","error")
             e.response.code
             Result.failure(e)
         }
         catch (e: Exception){
+            Log.d("NuevaObra","error general")
             Result.failure(e)
         }
     }

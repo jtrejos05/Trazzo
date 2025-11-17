@@ -91,7 +91,7 @@ fun CrearEditarScreen(
         obraAssyncImage(Image = state.uploadedImageUrl ?: "", size = 200)
         PickImageButton(
             action={
-                viewModel.updateImage(it)
+                viewModel.uploadImageToFirebase(it)
             }
         )
 

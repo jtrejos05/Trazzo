@@ -37,7 +37,7 @@ data class ObraDto(
     val createdAt: String,
     val updatedAt: String,
     val artista: ArtistaObraDto,
-    val tags: List<TagDto>,
+    val tags: List<String>,
     var liked: Boolean = false
 ){
     constructor(): this("","","","","",0,0,0,0,"","", ArtistaObraDto("",""),emptyList())
@@ -45,7 +45,7 @@ data class ObraDto(
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun ObraDto.toObra(): Obra {
-    val tagStrings = tags.map { it.tag }
+    //val tagStrings = tags.map { it.tag }
     var likesString = ""
     if (numLikes>1000) {
         val likesInK = numLikes / 1000.0
@@ -60,7 +60,7 @@ fun ObraDto.toObra(): Obra {
         hora = tiempoVisual(this.updatedAt),
         titulo = this.titulo,
         descripcion = this.descripcion,
-        Tags = tagStrings,
+        Tags = this.tags,
         foto = this.obraIMG,
         likes = likesString,
         comentarios = this.numComentarios.toString(),

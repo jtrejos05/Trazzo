@@ -265,6 +265,7 @@ fun ReactionItem(
 @Composable
 fun PickImageButton(
     action: (uri:Uri)-> Unit,
+    content: String? = null,
     modifier: Modifier= Modifier
 ) {
 
@@ -280,13 +281,18 @@ fun PickImageButton(
     Button(
         onClick = {
             launcher.launch("image/*")
-        }
+        },
+        modifier = modifier
     ) {
-        Icon(
-            imageVector = Icons.Default.Add,
-            contentDescription = "Simbolo mas",
-            modifier = Modifier.height(50.dp)
-        )
+        if (content == null){
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = "Simbolo mas",
+                modifier = Modifier.height(50.dp)
+            )
+        }else{
+            Text(content)
+        }
     }
 
 }

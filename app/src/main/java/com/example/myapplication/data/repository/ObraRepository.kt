@@ -93,11 +93,13 @@ class ObraRepository @Inject constructor(
         }
     }
 
-    suspend fun createObra(obra: CreateObraDto): Result<Unit>{
+    suspend fun createObra(obra: CreateObraDto): Result<String>{
         return try {
-            ObraRemoteDataSource.createObra(obra)
-            Result.success(Unit)
+            Log.d("NuevaObra","Repo")
+            val id = ObraRemoteDataSource.createObra(obra)
+            Result.success(id)
         } catch (e: Exception){
+            Log.d("NuevaObra","Error: ${e.message}")
             Result.failure(e)
         }
     }

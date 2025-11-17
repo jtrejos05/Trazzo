@@ -16,9 +16,13 @@ class UserFirestoreDataSourceImpl @Inject constructor(
     private val db: FirebaseFirestore
 ): UserRemoteDataSource  {
     override suspend fun getUserById(id: String, userId:String): ArtistaDto? {
+        Log.d("NuevaObra","DATASOURCE ${id}")
         val docRef = db.collection("users").document(id)
+        Log.d("NuevaObra","REF")
         val snapshot = docRef.get().await()
+        Log.d("NuevaObra","SNAP")
         val user = snapshot.toObject(ArtistaDto::class.java) ?: return null
+        Log.d("NuevaObra","errorddd")
         if (userId != ""){
             val seguidoresDoc= docRef.collection("seguidores").document(userId).get().await()
             val exist = seguidoresDoc.exists()

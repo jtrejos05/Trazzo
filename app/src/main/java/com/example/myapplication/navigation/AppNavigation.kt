@@ -173,7 +173,7 @@ fun AppNavigation(navControler: NavHostController,
             val state by viewmodel.uiState.collectAsState()
             if (currentUserId != "") {
                 SubirObraScreen(viewmodel,
-                    { navControler.navigate(Rutas.Perfil.createPRoute(currentUserId))})
+                    { navControler.navigate(Rutas.Principal.ruta) })
             }
         }
 

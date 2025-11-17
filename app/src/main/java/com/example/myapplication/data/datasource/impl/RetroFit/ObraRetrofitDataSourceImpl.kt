@@ -16,8 +16,9 @@ class ObraRetrofitDataSourceImpl @Inject constructor(
     override suspend fun getObraById(id: String, currentUserId: String): ObraDto {
         return service.getObraById(id.toInt())
     }
-    override suspend fun createObra(obra: CreateObraDto) {
+    override suspend fun createObra(obra: CreateObraDto): String {
         service.createObra(obra)
+        return " "
     }
     override suspend fun deleteObra(id: String) {
         service.deleteObra(id.toInt())

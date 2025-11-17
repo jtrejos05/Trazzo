@@ -22,12 +22,22 @@ class StorageRepository @Inject constructor(
         }
     }
 
-    suspend fun uploadCommentImage(commentId: String, uri: Uri): Result<String> {
+    suspend fun uploadCommentImage(id: String, uri: Uri): Result<String> {
         return try {
-            val path = "commentImages/$commentId.jpg"
+            val path = "commentImages/$id/$uri.jpg"
             val url = storage.uploadImage(path, uri)
             Result.success(url)
         } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun uploadObraImage(id:String,uri: Uri): Result<String>{
+        return try {
+            val path = "obraImages/$id/$uri.jpg"
+            val url = storage.uploadImage(path, uri)
+            Result.success(url)
+        }catch (e: Exception){
             Result.failure(e)
         }
     }
