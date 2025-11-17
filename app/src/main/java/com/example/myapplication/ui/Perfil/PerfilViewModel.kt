@@ -158,7 +158,8 @@ class PerfilViewModel @Inject constructor(
             if (result.isSuccess){
                 _uiState.value = _uiState.value.copy(
                     usuario = _uiState.value.usuario.copy(
-                        seSiguen = !_uiState.value.usuario.seSiguen
+                        seSiguen = !_uiState.value.usuario.seSiguen,
+                        seguidores = if (_uiState.value.usuario.seSiguen) _uiState.value.usuario.seguidores-1 else _uiState.value.usuario.seguidores+1
                     ),
                     seguir = !_uiState.value.usuario.seSiguen
 

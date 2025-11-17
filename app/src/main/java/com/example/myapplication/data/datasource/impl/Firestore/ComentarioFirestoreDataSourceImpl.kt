@@ -57,6 +57,10 @@ class ComentarioFirestoreDataSourceImpl @Inject constructor(
         val comentario = comment
         comentario.id=docRef.id
         docRef.set(comment).await()
+        db.collection("obras")
+            .document(comment.obraId)
+            .update("numComentarios", FieldValue.increment(1))
+
         return docRef.id
     }
 
@@ -72,6 +76,8 @@ class ComentarioFirestoreDataSourceImpl @Inject constructor(
     }
 
     override suspend fun deleteComentario(id: String): Response<Unit> {
+        val comment = db.collection("comments").document(id).get().await()
+        db.collection("obras").document(comment.get("obraId").toString()).update("numComentarios", FieldValue.increment(-1))
         db.collection("comments").document(id).delete()
         return Response.success(Unit)
     }
