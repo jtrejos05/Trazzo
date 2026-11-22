@@ -75,6 +75,6 @@ ViewModels and repositories have unit tests with **JUnit**, **MockK** and **kotl
 
 Built as a team project at Pontificia Universidad Javeriana by Nicolás Algarra, Sara García, Juan Camilo Alba and **Juan Martín Trejos**.
 
-**My contribution:** [Describe what you built. For example: "the comments module (create, edit, reply) end to end, the Cloud Function for like notifications, and unit tests for the comment and profile ViewModels."]
+
 ## HECHO POR: NICOLÁS ALGARRA, SARA GARCÍA, JUAN CAMILO ALBA, JUAN MARTIN TREJOS.
 
